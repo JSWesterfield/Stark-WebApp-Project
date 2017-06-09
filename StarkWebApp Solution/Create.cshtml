@@ -1,0 +1,200 @@
+@{
+    ViewBag.Title = "Page Title";
+    Layout = "~/Views/Shared/_LayoutThemed.cshtml";
+}
+
+@section styles {
+    @*<link rel="stylesheet" href="..."/>*@
+
+    @*<style>
+
+
+    </style>*@
+}
+
+<article class="article gradient-2">
+    <h2 class="title container text-center" id="titleContainer">Create New Feature</h2>
+    <section>
+        <div class="section-inner container text-center">
+            <div class="row">
+                <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1 col-sm-push-0 col-xs-push-0">
+
+                        <!-- Cool New Form -->
+                        <section class="form-section text-center">
+                            <div class="section-inner container">
+                                <div class="row">
+                                    <div class="form-container col-md-10 col-sm-12 col-xs-12 col-md-push-1 col-sm-push-0 col-xs-push-0">
+                                        <form id="form" class="contact-form form" method="post" action="#">
+                                            <div class="contact-form-inner">
+                                                <div class="row">
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                                        <input type="text" class="form-control input-lg" id="name" name="name" placeholder="Name" minlength="2" required>
+                                                    </div><br />      
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                                        <!--<label class="sr-only" for="cname-last">Last Name</label>-->
+                                                        <input type="text" class="form-control input-lg" id="locationId" name="locationId" placeholder="Location Id" minlength="1" required>
+                                                    </div>                                            
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                                        <button type="submit" id="submitButton" class="btn btn-default" value="Submit">Create</button>
+                                                        <button type="submit" id="resetButton" class="btn btn-default" value="Submit">Reset</button>
+                                                    </div>
+                                                </div><!--//row-->
+                                            </div/>
+                                            <div id="form-messages"></div>
+                                        </form><!--//contact-form-->
+                                    </div><!--//form-container-->
+                                </div><!--//row-->
+                            </div><!--//section-inner-->
+                        </section><!--//promo-section-->    
+
+                    <!-- END OF COOL NEW FORM-->
+
+                        <p>Atom was founded by ut ante vitae bibendum in 2015 in XYZ city. Nunc nunc orci, euismod quis felis convallis, accumsan faucibus elit. Vivamus venenatis ipsum at libero molestie, eu scelerisque leo sollicitudin. Ut ut lacus et enim maximus pellentesque porta vitae lorem. Sed vehicula consectetur leo, non pharetra quam sodales in. Vivamus a massa ac ligula tincidunt viverra eu in eros. Suspendisse hendrerit cursus risus, vel eleifend leo euismod ut.</p>
+                    </div><!--//content-->
+                </div>
+            </div><!--//row-->
+
+    </section>
+</article>
+
+@section scripts {
+    
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script type="text/javascript">
+        sabio.page.startUp = function () {
+            console.log("page Started up!");
+            sabio.page.handlers.initializeValidation();
+
+            $("#submitButton").on('click', sabio.page.handlers.submitButton); //must create a submitButton function
+            $("#resetButton").on('click', sabio.page.handlers.resetButton);   //reset form ONLY when clicked
+        };
+
+        //step 1) create a handler function for submit success
+        sabio.page.handlers.submitSuccess = function (response) {  //need response function placed into success parameter
+            console.log("Ajax Post Success");
+            $("#submitButton").text("Update");
+            $("#titleContainer").text("Update Feature Form");
+            sabio.page.featureId = response.item;
+        };
+
+        //success of PUT ajax call after its switch from POST.
+        sabio.page.handlers.submitPutSuccess = function () {
+            console.log("Ajax PUT Success");
+            
+        };
+
+        //step 2) create a handler function for submit error
+        sabio.page.handlers.submitError = function (response) {
+            console.log("Ajax Error");
+        };
+
+        //step 3) Create a test handler function for your value
+        /*  sabio.page.handlers.test = function (value) {
+        if (/\d/.test(value)) {
+        return true;
+        }
+        return false;
+        }                    */
+
+        //step 4) Create a handler function to begin validation
+        sabio.page.handlers.initializeValidation = function () {
+            console.log("initializeValidation function started");
+            jQuery.validator.setDefaults({
+                debug: true
+            });
+
+            //console.log("past setDefaults");
+            $("#form").validate({
+                errorClass: "my-error-class",
+                validClass: "my-valid-class",
+
+                // here we specify the validation the rules for our form
+                rules: {
+                    name: {
+                        required: true
+                    }
+                    , locationId: {
+                        required: true
+                    }
+                },
+
+                //attach messages to input fields for required.
+                messages: {
+                   required: "This field is requireds"
+                }
+            });
+            console.log("I think were done validating.");
+
+            //step 5) create a handler function for our submit button, step 6 is WITHIN step 5.
+            sabio.page.handlers.submitButton = function (event) {
+                event.preventDefault();
+                console.log("submit button clicked");
+
+                //we use the validate.js method .valid() to test validity.
+                if ($("#form").valid()) {
+                    console.log("this is valid!");
+
+                    if (!sabio.page.featureId) {
+                        console.log("its says create!");
+
+                        //create a object called userInfo and place input .val()'s as props inside
+                        var userInfo = {
+                            name: $("#name").val()
+                            , locationId: $("#locationId").val()
+                        };
+                        console.log("got the userInfo!");
+
+                        //step 6.) we create a variable called 'url' for our API location to be placed within our 'POST' ajax call.
+                        var url = "/api/features/"  //post API extension
+                        console.log("posted to /api/features");
+
+                        //we create a settings object to store our success & error function, and define our ajax call
+                        var settings = {
+
+                            cache: false
+                            , contentType: "application/x-www-form-urlencoded; charset-UTF-8"
+                            , data: userInfo
+                            , dataType: "json"  
+                            , success: sabio.page.handlers.submitSuccess
+                            , error: sabio.page.handlers.submitError
+                            , type: "POST"
+                        }
+
+                        $.ajax(url, settings);
+                    }
+                    else {
+                        var userInfo = {
+                            name: $("#name").val()
+                            , locationId: $("#locationId").val()
+                            , id : sabio.page.featureId   //id is just a number and I'm not reading .val() user data. We've stored the id
+                        };
+
+                        //step 6.) we create a variable called 'url' for our API location to be placed within our 'GET' ajax call.
+                       
+                        var url =  "/api/features/" + sabio.page.featureId                     //we create a settings object to store our success & error function, and define our ajax call
+                        var settings = {
+
+                            cache: false
+                            , contentType: "application/x-www-form-urlencoded; charset-UTF-8"
+                            , data: userInfo //we place our .val()'s from user input data from the form
+                            , dataType: "json"  //we define our data type
+                            , success: sabio.page.handlers.submitPutSuccess //this should be different.
+                            , error: sabio.page.handlers.submitError      //this should be different.
+                            , type: "PUT"
+                        }
+                        $.ajax(url, settings);
+                    }
+                }
+            };
+
+            //reset button, that switches are PUT, BACK to a POST, a regular reset should do this already shouldnt it?
+            sabio.page.handlers.resetButton = function (event) {
+                event.preventDefault();
+                console.log("recognized reset button clicked");
+                $("#form")[0].reset();
+                console.log("form reset");
+            };
+            console.log("You've made it to the end my friend.");
+        };
+     </script>
+}
