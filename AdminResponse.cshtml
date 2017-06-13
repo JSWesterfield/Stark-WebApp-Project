@@ -1,0 +1,98 @@
+@{
+    ViewBag.Title = "Page Title";
+    Layout = "~/Views/Shared/_LayoutThemed.cshtml";
+}
+
+@section styles {
+    @*<link rel="stylesheet" href="..."/>*@
+
+    @*<style></style>*@
+}
+
+<article class="article gradient-2">
+    <h2 class="title container text-center">Admin Response Requests</h2>
+    <section>
+        <div class="section-inner container text-center">
+            <div class="row">
+                <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1 col-sm-push-0 col-xs-push-0">
+                    <h3 class="subtitle">Response Requests</h3>
+                    <div class="content">
+                        <!--Where we'll put our data when we receive it from the response.-->
+                        <p id="subject"></p>
+                        <p id="body"></p>
+                        <p id="email"></p>
+                        <p id="userId"></p>
+                        <form id="form">
+
+                            <!--textarea text color, black. Courtesy of stackoverflow.--> 
+                            <textarea id="textData" rows="7" cols="70" color="black" onfocus="if(this.value==this.defaultValue)this.value='';this.style.color='#333'" onblur="if(this.value=='') {this.value=this.defaultValue;this.style.color='#CCC'}" autofocus></textarea>
+                        </form>
+                        <button type="submit" class="btn btn-default" name="getResponse" id="formBtn">Get Response</button>
+
+                        <div id="landing" >
+
+                        </div>
+
+                        <p>Atom was founded by ut ante vitae bibendum in 2015 in XYZ city. Nunc nunc orci, euismod quis felis convallis, accumsan faucibus elit. Vivamus venenatis ipsum at libero molestie, eu scelerisque leo sollicitudin. Ut ut lacus et enim maximus pellentesque porta vitae lorem. Sed vehicula consectetur leo, non pharetra quam sodales in. Vivamus a massa ac ligula tincidunt viverra eu in eros. Suspendisse hendrerit cursus risus, vel eleifend leo euismod ut.</p>
+                    </div><!--//content-->
+                </div>
+            </div><!--//row-->
+        </div>
+    </section>
+</article>
+
+@section scripts {
+
+<script src="~/Scripts/stark/services/stark.services.supportRequests.js"></script>
+
+<script type="text/javascript">
+    stark.page.startUp = function () {
+        console.log("AdminResponse page started up!");
+        //stark.services.supportRequests.getById(stark.page.handlers.getAdminResponseSuccess, stark.page.handlers.getAdminResponseError);
+        $("#formBtn").on("click", stark.page.handlers.readTextArea);
+    };
+    
+    //stark.page.handlers.getAdminResponseSuccess = function (response) {
+    //    //on success it should get the data by id. 
+    //    console.log(response.items);
+    //    var allAdminResponses = response.items;
+
+    //    for (var i = 0; i < allAdminResponses.length; i++) {
+    //        var $adminResponses = $($("#content").html())
+    //        var currentAdminResponse = allAdminResponses[i];
+    //        $adminResponses.find(".subject").text(currentAdminResponse[i].Subject);
+    //        $adminResponses.find(".body").text(currentAdminResponse[i].Body);
+            
+    //        if (currentAdminResponse.email != null) {
+    //            $adminResponse.find(".email").text(currentAdminResponse[i].Email);
+    //        } 
+    //        else 
+    //        { 
+    //            console.log("We need your email please");
+    //        }
+    //        $adminResponses.find(".userId").text(currentAdminResponse[i].UserId);
+    //    }
+    //};
+
+    //stark.page.handlers.getAdminResponseError = function() {
+    //    console.log("Admin response error");
+    //};
+
+    //read text area? then send to AJAX call? then receive response?
+    stark.page.handlers.readTextArea = function () {
+        console.log("We're in the text Area");
+        console.log(payload);
+        var payload = {
+            response: Response
+        }
+
+        return payload;
+
+        var id = stark.page.config.item //when trying to grab an id from URL, seperated from the rest of our data.  
+    };  
+    console.log("Did it work?");
+</script>
+<script>
+    
+</script>
+}
