@@ -51,35 +51,9 @@
         //stark.services.supportRequests.getById(stark.page.handlers.getAdminResponseSuccess, stark.page.handlers.getAdminResponseError);
         $("#formBtn").on("click", stark.page.handlers.readTextArea);
     };
-    
-    //stark.page.handlers.getAdminResponseSuccess = function (response) {
-    //    //on success it should get the data by id. 
-    //    console.log(response.items);
-    //    var allAdminResponses = response.items;
 
-    //    for (var i = 0; i < allAdminResponses.length; i++) {
-    //        var $adminResponses = $($("#content").html())
-    //        var currentAdminResponse = allAdminResponses[i];
-    //        $adminResponses.find(".subject").text(currentAdminResponse[i].Subject);
-    //        $adminResponses.find(".body").text(currentAdminResponse[i].Body);
-            
-    //        if (currentAdminResponse.email != null) {
-    //            $adminResponse.find(".email").text(currentAdminResponse[i].Email);
-    //        } 
-    //        else 
-    //        { 
-    //            console.log("We need your email please");
-    //        }
-    //        $adminResponses.find(".userId").text(currentAdminResponse[i].UserId);
-    //    }
-    //};
-
-    //stark.page.handlers.getAdminResponseError = function() {
-    //    console.log("Admin response error");
-    //};
-
-    //read text area? then send to AJAX call? then receive response?
-    stark.page.handlers.readTextArea = function () {
+    // READ FORM/TEXTAREA
+    stark.page.handlers.readARForm = function () {
         console.log("We're in the text Area");
         console.log(payload);
         var payload = {
@@ -88,11 +62,45 @@
 
         return payload;
 
-        var id = stark.page.config.item //when trying to grab an id from URL, seperated from the rest of our data.  
+        var id = stark.page.config.item //when trying to grab an id from URL, seperated from the rest of our data. 
+        ////SET stark.PAGE.SUPPORTREQUESTID
+        //stark.page.supportRequestId = response.item.id;
     };  
     console.log("Did it work?");
+
+    // INVOKE UPDATERESPONSE FUNCTION
+    stark.page.handlers.updateAR = function () {
+        if ($('#supportRequestForm').valid()) {
+            var supportRequestId = stark.page.supportRequestId;
+            var supportRequestData = stark.page.readSRForm();
+            supportRequestData.Id = supportRequestId;
+            stark.page.lastSavedData = supportRequestData
+            stark.services.supportRequests.update(supportRequestId, supportRequestData, stark.page.handlers.onUpdateSuccess, stark.page.handlers.onUpdateError);
+        }
+    };
+    //stark.page.handlers.updateSR = function () {
+    //    if ($('#supportRequestForm').valid()) {
+    //        var supportRequestId = stark.page.supportRequestId;
+    //        var supportRequestData = stark.page.readSRForm();
+    //        supportRequestData.Id = supportRequestId;
+    //        stark.page.lastSavedData = supportRequestData
+    //        stark.services.supportRequests.update(supportRequestId, supportRequestData, stark.page.handlers.onUpdateSuccess, stark.page.handlers.onUpdateError);
+    //    }
+    //};
+
+
+    //success
+    stark.page.handlers.OnAdminResponseSuccess = function (response) {
+        console.log("The response has been sent!");
+    }
+
+    //error 
+    stark.page.handlers.OnAdminResponseError = function (response) {
+        console.log("you have an error with your response");
+    }
 </script>
-<script>
-    
-</script>
+
+    <!--data parameer obj that contains data, order important-->
+
+
 }
