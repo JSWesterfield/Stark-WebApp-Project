@@ -18,10 +18,10 @@
                     <h3 class="subtitle">Response Requests</h3>
                     <div class="content">
                         <!--Where we'll put our data when we receive it from the response.-->
-                        <p id="subject"></p>
-                        <p id="body"></p>
-                        <p id="email"></p>
-                        <p id="userId"></p>
+                        <p id="subject" name="subject"></p>
+                        <p id="body" name="body"></p>
+                        <p id="email" name="email"></p>
+                        <p id="userId" name="userId"></p>
                         <form id="form">
 
                             <!--textarea text color, black. Courtesy of stackoverflow.--> 
@@ -48,59 +48,42 @@
 <script type="text/javascript">
     stark.page.startUp = function () {
         console.log("AdminResponse page started up!");
-        //stark.services.supportRequests.getById(stark.page.handlers.getAdminResponseSuccess, stark.page.handlers.getAdminResponseError);
-        $("#formBtn").on("click", stark.page.handlers.readTextArea);
+        $("#formBtn").on("click", stark.page.handlers.updateAR);
     };
 
     // READ FORM/TEXTAREA
-    stark.page.handlers.readARForm = function () {
+    stark.page.readARForm = function () {
         console.log("We're in the text Area");
-        console.log(payload);
         var payload = {
-            response: Response
+            Response: $("#textData").val()
+            , Id: stark.page.config.item
         }
-
+        
         return payload;
 
-        var id = stark.page.config.item //when trying to grab an id from URL, seperated from the rest of our data. 
-        ////SET stark.PAGE.SUPPORTREQUESTID
-        //stark.page.supportRequestId = response.item.id;
     };  
     console.log("Did it work?");
 
-    // INVOKE UPDATERESPONSE FUNCTION
-    stark.page.handlers.updateAR = function () {
-        if ($('#supportRequestForm').valid()) {
-            var supportRequestId = stark.page.supportRequestId;
-            var supportRequestData = stark.page.readSRForm();
-            supportRequestData.Id = supportRequestId;
-            stark.page.lastSavedData = supportRequestData
-            stark.services.supportRequests.update(supportRequestId, supportRequestData, stark.page.handlers.onUpdateSuccess, stark.page.handlers.onUpdateError);
-        }
-    };
-    //stark.page.handlers.updateSR = function () {
-    //    if ($('#supportRequestForm').valid()) {
-    //        var supportRequestId = stark.page.supportRequestId;
-    //        var supportRequestData = stark.page.readSRForm();
-    //        supportRequestData.Id = supportRequestId;
-    //        stark.page.lastSavedData = supportRequestData
-    //        stark.services.supportRequests.update(supportRequestId, supportRequestData, stark.page.handlers.onUpdateSuccess, stark.page.handlers.onUpdateError);
-    //    }
-    //};
-
-
-    //success
-    stark.page.handlers.OnAdminResponseSuccess = function (response) {
+    // RESPONSE SUCCESS
+    stark.page.handlers.onResponseSuccess = function (response) {
+        stark.services.notifications.success('You have successfully updated your admin response!.');
         console.log("The response has been sent!");
     }
 
-    //error 
-    stark.page.handlers.OnAdminResponseError = function (response) {
+    // RESPONSE ERROR
+    stark.page.handlers.onResponseError = function (response) {
+        stark.services.notifications.error('There was an error updating your admin response.');
         console.log("you have an error with your response");
     }
+
+    // INVOKE UPDATE RESPONSE FUNCTION
+    stark.page.handlers.updateAR = function () {
+        var supportRequestId = stark.page.config.item;
+        var supportResponseData = stark.page.readARForm();
+        stark.page.lastSavedData = supportResponseData
+        stark.services.supportRequests.updateResponse(supportRequestId, supportResponseData, stark.page.handlers.onResponseSuccess, stark.page.handlers.onResponseError);
+    };
+    
 </script>
-
-    <!--data parameer obj that contains data, order important-->
-
 
 }
