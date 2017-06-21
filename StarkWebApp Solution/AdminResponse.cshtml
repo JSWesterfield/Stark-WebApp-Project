@@ -53,7 +53,6 @@
     stark.page.handlers.getByIdSuccess = function (response) {
         stark.services.notifications.success("You have successfully received your admin response!");
         console.log(response);
-        //START VALIDATION OF ID, THEN VALIDATION of REQUESTID
         var supportRequestId = stark.page.config.item;
   
         if (!response.item.adminUserId) { // Has the admin replied to the user Support Request?
@@ -67,6 +66,7 @@
             // 2. disable the submit button
             $("#formBtn").text("Disabled").attr("id", "disabledFormBtn");
             stark.services.notifications.error("You have already responded to this user support request.");
+            console.log("You have already responded to this user support request.");
    
             //TARGET INPUT FIELD AND PREPOPULATE WITH VALUES
             // populate the elements with the data from the support request
@@ -104,10 +104,10 @@
         stark.page.handlers.supportResponseData = {         //Made this a global variable so that the GetById success validation can see "supportResponseData" function defined, for AdminResponse verification.
             Response: $("#textData").val()
             , Id: supportRequestId
-            , Subject: "Subject is Null"    //added additional parameters which was required for updating. 
-            , Body: "Body is Null"          //added additional parameters which was required for updating. 
+            //, Subject: "Subject is Null"    //added additional parameters which was required for updating. This means that it is trying to call the wrong model(supportRequestCreateRequest INSTEAD of UpdateSupportRequestResponseRequest). Where is it using this model? 
+            //, Body: "Body is Null"          
         } 
-        stark.services.supportRequests.update(supportRequestId, stark.page.handlers.supportResponseData, stark.page.handlers.onResponseSuccess, stark.page.handlers.onResponseError);
+        stark.services.supportRequests.updateResponse(supportRequestId, stark.page.handlers.supportResponseData, stark.page.handlers.onResponseSuccess, stark.page.handlers.onResponseError);   //Correct interface model contract??
     };
     
 </script>
