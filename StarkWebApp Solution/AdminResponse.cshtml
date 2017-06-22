@@ -1,5 +1,5 @@
 @{
-    ViewBag.Title = "Admin Response Requests";
+    ViewBag.Title = "Admin Response";
     Layout = "~/Views/Shared/_LayoutThemed.cshtml";
 }
 
@@ -27,7 +27,7 @@
                             <!--textarea text color, black. Courtesy of stackoverflow.--> 
                             <textarea id="textData" rows="7" cols="70" color="black" onfocus="if(this.value==this.defaultValue)this.value='';this.style.color='#333'" onblur="if(this.value=='') {this.value=this.defaultValue;this.style.color='#CCC'}" autofocus></textarea>
                         </form>
-                        <button type="submit" class="btn btn-default" name="getResponse" id="formBtn">Send Response</button>
+                        <button type="submit" class="btn btn-default" name="getResponse" id="formBtn">Get Response</button>
 
                         </div>
                     </div><!--//content-->
@@ -38,39 +38,35 @@
 
 @section scripts {
 
-<script src="~/Scripts/stark/services/stark.services.supportRequests.js"></script>
+<script src="/Scripts/stark/services/stark.services.supportRequests.js"></script>
 
 <script type="text/javascript">
     stark.page.startUp = function () {
         console.log("AdminResponse page started up!");
         $("#formBtn").on("click", stark.page.handlers.updateAdminResponse);
-        
-        var getById = stark.page.config.item;        
+
+        var getById = stark.page.config.item;
         stark.services.supportRequests.getById(getById, stark.page.handlers.getByIdSuccess, stark.page.handlers.getByIdError);
-    }; 
+    };
 
     // GETBYID SUCCESS
     stark.page.handlers.getByIdSuccess = function (response) {
-        stark.services.notifications.success("You have successfully received your admin response!");
+        stark.services.notifications.success("You have successfully received your User response!");
         console.log(response);
+
         var supportRequestId = stark.page.config.item;
-  
-        if (!response.item.adminUserId) { // Has the admin replied to the user Support Request?
+
+        if (!response.item.adminUserId) {
             console.log("Create a Admin response to this User support request");
-        
-        } 
+
+        }
         else {
-            //(response.item.adminUserId) /* does this support request already have a response*/ {
             // 1. prepopulate the response textarea
-            $("#textData").val(stark.page.handlers.supportResponseData.Response);
+            $("#textData").val(response.item.response); 
             // 2. disable the submit button
             $("#formBtn").text("Disabled").attr("id", "disabledFormBtn");
             stark.services.notifications.error("You have already responded to this user support request.");
             console.log("You have already responded to this user support request.");
-   
-            //TARGET INPUT FIELD AND PREPOPULATE WITH VALUES
-            // populate the elements with the data from the support request
-            //$("#textData").text("Null, no value yet!");   
         }
 
         //populates the user's support request regardless if the admin has responded or not.
@@ -87,7 +83,7 @@
     }
 
     // ADMIN RESPONSE SUCCESS
-    stark.page.handlers.onResponseSuccess = function (response) {
+    stark.page.handlers.onResponseSuccess = function () {
         stark.services.notifications.success("You have successfully updated your admin response!");
         console.log("The response has been sent!");
     }
@@ -103,12 +99,13 @@
         var supportRequestId = stark.page.config.item;   //this is a duplicate. This should read the AdminResponseId
         stark.page.handlers.supportResponseData = {         //Made this a global variable so that the GetById success validation can see "supportResponseData" function defined, for AdminResponse verification.
             Response: $("#textData").val()
-            , Id: supportRequestId
-            //, Subject: "Subject is Null"    //added additional parameters which was required for updating. This means that it is trying to call the wrong model(supportRequestCreateRequest INSTEAD of UpdateSupportRequestResponseRequest). Where is it using this model? 
-            //, Body: "Body is Null"          
-        } 
-        stark.services.supportRequests.updateResponse(supportRequestId, stark.page.handlers.supportResponseData, stark.page.handlers.onResponseSuccess, stark.page.handlers.onResponseError);   //Correct interface model contract??
+            , Id: supportRequestId                        
+        }
+
+        stark.services.supportRequests.updateResponse(supportRequestId, stark.page.handlers.supportResponseData, stark.page.handlers.onResponseSuccess, stark.page.handlers.onResponseError);
     };
-    
+
 </script>
+
 }
+
