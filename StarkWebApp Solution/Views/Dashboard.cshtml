@@ -1,0 +1,142 @@
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutThemed.cshtml";
+}
+
+
+
+<div>
+    <article class="about article gradient-2" ng-controller="mainController as main">
+        <h2 class="title container text-center">{{main.game.map.name}}</h2>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1 col-sm-push-0 col-xs-push-0">
+                    <div class="clearfix"></div>
+                    <section class="team-section">
+                        <div class="content row">
+
+                            <!-- append begins here-->
+                            <div class="container-fluid" style="text-align:center">
+                                <h1 class="pad">Instructions</h1>
+                            </div>
+                            <div class="row pad" ng-repeat="gameArtwork in main.gameArtworks" ng-if="gameArtwork.artwork !=null" style="padding-bottom:3em">
+                                <div class="col-sm-6">
+                                    {{gameArtwork.artwork.instructions}}
+                                </div>
+                                <div class="col-sm-3">
+                                    <a class="btn btn-block btn-cta btn-cta-primary" ng-href="{{gameArtwork.url}}" ng-disabled="gameArtwork.dateCompleted != null">Got it<i class="fa fa-check" aria-hidden="true" ng-if="gameArtwork.dateCompleted"></i></a>
+                                </div> <div class="col-sm-3">
+                                    <button type="button" class="btn btn-block btn-cta btn-cta-primary" data-ng-click="main.hint(gameArtwork)">Hint<i class="fa fa-check" aria-hidden="true" ng-if="gameArtwork.isHintGiven"></i></button>
+                                </div><div class="col-sm-3">
+                                    <button type="button" class="btn btn-block btn-cta btn-cta-primary" ng-click="postGameId()">Get Game</button>
+                                </div>
+                             
+                            </div>
+                            <!---append ends here-->
+
+                        </div>
+                    </section><!--//team-section-->
+                </div>
+            </div><!--//row-->
+        </div><!--//container-->
+    </article><!--//article-->
+</div>
+
+
+@section scripts
+{
+
+    <style>
+        .pad {
+            padding-bottom: 2em;
+        }
+    </style>
+
+    <script src="~/Scripts/stark/services/stark.services.maps.js"></script>
+    <script src="~/Scripts/stark/services/stark.services.games.js"></script>
+    <script src="~/Scripts/stark/services/stark.services.artworks.js"></script>
+    <script src="~/Scripts/stark/services/stark.services.gameArtworks.js"></script>
+    <script src="~/Scripts/stark/services/stark.services.notifications.js"></script>
+    <script type="text/javascript">
+        //IIFE, immediate involked function expression(provides some context for the code to excute)
+        (function () {
+            "use strict";//can't use a variable that's not defined, only applies within this function
+
+            angular.module(APPNAME)
+                .controller('mainController', MainController);
+
+            MainController.$inject = ['$scope', '$baseController', '$window', 'mapsService', 'gamesService', 'artworksService', 'gameArtworksService', 'notificationsService', 'appConfig'];
+
+            function MainController($scope, $baseController, $window, mapsService, gamesService, artworksService, gameArtworksService, notificationsService, appConfig) {
+                var vm = this;
+                $baseController.merge(vm, $baseController);//we merge vm with base controller(simulating inheritence)
+
+                vm.$scope = $scope;//attaching scope injected
+                vm.onLoadingGameSuccess = _onLoadingGameSuccess;
+                vm.onLoadingGameArtworkSuccess = _onLoadingGameArtworkSuccess;
+                vm.onError = _onError;
+                vm.hint = _hint;
+
+                render();
+
+                function render() {
+                    gameArtworksService.getByGameId(appConfig.item, _onLoadingGameArtworkSuccess, _onError)
+                    gamesService.selectById(appConfig.item, _onLoadingGameSuccess, _onError)
+                };
+
+                function _onLoadingGameSuccess(game) {
+                    vm.game = game.item
+                    mapsService.getById(vm.game.mapId, _onLoadingMapSuccess, _onError)
+                    $scope.$apply();
+
+                    function _onLoadingMapSuccess(map) {
+                        vm.game.map = map.item
+                    };
+                };
+
+                function _onLoadingGameArtworkSuccess(gameArtworks) {
+                    vm.gameArtworks = gameArtworks.items
+                    if (gameArtworks.items == null) {
+                        notificationsService.error("This game has not been set up yet")
+                    } else {
+                        vm.$log.log("Success loading artworks for this game");
+                        gameArtworks.items.forEach(function (gameArtwork) {
+
+                            function _onLoadingArtworksSuccess(response) {
+                                gameArtwork.artwork = response.item;
+                                $scope.$apply();
+
+                                if (gameArtwork.dateCompleted == null) {
+                                    gameArtwork.url = "/posts/create?gameId=" + appConfig.item + "&artworkId=" + gameArtwork.artworkId;
+                                }
+                            };
+                            artworksService.getById(gameArtwork.artworkId, _onLoadingArtworksSuccess, _onError)
+                        })
+                    }
+                };
+
+                function _onError() {
+                    vm.$log.log('Error loading')
+                };
+
+                //CREATE method to redirect to URL
+                function postGameId() {
+                    notificationsService.confirm("You sure you want to redirect to this game?", _onConfirm)
+
+                    function _onConfirm() {
+                        $window.location.href = "/posts/create?gameId=" + gameId
+                    };
+                };
+
+                function _hint(gameArtwork) {
+                    notificationsService.confirm("Are you sure you want to see the hint for this artwork?", _onConfirm)
+
+                    function _onConfirm() {
+                        $window.location.href = "/games/" + appConfig.item + "/artworks/" + gameArtwork.artworkId + "/hint"
+                    };
+                };
+            };
+        })();
+    </script>
+}
