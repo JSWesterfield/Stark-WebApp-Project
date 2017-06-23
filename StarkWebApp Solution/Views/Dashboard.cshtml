@@ -15,15 +15,14 @@
                     <div class="clearfix"></div>
                     <section class="team-section">
                         <div class="content row">
-
                             <!-- append begins here-->
                             <div class="container-fluid" style="text-align:center">
                                 <h1 class="pad">Instructions</h1>
-                            <div class="row pad" style="padding-bottom:3em">
+                                <div class="row pad" style="padding-bottom:3em">
                                 </div><div class="col-sm-3">
-                                    <button type="button" class="btn btn-block btn-cta btn-cta-primary" ng-click="main.postPhoto">Post a Photo</button>
+                                    <button type="button" class="btn btn-block btn-cta btn-cta-primary" ng-click="main.postPhoto(gameId)">Post a Photo</button>
                                 </div>
-                            </div> 
+                            </div>
                             <br />
                             <br />
                             <div class="row pad" ng-repeat="gameArtwork in main.gameArtworks" ng-if="gameArtwork.artwork !=null" style="padding-bottom:3em">
@@ -34,9 +33,9 @@
                                     <a class="btn btn-block btn-cta btn-cta-primary" ng-href="{{gameArtwork.url}}" ng-disabled="gameArtwork.dateCompleted != null">Got it<i class="fa fa-check" aria-hidden="true" ng-if="gameArtwork.dateCompleted"></i></a>
                                 </div> <div class="col-sm-3">
                                     <button type="button" class="btn btn-block btn-cta btn-cta-primary" ng-click="main.hint(gameArtwork)">Hint<i class="fa fa-check" aria-hidden="true" ng-if="gameArtwork.isHintGiven"></i></button>
+                                </div>
+                                <!---append ends here-->
                             </div>
-                            <!---append ends here-->
-
                         </div>
                     </section><!--//team-section-->
                 </div>
@@ -48,7 +47,6 @@
 
 @section scripts
 {
-
     <style>
         .pad {
             padding-bottom: 2em;
@@ -74,11 +72,12 @@
                 var vm = this;
                 $baseController.merge(vm, $baseController);//we merge vm with base controller(simulating inheritence)
 
-                vm.$scope = $scope;//attaching scope injected
+                vm.$scope = $scope; //attaching scope injected
                 vm.onLoadingGameSuccess = _onLoadingGameSuccess;
-                vm.onLoadingsGameArtworkSuccess = _onLoadingGameArtworkSuccess;
+                vm.onLoadingGameArtworkSuccess = _onLoadingGameArtworkSuccess;
                 vm.onError = _onError;
                 vm.hint = _hint;
+                vm.postPhoto = _postPhoto;
 
                 render();
 
@@ -123,8 +122,8 @@
                 };
 
                 //CREATE method to redirect to URL
-                function postGameId() {
-                    notificationsService.confirm("You sure you want to redirect to this game?", _onConfirm)
+                function _postPhoto(gameId) {
+                    notificationsService.confirm("You sure you display this photo?", _onConfirm)
 
                     function _onConfirm() {
                         $window.location.href = "/posts/create?gameId=" + gameId
