@@ -1,6 +1,6 @@
 
 @{
-    ViewBag.Title = "Dashboard";
+    ViewBag.Title = "Page Title";
     Layout = "~/Views/Shared/_LayoutThemed.cshtml";
 }
 
@@ -19,7 +19,13 @@
                             <!-- append begins here-->
                             <div class="container-fluid" style="text-align:center">
                                 <h1 class="pad">Instructions</h1>
-                            </div>
+                            <div class="row pad" style="padding-bottom:3em">
+                                </div><div class="col-sm-3">
+                                    <button type="button" class="btn btn-block btn-cta btn-cta-primary" ng-click="main.postPhoto">Post a Photo</button>
+                                </div>
+                            </div> 
+                            <br />
+                            <br />
                             <div class="row pad" ng-repeat="gameArtwork in main.gameArtworks" ng-if="gameArtwork.artwork !=null" style="padding-bottom:3em">
                                 <div class="col-sm-6">
                                     {{gameArtwork.artwork.instructions}}
@@ -27,11 +33,7 @@
                                 <div class="col-sm-3">
                                     <a class="btn btn-block btn-cta btn-cta-primary" ng-href="{{gameArtwork.url}}" ng-disabled="gameArtwork.dateCompleted != null">Got it<i class="fa fa-check" aria-hidden="true" ng-if="gameArtwork.dateCompleted"></i></a>
                                 </div> <div class="col-sm-3">
-                                    <button type="button" class="btn btn-block btn-cta btn-cta-primary" data-ng-click="main.hint(gameArtwork)">Hint<i class="fa fa-check" aria-hidden="true" ng-if="gameArtwork.isHintGiven"></i></button>
-                                </div><div class="col-sm-3">
-                                    <button type="button" class="btn btn-block btn-cta btn-cta-primary" ng-click="postGameId()">Get Game</button>
-                                </div>
-                             
+                                    <button type="button" class="btn btn-block btn-cta btn-cta-primary" ng-click="main.hint(gameArtwork)">Hint<i class="fa fa-check" aria-hidden="true" ng-if="gameArtwork.isHintGiven"></i></button>
                             </div>
                             <!---append ends here-->
 
@@ -74,7 +76,7 @@
 
                 vm.$scope = $scope;//attaching scope injected
                 vm.onLoadingGameSuccess = _onLoadingGameSuccess;
-                vm.onLoadingGameArtworkSuccess = _onLoadingGameArtworkSuccess;
+                vm.onLoadingsGameArtworkSuccess = _onLoadingGameArtworkSuccess;
                 vm.onError = _onError;
                 vm.hint = _hint;
 
