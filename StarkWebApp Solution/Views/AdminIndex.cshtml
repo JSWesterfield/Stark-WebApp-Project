@@ -10,7 +10,7 @@
                 <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1 col-sm-push-0 col-xs-push-0">
                     <h3 class="subtitle">Page Title</h3>
                     <div class="content" ng-controller="mainController as main">
-                        <p name="requestResponses"> {{main.requestResponses}}</p>
+                        <p name="supportRequests"> {{main.supportRequests}}</p>
                         <button type="button" ng-click="main.render()">Change Message</button>
                     </div><!--//content-->
                 </div>
@@ -42,23 +42,19 @@
                 $baseController.merge(vm, $baseController);
 
                 vm.$scope = $scope;
-                //vm.myMessage = "Angular is rendering on the page";        //Deleted the myMessage vm variable. 
-                vm.requestResponses = null;
+                vm.supportRequests = "Angular will render on the page";
                 vm.supportRequestsService = supportRequestsService;
-                //vm.requestResponses = render();
-                //vm.requestResponses = "The rendering works!";
+                vm.render = render;
+                vm.$log.log("Page started up.");
 
-                function render() {     
-                    vm.$log.log("Page started up.");
-                    vm.supportRequestsService.getAll(_onSuccess, _onError);
-                   // vm.requestResponses = "This rendering stuff works!";
-                    //vm.supportRequestsService.getAll(_onSuccess, _onError); //call to AJAX script, define services(create this'service' function within the stark.services.supportRequests.js script, and $inject this service within the $basecontroller.
+                function render() {
+                    vm.$log.log("Render Function started.");
+                    vm.supportRequestsService.getAll(_onSuccess, _onError); //call to AJAX script, define services(create this'service' function within the stark.services.supportRequests.js script, and $inject this service within the $basecontroller.
                 }
 
-                function _onSuccess(supportRequests) {
-                    vm.$log.log(supportRequests.items);
-                    vm.requestResponses = supportRequests.items;
-                    // vm.requestResponses = "This rendering stuff works!";
+                function _onSuccess(response) {
+                    vm.$log.log(response.items);
+                    vm.supportRequests = response.items;
                     $scope.$apply(); //used for integrating angularJS and calling watch listener functions. Gets bindings to update after this is applied. 
                 }
 
@@ -70,3 +66,4 @@
         })();
     </script>
 }
+s
