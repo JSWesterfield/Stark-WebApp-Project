@@ -3,22 +3,23 @@
 }
 
 <article class="article gradient-2">
-    <h2 class="title container text-center">Admin Index Page</h2>
+    <h2 class="title container text-center">Section Title</h2>
     <section>
         <div class="section-inner container text-center">
             <div class="row">
                 <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1 col-sm-push-0 col-xs-push-0">
                     <h3 class="subtitle">Page Title</h3>
                     <div class="content" ng-controller="mainController as main">
-                        <p name="supportRequests"> {{main.supportRequests}}</p>
-                        <button type="button" ng-click="main.render()">Change Message</button>
+                        <p>main.myMessage</p>
+                          <div ng-repeat="supportRequestItem in main.supportRequests">Support Request Item Subject: {{supportRequestItem.subject}}</div>
+                        <textarea id="textData" rows="7" cols="70" color="black" autofocus></textarea>
+                        <button ng-click="" ng-submit="" ng-class="{has-error: main.support}"></button>
                     </div><!--//content-->
                 </div>
             </div><!--//row-->
         </div>
     </section>
 </article>
-
 
 @section scripts{
     
@@ -42,10 +43,9 @@
                 $baseController.merge(vm, $baseController);
 
                 vm.$scope = $scope;
-                vm.supportRequests = "Angular will render on the page";
                 vm.supportRequestsService = supportRequestsService;
-                vm.render = render;
                 vm.$log.log("Page started up.");
+                vm.render = render();
 
                 function render() {
                     vm.$log.log("Render Function started.");
@@ -55,15 +55,21 @@
                 function _onSuccess(response) {
                     vm.$log.log(response.items);
                     vm.supportRequests = response.items;
+                        if (vm.supportRequests = response.items) {
+                            vm.$log.log("The supportRequests works");
+                        }
+                        else {
+                            vm.$log.log("The supportRequests does NOT work! So sad.");
+                        }
+                    
                     $scope.$apply(); //used for integrating angularJS and calling watch listener functions. Gets bindings to update after this is applied. 
                 }
 
                 function _onError() {
-                    vn.$log.log("An error occured");
+                    vm.$log.log("An error occured");
                 }
             }
 
         })();
     </script>
 }
-s
