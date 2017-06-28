@@ -2,18 +2,22 @@
     Layout = "~/Views/Shared/_LayoutThemed.cshtml";
 }
 
+
 <article class="article gradient-2">
-    <h2 class="title container text-center">Section Title</h2>
+    <h2 class="title container text-center">Admin Response Requests</h2>
     <section>
         <div class="section-inner container text-center">
             <div class="row">
                 <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1 col-sm-push-0 col-xs-push-0">
-                    <h3 class="subtitle">Page Title</h3>
+                    <h3 class="subtitle">Support Requests</h3>
                     <div class="content" ng-controller="mainController as main">
-                        <p>main.myMessage</p>
-                          <div ng-repeat="supportRequestItem in main.supportRequests">Support Request Item Subject: {{supportRequestItem.subject}}</div>
-                        <textarea id="textData" rows="7" cols="70" color="black" autofocus></textarea>
-                        <button ng-click="" ng-submit="" ng-class="{has-error: main.support}"></button>
+                          <div ng-repeat="supportRequestItem in main.supportRequests">{{supportRequestItem.subject}}</div><br>
+                          <div ng-repeat="supportRequestItem in main.supportRequests">{{supportRequestItem.body}}</div><br>
+                          <div ng-repeat="supportRequestItem in main.supportRequests">{{supportRequestItem.email}}</div><br>
+                          <div ng-repeat="supportRequestItem in main.supportRequests">{{supportRequestItem.userid}}</div><br>
+                            <textarea id="textData" rows="7" cols="70" color="black" onfocus="if(this.value==this.defaultValue)this.value='';this.style.color='#333'" onblur="if(this.value=='') {this.value=this.defaultValue;this.style.color='#CCC'}" autofocus></textarea>
+                        <textarea id="t" rows="7" cols="70" color="black"  autofocus></textarea><br>
+                        <button class="btn btn-cta-primary" ng-click="" ng-submit="">Submit Button</button>
                     </div><!--//content-->
                 </div>
             </div><!--//row-->
@@ -54,6 +58,10 @@
 
                 function _onSuccess(response) {
                     vm.$log.log(response.items);
+
+                    //Get AdminUserId
+
+
                     vm.supportRequests = response.items;
                         if (vm.supportRequests = response.items) {
                             vm.$log.log("The supportRequests works");
@@ -61,6 +69,7 @@
                         else {
                             vm.$log.log("The supportRequests does NOT work! So sad.");
                         }
+
                     
                     $scope.$apply(); //used for integrating angularJS and calling watch listener functions. Gets bindings to update after this is applied. 
                 }
