@@ -5,40 +5,74 @@
 
 
 <article class="article gradient-6">
-    <h2 class="title container text-center">Admin Response Requests</h2>
-    <section>
+    <section class="jobs-section container text-center">
         <div class="section-inner container text-center">
             <div class="row">
                 <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1 col-sm-push-0 col-xs-push-0">
-                    <h3 class="subtitle">Support Requests</h3>
-                    <div>
-                        <div class="content" ng-controller="mainController as main">
-                              <div ng-repeat="supportRequestItem in main.supportRequests">{{supportRequestItem.subject}}
-                                  <ul class="list-inline">
-                                          <li class="meta">{{supportRequestItem.email}}</li>
-                                          <li>{{supportRequestItem.dateCreated | date: 'MMMM d, y h:mm a' }}</li>
-                                  </ul>
-                                <p>{{supportRequestItem.body}}</p>
-                                <p></p>
-                              </div>
-                        </div><br><br /> <!--Place an Ng-if here so we can replace our previous codes 'if statement' to validate if(!response.item.adminUserId) exists-->
-                                    @*<script type="text/html" id="srTemplate">
-
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <h4 class="srSubject job-title"></h4>
-                                                <div class="meta">
-                                                    <ul class="list-inline">
-                                                        <li class="srEmail">Full-time</li>
-                                                        <li class="srDateCreated last">San Francisco</li>
-                                                    </ul>
-                                                </div><!--//meta-->
-                                                <div class="excerpt">
-                                                    <p class="srBody"></p>
-                                                    <a class="editLink" href="">Edit Support Request <i class="fa fa-long-arrow-right"></i></a>
+                    <div  class="section-inner">
+                        <h3 class="subtitle">Support Requests</h3>
+                        <div>
+                        <p class="intro">
+                            <div class="content" ng-controller="mainController as main">
+                                  <div ng-repeat="supportRequestItem in main.supportRequests">
+                                    <div class="item">
+                                      <div class="item-inner"></div>
+                                          <!--Content-->
+                                          <h4 class="srSubject job-title">{{supportRequestItem.subject}}</h4>
+                                          <div class="meta">
+                                              <ul class="list-inline">
+                                                  <li>{{supportRequestItem.email}}</li>
+                                                  <li>{{supportRequestItem.dateCreated | date: 'MMMM d, y h:mm a'}}</li>
+                                              </ul>
+                                          </div>
+                                          <div class="excerpt">
+                                              <p>{{supportRequestItem.body}}</p>
+                                              <div ng-init="editLink = ' "/Support-Requests/" + srData.id + "/Edit" ' ">
+                                                <a class="editLink" ng-href="{{editLink}}">Edit Support Request <i class="fa fa-long-arrow-right"></i></a>
+                                              </div>
+                                          </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                            </div><br><br /> <!--Place an Ng-if here so we can replace our previous codes 'if statement' to validate if(!response.item.adminUserId) exists-->
+                                  
+                                @*<div id="artworkPage">
+                                    <article class="jobs article gradient-6">
+                                        <section class="jobs-section container text-center">
+                                            <div class="row">
+                                                <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1 col-sm-push-0 col-xs-push-0">
+                                                    <div class="section-inner">
+                                                        <h3 class="subtitle">Support Requests</h3>
+                                                        <p class="intro"></p>
+                                                        <div class="job-list-wrapper">
+                                                            <div id="srLanding"></div>
+                                                        </div><!--//job-list-wrapper-->
+                                                    </div><!--//section-inner-->
                                                 </div>
-                                            </div><!--//item-inner-->
+                                            </div><!--//row-->
+                                        </section><!--//jobs-list-->
+                                    </article><!--//article-->
+                                </div>*@
+                            
+                                  @*script type="text/html" id="srTemplate">
+                                            <div class="item">
+                                                <div class="item-inner">
+                                                    <h4 class="srSubject job-title"></h4>
+                                                    <div class="meta">
+                                                        <ul class="list-inline">
+                                                            <li class="srEmail">Full-time</li>
+                                                            <li class="srDateCreated last">San Francisco</li>
+                                                        </ul>
+                                                    </div><!--//meta-->
+                                                    <div class="excerpt">
+                                                        <p class="srBody"></p>
+                                                        <a class="editLink" href="">Edit Support Request <i class="fa fa-long-arrow-right"></i></a>
+                                                    </div>
+                                                </div><!--//item-inner-->
                                             </div><!--//item-->*@
+
+
+
                     </div><!--//content-->
                 </div>
             </div><!--//row-->
@@ -48,7 +82,7 @@
 
 @section scripts{
     
-    <script src="/Scripts/stark/services/stark.services.supportRequests.js"></script>
+    <script src="/Scripts/sabio/services/sabio.services.supportRequests.js"></script>
 
     <script type="text/javascript">
         (function () {
@@ -75,7 +109,7 @@
 
                 function render() {
                     vm.$log.log("Render Function started.");
-                    vm.supportRequestsService.getAll(_onSuccess, _onError); //call to AJAX script, define services(create this'service' function within the stark.services.supportRequests.js script, and $inject this service within the $basecontroller.
+                    vm.supportRequestsService.getAll(_onSuccess, _onError); //call to AJAX script, define services(create this'service' function within the sabio.services.supportRequests.js script, and $inject this service within the $basecontroller.
                 }
 
                 function _onSuccess(response) {
@@ -83,14 +117,28 @@
 
                     //bind 'supportRequests' to response.items 
                     vm.supportRequests = response.items;
-                        if (vm.supportRequests = response.items) {
-                            vm.$log.log("The supportRequests works");
-                            vm.notificationsService.success("Your page responded, oh yea! *Hulk Hogan Voice*");
-                        }
-                        else {
-                            vm.$log.log("The supportRequests does NOT work! So sad.");
-                            vm.notificationsService.error("You page doesn't render!");
-                        }
+                    if (vm.supportRequests = response.items) {
+                        vm.$log.log("The supportRequests works");
+                        vm.notificationsService.success("Your page responded, oh yea! *Hulk Hogan Voice*");
+                    }
+                    else {
+                        vm.$log.log("The supportRequests does NOT work! So sad.");
+                        vm.notificationsService.error("You page doesn't render!");
+                    }
+
+                    //Turn email to display it's NULL reference in VM. 
+                    //(function emailVerify {
+                    //    if(!supportRequests.email) {
+                    //      vm.supportRequests.email = null
+                    //        if(vm.supportRequests.email == null) {
+                    //if equal to the value of null, then set the vm.supportRequests.email to display(vm.supportRequests.email) the text "NULL" on the viewmodel
+                    //          vm.supportRequests.email = "NULL";  //
+                    //        }
+                    //        else{
+                    //             vm.$log.log("There was an error with your ");
+                    //        }
+                    //    }
+                    //})(); 
                     
                     $scope.$apply(); //used for integrating angularJS and calling watch listener functions. Gets bindings to update after this is applied. 
                 }
