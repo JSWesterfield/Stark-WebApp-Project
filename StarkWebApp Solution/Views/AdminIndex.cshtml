@@ -19,7 +19,7 @@
                                                 <h4 class="srSubject job-title">{{supportRequestItem.subject}}</h4>
                                                 <div class="meta">
                                                     <ul class="list-inline">
-                                                        <li ng-show="main.verifyEmail()" >UserId: {{supportRequestItem.email}}</li>
+                                                        <li>UserEmail: {{main.verifyEmail()}}{{supportRequestItem.email | filter: verifyEmail()}}{{supportRequestItem.userId}}</li>
                                                         <li>{{supportRequestItem.dateCreated | date: 'MMMM d, y h:mm a'}}</li>
                                                     </ul>
                                                 </div>
@@ -67,6 +67,25 @@
                 vm.$log.log("Page started up.");
                 vm.notificationsService = notificationsService;
                 vm.render = render();
+              //vm.supportRequests = null;
+                 
+                //USE A FILTER TO DIRECTLY MANIPULATE THE DATA(VALUE) AT THE KEY/PROPERTY(RESPONSE.ITEMS.EMAIL) OF THE RESPONSE.ITEMS OBJECT 
+                //$filter('filter')(function() {
+                //    f = response.items 
+                //    function verifyEmail(response) {
+                //        vm.supportRequests = response.items;
+                //        // if the supportRequests email has value, or NOT set to null.
+                //        if (supportRequests.email != null) {
+                //            vm.$log.log("This email shows!");
+                //            vm.notificationsService.success("This email shows!");
+                //        }
+                //            //if value has a 
+                //        else {
+                //            vm.$log.log("This email IS null sorry");
+                //            vm.notificationsService.error("This email IS null sorry");
+                //        }
+                //});
+
 
                 function render() {
                     vm.$log.log("Render Function started.");
@@ -75,7 +94,6 @@
 
                 function _onSuccess(response) {
                     vm.$log.log(response.items);
-                    //vm.id = responose.items.id;   //gets rid of my user responses, wanted to create an id to atttach each edit link to, when clicking the ng-href attribute
 
                     //bind 'supportRequests' to response.items 
                     vm.supportRequests = response.items;
@@ -88,25 +106,22 @@
                         vm.notificationsService.error("You page doesn't render!");
                     }
 
-                    //Turn email to display it's NULL reference in VM. 
+                    //Turn email to display it's NULL reference in VM.
                     function verifyEmail(response) {
                         vm.supportRequests = response.items;
-                        if (!supportRequests.email) {
-                            //if supportRequest user's email doesn't exist set it to null reference, or to a value of NULL.
-                            vm.supportRequests.email = null;
-                            //if the supportRequest user's email DOES exist but is set to null(which the previous step ensures....follow below step. 
-                            if (vm.supportRequests.email == null) {
-                                //if supportRequest user's email is equal to the value of null, then set the vm.supportRequests.email to display(vm.supportRequests.email) the text "NULL" on the viewmodel
-                                vm.supportRequests.email = "NULL";
-                                vm.$log.log("This is now NULL");
-                            }
-                            else {
-                                vm.$log.log("There was an error with your email");
-                            }
+                        // if the supportRequests email has value, or NOT set to null.
+                        if (supportRequests.email != null) {
+                            vm.$log.log("This email shows!");
+                            vm.notificationsService.success("This email shows!");
                         }
+                        //if value has a 
                         else {
-                            vm.$log.log("Your verfiy supportRequests.email EXISTENCE condition doesn't work");
+                            vm.$log.log("This email IS null sorry");
+                            vm.notificationsService.error("This email IS null sorry");
                         }
+                    //if (srData.email != null) {
+                    //$template.find('.srEmail').text(srData.email);
+                    //};
                     }; 
                     
                     $scope.$apply(); //used for integrating angularJS and calling watch listener functions. Gets bindings to update after this is applied. 
