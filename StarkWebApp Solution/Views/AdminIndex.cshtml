@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_LayoutThemed.cshtml";
 }
                                                            
-            <article class="jobs article gradient-6">
+            <article class="jobs article gradient-7">
                 <section class="jobs-section container text-center">
                     <div class="row">
                         <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1 col-sm-push-0 col-xs-push-0">
@@ -19,7 +19,7 @@
                                                 <h4 class="srSubject job-title">{{supportRequestItem.subject}}</h4>
                                                 <div class="meta">
                                                     <ul class="list-inline">
-                                                        <li>{{supportRequestItem.email}}</li>
+                                                        <li ng-show="main.verifyEmail()" >UserId: {{supportRequestItem.email}}</li>
                                                         <li>{{supportRequestItem.dateCreated | date: 'MMMM d, y h:mm a'}}</li>
                                                     </ul>
                                                 </div>
@@ -89,18 +89,25 @@
                     }
 
                     //Turn email to display it's NULL reference in VM. 
-                    //(function emailVerify {
-                    //    if(!supportRequests.email) {
-                    //      vm.supportRequests.email = null
-                    //        if(vm.supportRequests.email == null) {
-                    //if equal to the value of null, then set the vm.supportRequests.email to display(vm.supportRequests.email) the text "NULL" on the viewmodel
-                    //          vm.supportRequests.email = "NULL";  //
-                    //        }
-                    //        else{
-                    //             vm.$log.log("There was an error with your ");
-                    //        }
-                    //    }
-                    //})(); 
+                    function verifyEmail(response) {
+                        vm.supportRequests = response.items;
+                        if (!supportRequests.email) {
+                            //if supportRequest user's email doesn't exist set it to null reference, or to a value of NULL.
+                            vm.supportRequests.email = null;
+                            //if the supportRequest user's email DOES exist but is set to null(which the previous step ensures....follow below step. 
+                            if (vm.supportRequests.email == null) {
+                                //if supportRequest user's email is equal to the value of null, then set the vm.supportRequests.email to display(vm.supportRequests.email) the text "NULL" on the viewmodel
+                                vm.supportRequests.email = "NULL";
+                                vm.$log.log("This is now NULL");
+                            }
+                            else {
+                                vm.$log.log("There was an error with your email");
+                            }
+                        }
+                        else {
+                            vm.$log.log("Your verfiy supportRequests.email EXISTENCE condition doesn't work");
+                        }
+                    }; 
                     
                     $scope.$apply(); //used for integrating angularJS and calling watch listener functions. Gets bindings to update after this is applied. 
                 }
