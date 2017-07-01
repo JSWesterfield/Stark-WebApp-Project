@@ -1,8 +1,8 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutThemed.cshtml";
-}
-                                                           
+}                 
+                                 
             <article class="jobs article gradient-7">
                 <section class="jobs-section container text-center">
                     <div class="row">
@@ -19,7 +19,8 @@
                                                 <h4 class="srSubject job-title">{{supportRequestItem.subject}}</h4>
                                                 <div class="meta">
                                                     <ul class="list-inline">
-                                                        <li>UserEmail: {{main.verifyEmail()}}{{supportRequestItem.email | filter: verifyEmail()}}{{supportRequestItem.userId}}</li>
+                                                        <li ng-show="supportRequestItem.email">{{supportRequestItem.email}}</li>
+                                                        <li ng-show="supportRequestItem.userId">UserId: {{supportRequestItem.userId}}</li>
                                                         <li>{{supportRequestItem.dateCreated | date: 'MMMM d, y h:mm a'}}</li>
                                                     </ul>
                                                 </div>
@@ -67,25 +68,6 @@
                 vm.$log.log("Page started up.");
                 vm.notificationsService = notificationsService;
                 vm.render = render();
-              //vm.supportRequests = null;
-                 
-                //USE A FILTER TO DIRECTLY MANIPULATE THE DATA(VALUE) AT THE KEY/PROPERTY(RESPONSE.ITEMS.EMAIL) OF THE RESPONSE.ITEMS OBJECT 
-                //$filter('filter')(function() {
-                //    f = response.items 
-                //    function verifyEmail(response) {
-                //        vm.supportRequests = response.items;
-                //        // if the supportRequests email has value, or NOT set to null.
-                //        if (supportRequests.email != null) {
-                //            vm.$log.log("This email shows!");
-                //            vm.notificationsService.success("This email shows!");
-                //        }
-                //            //if value has a 
-                //        else {
-                //            vm.$log.log("This email IS null sorry");
-                //            vm.notificationsService.error("This email IS null sorry");
-                //        }
-                //});
-
 
                 function render() {
                     vm.$log.log("Render Function started.");
@@ -99,31 +81,13 @@
                     vm.supportRequests = response.items;
                     if (vm.supportRequests = response.items) {
                         vm.$log.log("The supportRequests works");
-                        vm.notificationsService.success("Your page responded, oh yea! *Hulk Hogan Voice*");
+                        vm.notificationsService.success("Your page responded with supportRequest data!");
                     }
                     else {
                         vm.$log.log("The supportRequests does NOT work! So sad.");
                         vm.notificationsService.error("You page doesn't render!");
                     }
 
-                    //Turn email to display it's NULL reference in VM.
-                    function verifyEmail(response) {
-                        vm.supportRequests = response.items;
-                        // if the supportRequests email has value, or NOT set to null.
-                        if (supportRequests.email != null) {
-                            vm.$log.log("This email shows!");
-                            vm.notificationsService.success("This email shows!");
-                        }
-                        //if value has a 
-                        else {
-                            vm.$log.log("This email IS null sorry");
-                            vm.notificationsService.error("This email IS null sorry");
-                        }
-                    //if (srData.email != null) {
-                    //$template.find('.srEmail').text(srData.email);
-                    //};
-                    }; 
-                    
                     $scope.$apply(); //used for integrating angularJS and calling watch listener functions. Gets bindings to update after this is applied. 
                 }
 
