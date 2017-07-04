@@ -12,7 +12,7 @@ using stark.Web.Models.Responses;
 using stark.Web.Services;
 using stark.Web.Services.Interfaces;
 
-namespace stark.Web.Controllers.Ap
+namespace stark.Web.Controllers.Api
 {
     [RoutePrefix("api/support-requests")]
     public class SupportRequestsApiController : BaseApiController
@@ -102,6 +102,8 @@ namespace stark.Web.Controllers.Ap
         }
 
         //UPDATE RESPONSE   
+
+        private SupportRequest supportRequest;
 
         [Route("{id:int}/response"), HttpPut]
         public HttpResponseMessage UpdateResponse(UpdateSupportRequestResponseRequest model, int id)
