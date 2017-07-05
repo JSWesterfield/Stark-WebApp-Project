@@ -107,16 +107,18 @@ namespace stark.Web.Controllers.Api
         [Route("{id:int}/response"), HttpPut]
         public HttpResponseMessage UpdateResponse(UpdateSupportRequestResponseRequest model, int id)
         {
-            SupportRequest supportRequest = GetById(model.Id);
-
-            if (model.Response != null)
+            SupportRequest supportRequest = GetById(model.Id)
             {
-                ModelState.AddModelError("The response cannot be modified");   
-            }
-            if (model.Response = null)
-            {
+                if (model.Response != null)
+                {
+                    ModelState.AddModelError("The response cannot be modified");
+                }
+                if (model.Response = null)
+                {
 
+                }
             }
+
 
             if (model == null){
                 ModelState.AddModelError("", "Please input userId & response");
