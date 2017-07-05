@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-
 using stark.Web.Controllers.Api;
 using stark.Web.Domain;
 using stark.Web.Models.Requests;
@@ -101,20 +100,17 @@ namespace stark.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
-        
         //UPDATE RESPONSE   
 
         [Route("{id:int}/response"), HttpPut]
         public HttpResponseMessage UpdateResponse(UpdateSupportRequestResponseRequest model, int id)
         {
-            SupportRequest supportRequest = GetById(model.Id)
-            {
-                if (model.Response != null)
-                {
-                    ModelState.AddModelError("", "The response cannot be modified");
-                }
-            }
+            SupportRequest supportRequest = GetById(model.Id);
 
+            if (model.Response != null)
+            {
+                ModelState.AddModelError("", "The response cannot be modified");
+            }
 
             if (model == null){
                 ModelState.AddModelError("", "Please input userId & response");
@@ -129,6 +125,7 @@ namespace stark.Web.Controllers.Api
             }
 
             _supportRequestsService.UpdateResponse(model);
+            _supportRequestsService.GetById(model.Id);
             SuccessResponse response = new SuccessResponse();
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
