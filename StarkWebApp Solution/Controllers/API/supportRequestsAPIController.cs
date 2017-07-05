@@ -111,11 +111,7 @@ namespace stark.Web.Controllers.Api
             {
                 if (model.Response != null)
                 {
-                    ModelState.AddModelError("The response cannot be modified");
-                }
-                if (model.Response = null)
-                {
-
+                    ModelState.AddModelError("", "The response cannot be modified");
                 }
             }
 
@@ -136,7 +132,6 @@ namespace stark.Web.Controllers.Api
             SuccessResponse response = new SuccessResponse();
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
-
 
     }
 }
