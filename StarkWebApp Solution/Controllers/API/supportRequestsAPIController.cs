@@ -4,14 +4,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Sabio.Web.Controllers.Api;
-using Sabio.Web.Domain;
-using Sabio.Web.Models.Requests;
-using Sabio.Web.Models.Responses;
-using Sabio.Web.Services;
-using Sabio.Web.Services.Interfaces;
+using stark.Web.Controllers.Api;
+using stark.Web.Domain;
+using stark.Web.Models.Requests;
+using stark.Web.Models.Responses;
+using stark.Web.Services;
+using stark.Web.Services.Interfaces;
 
-namespace Sabio.Web.Controllers.Api
+namespace stark.Web.Controllers.Api
 {
     [RoutePrefix("api/support-requests")]
     public class SupportRequestsApiController : BaseApiController
@@ -105,7 +105,7 @@ namespace Sabio.Web.Controllers.Api
         [Route("{id:int}/response"), HttpPut]
         public HttpResponseMessage UpdateResponse(UpdateSupportRequestResponseRequest model, int id) //taking a api controller class method of type httpresponsemessage and passing in a request model, along with an 'id' parameter of int type.
         {
-            SupportRequest supportRequest = GetById(model.Id) //declares a variable of type domain model class and passes the model's property called 'id' into this, the above passes in a every prop(model) & that models id(int id).
+            SupportRequest supportRequest = _supportRequestsService.GetById(model.Id); //declares a variable of type domain model class and passes the model's property called 'id' into this, the above passes in a every prop(model) & that models id(int id).
 
             if (model.Response == null) //checks Response property of the supportRequest variable is not null.
             {
@@ -125,7 +125,7 @@ namespace Sabio.Web.Controllers.Api
             }
 
             _supportRequestsService.UpdateResponse(model); //binds service class interface with the signature SupportRequest UpdateResponse(model); But why is this at the end? why is it binding at the end?
-            //_supportRequestsService.GetById(model.Id); //binds service class interface with the signature SupportRequest GetById(int id); Does GetById(int id) == GetByid(model.Id);
+            _supportRequestsService.GetById(model.Id); //binds service class interface with the signature SupportRequest GetById(int id); Does GetById(int id) == GetByid(model.Id);
             SuccessResponse response = new SuccessResponse();
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
