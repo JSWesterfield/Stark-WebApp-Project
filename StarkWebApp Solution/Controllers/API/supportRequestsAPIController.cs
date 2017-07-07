@@ -103,11 +103,11 @@ namespace stark.Web.Controllers.Api
         //UPDATE RESPONSE   
 
         [Route("{id:int}/response"), HttpPut]
-        public HttpResponseMessage UpdateResponse(UpdateSupportRequestResponseRequest model, int id) //taking a api controller class method of type httpresponsemessage and passing in a request model, along with an 'id' parameter of int type.
+        public HttpResponseMessage UpdateResponse(UpdateSupportRequestResponseRequest model, int id) 
         {
-            SupportRequest supportRequest = _supportRequestsService.GetById(model.Id); //declares a variable of type domain model class and passes the model's property called 'id' into this, the above passes in a every prop(model) & that models id(int id).
+            SupportRequest supportRequest = _supportRequestsService.GetById(model.Id);  
 
-            if (model.Response == null) //checks Response property of the supportRequest variable is not null.
+            if (model.Response == null) 
             {
                 ModelState.AddModelError("", "The response cannot be modified");
             }
@@ -124,8 +124,7 @@ namespace stark.Web.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            _supportRequestsService.UpdateResponse(model); //binds service class interface with the signature SupportRequest UpdateResponse(model); But why is this at the end? why is it binding at the end?
-            _supportRequestsService.GetById(model.Id); //binds service class interface with the signature SupportRequest GetById(int id); Does GetById(int id) == GetByid(model.Id);
+            _supportRequestsService.UpdateResponse(model); 
             SuccessResponse response = new SuccessResponse();
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
