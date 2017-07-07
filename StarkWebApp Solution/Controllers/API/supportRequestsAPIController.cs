@@ -107,7 +107,7 @@ namespace stark.Web.Controllers.Api
         {
             SupportRequest supportRequest = _supportRequestsService.GetById(model.Id);  
 
-            if (model.Response == null) 
+            if (supportRequest.AdminUserId != null) 
             {
                 ModelState.AddModelError("", "The response cannot be modified");
             }
