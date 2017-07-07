@@ -158,10 +158,10 @@ namespace stark.Web.Services
         {
             User newUser = new User();
             List<Post> posts = new List<Post>();
-            posts = _postsService.GetRecentByUserId();
+            posts = _postsService.GetRecentByUserId(int userId); //(int userId, string order, int limit);
 
             int postCount = posts.Count();
-            postCount = PostCount
+            postCount = newUser.PostCount;
 
             int startingIndex = 0;
             newUser.Id = reader.GetInt32(startingIndex++);
