@@ -158,12 +158,13 @@ namespace stark.Web.Services
         {
             User newUser = new User();
             List<Post> posts = new List<Post>();
-            posts = _postsService.GetRecentByUserId(int userId, string dateCreated, int ?); //(int userId, string order, int limit);
+            posts = _postsService.GetRecentByUserId(userId, dateCreated, pageSize); //(int userId, string order, int limit);
 
             int postCount = posts.Count();
             postCount = newUser.PostCount;
 
             int startingIndex = 0;
+          //newUser.PostCount = reader.GetInt32();
             newUser.Id = reader.GetInt32(startingIndex++);
             newUser.Username = reader.GetString(startingIndex++);
             newUser.Email = reader.GetString(startingIndex++);
