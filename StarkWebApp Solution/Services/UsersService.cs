@@ -158,8 +158,7 @@ namespace stark.Web.Services
         {
             User newUser = new User();
             List<Post> posts = new List<Post>();
-            posts = _postsService.GetRecentByUserId(int.userId, "dateCreated", int.MaxValue); //(int userId, string order, int limit);
-          //posts = _postsService.GetRecentByUserId("Id", "dateCreated", int.MaxValue);
+            posts = _postsService.GetRecentByUserId(User, "dateCreated", int.MaxValue); //(int userId, string order, int limit);
 
             int postCount = posts.Count();
             postCount = newUser.PostCount;
