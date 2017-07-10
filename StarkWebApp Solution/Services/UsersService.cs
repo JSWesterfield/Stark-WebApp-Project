@@ -17,9 +17,9 @@ namespace stark.Web.Services
         private IMessagingService _messagingService;
         private ICryptographyService _cryptographyService;
         private IConfigurationService _configurationService;
-        private IPostsService _postsService;
+        private IPostService _postsService;
 
-        public UsersService(IMessagingService messagingService, ICryptographyService cryptographyService, IConfigurationService configurationService, IPostsService postsService)
+        public UsersService(IMessagingService messagingService, ICryptographyService cryptographyService, IConfigurationService configurationService, IPostService postsService)
         {
             _messagingService = messagingService;
             _cryptographyService = cryptographyService;
@@ -157,11 +157,6 @@ namespace stark.Web.Services
         private User GetAllProps(IDataReader reader)
         {
             User newUser = new User();
-            List<Post> posts = new List<Post>();
-            posts = _postsService.GetRecentByUserId(User, "dateCreated", int.MaxValue); //(int userId, string order, int limit);
-
-            int postCount = posts.Count();
-            postCount = newUser.PostCount;
 
             int startingIndex = 0;
             newUser.Id = reader.GetInt32(startingIndex++);
@@ -178,8 +173,14 @@ namespace stark.Web.Services
             newUser.Salt = reader.GetString(startingIndex++);
             newUser.IsAdmin = reader.GetBoolean(startingIndex++);
 
+            List<Post> posts = new List<Post>();
+            int postCount = posts.Count();
+            postCount = newUser.PostCount;
+            posts = _postsService.GetRecentByUserId(newUser.Id, "dateCreated", int.MaxValue); //(int userId, string order, int limit);
 
             return newUser;
+
+            
         }
 
         public void Update(UserUpdateRequest model)
