@@ -17,9 +17,9 @@ namespace stark.Web.Services
         private IMessagingService _messagingService;
         private ICryptographyService _cryptographyService;
         private IConfigurationService _configurationService;
-        private IPostService _postsService;
+        private IPostsService _postsService;
 
-        public UsersService(IMessagingService messagingService, ICryptographyService cryptographyService, IConfigurationService configurationService, IPostService postsService)
+        public UsersService(IMessagingService messagingService, ICryptographyService cryptographyService, IConfigurationService configurationService, IPostsService postsService)
         {
             _messagingService = messagingService;
             _cryptographyService = cryptographyService;
@@ -179,7 +179,6 @@ namespace stark.Web.Services
             posts = _postsService.GetRecentByUserId(newUser.Id, "dateCreated", int.MaxValue); //(int userId, string order, int limit);
 
             return newUser;
-
             
         }
 
