@@ -45,7 +45,10 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkInstructions.$invalid && main.artworkForm.$submitted}">
                                     <label class="" for="artworkInstructions">Artwork Instructions</label>
                                 </div>
-
+                                
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <button type="button" id="btnCreateArtwork" class="btn btn-block btn-cta btn-cta-primary">Create Artwork</button>
+                                    <button type="button" id="btnResetForm" class="btn btn-block btn-cta btn-cta-primary">Reset Form</button>
                             </div><!--//row-->
                         </div>
                     </form><!--//contact-form-->
@@ -55,8 +58,14 @@
     </section><!--//promo-section-->
 </article>
 
-@section scripts
-{
+@section scripts{
+
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/stark/services/stark.services.artists.js"></script>
+<script src="~/Scripts/stark/Services/stark.services.artworks.js"></script>
+<script src="~/Scripts/stark/services/stark.services.uploads.js"></script>
+<script src="~/Scripts/stark/services/stark.services.locations.js"></script>
+
     <script type="text/javascript">
         (function () {
             "use strict";
