@@ -1,0 +1,91 @@
+
+@{
+    ViewBag.Title = "AdminCreate";
+    Layout = "~/Views/Shared/_LayoutThemed.cshtml";
+}
+
+@*<article class="article gradient-7">
+        <h2 class="title container text-center">AdminCreate</h2>
+        <section>
+            <div class="section-inner container text-center">
+                <div class="row">
+                    <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1 col-sm-push-0 col-xs-push-0">
+                        <h3 class="subtitle">Page Title</h3>
+                        <div class="content" ng-controller="mainController as main">
+                            <p> {{main.myMessage}}</p>
+                            <button type="button" data-ng-click="main.changeMessage()">Change Message</button>
+                        </div><!--//content-->
+                    </div>
+                </div><!--//row-->
+            </div>
+        </section>
+    </article>*@
+
+<article class="article gradient-2">
+    <section class="form-section text-center">
+        <div class="section-inner container">
+            <div class="row">
+                
+                <!-- Artwork Form -->
+                <div class="form-container col-md-10 col-sm-12 col-xs-12 col-md-push-1 col-sm-push-0 col-xs-push-0" ng-controller="mainController as main">
+                    <form id="artworkForm" name="main.artworkForm" ng-submit="main.submitForm(main.artworkForm.$valid)" novalidate>
+                        <div class="contact-form-inner">
+                            <h3 class="subtitle"> Form</h3>
+                            <div class="row">
+                                <!-- Title Input -->
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkTitle.$invalid && main.artworkForm.$submitted}">
+                                    <label class="" for="artworkTitle">Artwork Title</label>
+                                    <input type="text" name="artworkTitle" class="form-control" ng-model="main.artworkTitle" placeholder="Artwork Title" ng-maxlength="100" required>
+                                    <div ng-show="main.artworkForm.$submitted">
+                                        <p ng-show="main.artworkForm.artworkName.$invalid" class="help-block">artwork name is required.</p>
+                                        <p ng-show="main.artworkForm.artworkName.$error.maxlength" class="help-block">Location Name is too long.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkInstructions.$invalid && main.artworkForm.$submitted}">
+                                    <label class="" for="artworkInstructions">Artwork Instructions</label>
+                                </div>
+
+                            </div><!--//row-->
+                        </div>
+                    </form><!--//contact-form-->
+                </div><!--//form-container-->
+            </div><!--//row-->
+        </div><!--//section-inner-->
+    </section><!--//promo-section-->
+</article>
+
+@section scripts
+{
+    <script type="text/javascript">
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME)
+                .controller('mainController', MainController);
+
+            MainController.$inject = ['$scope', '$baseController', ];
+
+            function MainController(
+                $scope
+                , $baseController, ) {
+
+                var vm = this;
+
+                $baseController.merge(vm, $baseController);
+
+                vm.$scope = $scope;
+
+                vm.myMessage = "Angular is rendering on the page";
+                vm.changeMessage = _changeMessage;
+
+                function _changeMessage() {
+
+                    vm.myMessage = "Changed my message with a click";
+
+                }
+            }
+
+        })();
+    </script>
+}
