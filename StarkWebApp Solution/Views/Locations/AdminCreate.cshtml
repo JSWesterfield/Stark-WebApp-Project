@@ -62,7 +62,6 @@
                                     <input type="text" name="artworkArtistId" class="form-control" ng-model="main.artworkArtistId" placeholder="Artwork Artist Id" required>
                                     <div ng-show="main.artworkForm.$submitted">
                                         <!--<p ng-show="main.artworkForm.artworkArtistId.$invalid" class="help-block">artwork artist id is required.</p>-->
-                                        <!--<p ng-show="main.artworkForm.artworkArtistId.$error.maxlength" class="help-block">artist artwork id is too long.</p-->
                                     </div>
                                 </div>
 
@@ -83,9 +82,8 @@
                                 </div>
 
                                 <!-- Artwork Location Id NOT VALIDATED-->
-                                <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkLocationId.$invalid && main.artworkForm.$submitted}">
-                                    <label class="" for="artworkLocationId">Artwork Location Id</label>
-                                    <input type="text" name="artworkLocationId" class="form-control" ng-model="main.artworkLocationId" placeholder="Artwork Location Id">
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <p>Artwork Location Id</p>
                                 </div>
 
                                 <!-- FILE UPLOAD SECTION -->
