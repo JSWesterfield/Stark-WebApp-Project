@@ -5,6 +5,7 @@
 }
 
 <article class="article gradient-2">
+    <h2 class="title container text-center">Welcome to Art Find</h2>
     <section class="form-section text-center">
         <div class="section-inner container">
             <div class="row">
@@ -13,7 +14,7 @@
                 <div class="form-container col-md-10 col-sm-12 col-xs-12 col-md-push-1 col-sm-push-0 col-xs-push-0" ng-controller="mainController as main">
                     <form id="artworkForm" name="main.artworkForm" ng-submit="main.submitForm(main.artworkForm.$valid)" novalidate>
                         <div class="contact-form-inner">
-                            <h3 class="subtitle"> Create New Artwork</h3>
+                            <h3 class="subtitle"> Create a New Artwork</h3>
                             <div class="row">
 
                                 <!-- Title Input -->
@@ -66,9 +67,9 @@
                                 </div>
 
                                 <!--Artwork Fun Fact-->
-                                <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkArtistId.$invalid && main.artworkForm.$submitted}">
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkFunFact.$invalid && main.artworkForm.$submitted}">
                                     <label class="" for="artworkFunFact">Artwork Fun Fact</label>
-                                    <input type="text" name="artworkFunFact" class="form-control" ng-model="main.artworkArtistId" placeholder="Artwork Artist Id" required>
+                                    <input type="text" name="artworkFunFact" class="form-control" ng-model="main.artworkFunFact" placeholder="Artwork Fun Fact" ng-maxlength="200" required>
                                     <div ng-show="main.artworkForm.$submitted">
                                         <!--p ng-show="main.artworkForm.artworkFunFact.$invalid" class="help-block">artwork artist id is required.<p>-->
                                         <!--<p ng-show="main.artworkForm.artworkFunFact.$error.maxlength" class="help-block">artisit artwork id is too long.</p>-->
@@ -112,10 +113,10 @@
 @section scripts{
 
 <script src="~/Scripts/jquery.validate.js"></script>
-<script src="~/Scripts/stark/services/stark.services.artists.js"></script>
-<script src="~/Scripts/stark/Services/stark.services.artworks.js"></script>
-<script src="~/Scripts/stark/services/stark.services.uploads.js"></script>
-<script src="~/Scripts/stark/services/stark.services.locations.js"></script>
+<script src="~/Scripts/sabio/services/sabio.services.artists.js"></script>
+<script src="~/Scripts/sabio/Services/sabio.services.artworks.js"></script>
+<script src="~/Scripts/sabio/services/sabio.services.uploads.js"></script>
+<script src="~/Scripts/sabio/services/sabio.services.locations.js"></script>
 
     <script type="text/javascript">
         (function () {
@@ -124,12 +125,13 @@
             angular.module(APPNAME)
                 .controller('mainController', MainController);
 
-            MainController.$inject = ['$scope', '$baseController', 'artworkService'];
+            MainController.$inject = ['$scope', '$baseController', 'artworkService', 'uploadsService'];
 
             function MainController(
                 $scope
                 , $baseController
-                , artworkService) {
+                , artworkService
+                , uploadsService) {
 
                 var vm = this;
 
@@ -141,6 +143,12 @@
                 vm.changeMessage = _changeMessage;
                 vm.artworkService = artworkService;
 
+
+                //
+                $scope.$on('$includeContentLoaded', _render);
+                $scope.$on('fileUpload.urlAvailable', _userCreateOrUpdate);
+
+                 
                 function _changeMessage() {
 
                     vm.myMessage = "Changed my message with a click";
