@@ -39,7 +39,7 @@
                                 
                                 <!-- Artwork Point Value-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkPointValue.$invalid && main.artworkForm.$submitted}">
-                                    <label class="" for="artworkPointValue">Artwork Point Value</label>
+                                    <label for="artworkPointValue">Artwork Point Value</label>
                                     <input type="text" name="artworkPointValue" class="form-control" ng-model="main.artworkPointValue" placeholder="Artwork Point Value" required>
                                     <div ng-show="main.artworkForm.$submitted">
                                         <!--<p ng-show="main.artworkForm.artworkPointValue.$invalid" class="help-block">artwork point value is required.</p>-->
@@ -49,17 +49,19 @@
 
                                 <!--Artwork Clue-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkClue.$invalid && main.artworkForm.$submitted}">
-                                    <label class="" for="artworkClue">Artwork Clue</label>
+                                    <label for="artworkClue">Artwork Clue</label>
                                     <input type="text" name="artworkClue" class="form-control" ng-model="main.artworkClue" placeholder="Artwork Clue" ng-maxlength="100" required>
                                     <div ng-show="main.artworkForm.$submitted">
                                         <!--<p ng-show="main.artworkForm.artworkClue.$invalid" class="help-block">artwork clue is required.</p>-->
+                                        <!--<p ng-show="main.artworkForm.artworkClue.$error.maxlength" class="help-block">artwork clue is too long.</p>-->
+                                        <!--<p ng-show="main.artworkForm.artworkClue.$error.required" class="help-block">artwork clue is required.</p>-->
                                         <!--<p ng-show="main.artworkForm.artworkClue.$error.maxlength" class="help-block">artwork clue is too long.</p>-->
                                     </div>
                                 </div>
 
                                 <!-- Artist Artist Id dropdown-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkArtistId.$invalid && main.artworkForm.$submitted}">
-                                    <label class="" for="artworkArtistId">Artwork Artist Id</label>
+                                    <label for="artworkArtistId">Artwork Artist Id</label>
                                     <input type="text" name="artworkArtistId" class="form-control" ng-model="main.artworkArtistId" placeholder="Artwork Artist Id" required>
                                     <div ng-show="main.artworkForm.$submitted">
                                         <!--<p ng-show="main.artworkForm.artworkArtistId.$invalid" class="help-block">artwork artist id is required.</p>-->
@@ -68,7 +70,7 @@
 
                                 <!--Artwork Fun Fact-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkFunFact.$invalid && main.artworkForm.$submitted}">
-                                    <label class="" for="artworkFunFact">Artwork Fun Fact</label>
+                                    <label for="artworkFunFact">Artwork Fun Fact</label>
                                     <input type="text" name="artworkFunFact" class="form-control" ng-model="main.artworkFunFact" placeholder="Artwork Fun Fact" ng-maxlength="200" required>
                                     <div ng-show="main.artworkForm.$submitted">
                                         <!--p ng-show="main.artworkForm.artworkFunFact.$invalid" class="help-block">artwork artist id is required.<p>-->
@@ -78,7 +80,7 @@
 
                                 <!-- Artwork Readmore NOT VALIDATED-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkReadMore.$invalid && main.artworkForm.$submitted}">
-                                    <label class="" for="artworkReadMore">Artwork Read More</label>
+                                    <label for="artworkReadMore">Artwork Read More</label>
                                     <input type="text" name="artworkReadMore" class="form-control" ng-model="main.artworkReadMore" placeholder="Artwork Read More">
                                 </div>
 
@@ -101,6 +103,7 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                                     <button type="button" id="btnCreateArtwork" class="btn btn-block btn-cta btn-cta-primary">Create Artwork</button>
                                     <button type="button" id="btnResetForm" class="btn btn-block btn-cta btn-cta-primary">Reset Form</button>
+                                </div>
                             </div><!--//row-->
                         </div>
                     </form><!--//contact-form-->
@@ -113,10 +116,10 @@
 @section scripts{
 
 <script src="~/Scripts/jquery.validate.js"></script>
-<script src="~/Scripts/sabio/services/sabio.services.artists.js"></script>
-<script src="~/Scripts/sabio/Services/sabio.services.artworks.js"></script>
-<script src="~/Scripts/sabio/services/sabio.services.uploads.js"></script>
-<script src="~/Scripts/sabio/services/sabio.services.locations.js"></script>
+<script src="~/Scripts/stark/services/stark.services.artists.js"></script>
+<script src="~/Scripts/stark/Services/stark.services.artworks.js"></script>
+<script src="~/Scripts/stark/services/stark.services.uploads.js"></script>
+<script src="~/Scripts/stark/services/stark.services.locations.js"></script>
 
     <script type="text/javascript">
         (function () {
@@ -134,25 +137,59 @@
                 , uploadsService) {
 
                 var vm = this;
-
-                $baseController.merge(vm, $baseController);
-
                 vm.$scope = $scope;
-
                 vm.myMessage = "Angular is rendering on the page";
                 vm.changeMessage = _changeMessage;
                 vm.artworkService = artworkService;
+                //added for setting the default image to a root-relative URL. 
+                var defaultImageUrl = '/Content/default.svg';
 
 
-                //
+                $baseController.merge(vm, $baseController);
+
+ 
                 $scope.$on('$includeContentLoaded', _render);
                 $scope.$on('fileUpload.urlAvailable', _userCreateOrUpdate);
 
-                 
+                function _render() {
+                    //$broadcast method sends an event downwards from parent to child controllers. opposite of emit(), send upwards from parent to child controllers 
+                    $scope.$broadcast('fileUpload.urlLoad', { url: null, defaultPreviewUrl: defaultImageUrl });
+                    //check to see if user is logged on
+                    if (appConfig.isLoggedIn == true) {
+                        //if logged in we then check if the appConfig object contains an item property. 
+                        if (appConfig.item) {
+                            //if it does we go into editmode
+                            vm.loadEditMode();
+                        }
+                        else {
+                            $window.location.href = '/home';
+                        }
+                    }
+                };
+
+                //Is this necessary?
                 function _changeMessage() {
-
                     vm.myMessage = "Changed my message with a click";
+                }
 
+              //LOAD EDIT MODE (GET BY ID)
+                function _loadEditMode() {
+                    //Grabs userService by Get By Id, this isnt userservice so this might not be needed
+                    vm.userService.getById(appConfig.item, vm.onGetByIdSuccess, vm.onGetByIdError);
+                    // ?? shows the reset button? 
+                    vm.showReset = true;
+                    //grabs submit button and displays Update Artwork info on button
+                    vm.submitBtn = 'Update Artwork Info';
+                }
+
+                //GET BY ID SUCCESS & ERROR
+                function _onGetByIdSuccess(response) {
+                    $scope.apply(function () {
+                        vm.userInfo = response.item;
+
+                        //CAPTURE LAST SAVED USER INFO
+                        lastSavedUserInfo = angular.extend({}, vm.userInfo);
+                    })
                 }
             }
 
