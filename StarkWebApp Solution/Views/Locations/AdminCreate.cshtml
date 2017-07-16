@@ -52,8 +52,6 @@
                                     <label for="artworkClue">Artwork Clue</label>
                                     <input type="text" name="artworkClue" class="form-control" ng-model="main.artworkClue" placeholder="Artwork Clue" ng-maxlength="100" required>
                                     <div ng-show="main.artworkForm.$submitted">
-                                        <!--<p ng-show="main.artworkForm.artworkClue.$invalid" class="help-block">artwork clue is required.</p>-->
-                                        <!--<p ng-show="main.artworkForm.artworkClue.$error.maxlength" class="help-block">artwork clue is too long.</p>-->
                                         <!--<p ng-show="main.artworkForm.artworkClue.$error.required" class="help-block">artwork clue is required.</p>-->
                                         <!--<p ng-show="main.artworkForm.artworkClue.$error.maxlength" class="help-block">artwork clue is too long.</p>-->
                                     </div>
@@ -71,8 +69,9 @@
                                 <!--Artwork Fun Fact-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkFunFact.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkFunFact">Artwork Fun Fact</label>
-                                    <input type="text" name="artworkFunFact" class="form-control" ng-model="main.artworkFunFact" placeholder="Artwork Fun Fact" ng-maxlength="200" required>
+                                    <input type="text" name="artworkFunFact" class="form-control" ng-model="main.artworkFunFact" placeholder="Artwork Fun Fact" ng-minlength="3" ng-maxlength="200" required>
                                     <div ng-show="main.artworkForm.$submitted">
+                                        <p ng-show="artworkForm.artWorkFunFact.">Fun Fact is too short</p>
                                         <!--p ng-show="main.artworkForm.artworkFunFact.$invalid" class="help-block">artwork artist id is required.<p>-->
                                         <!--<p ng-show="main.artworkForm.artworkFunFact.$error.maxlength" class="help-block">artisit artwork id is too long.</p>-->
                                     </div>
@@ -101,7 +100,7 @@
 
 
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group">
-                                    <button type="button" id="btnCreateArtwork" class="btn btn-block btn-cta btn-cta-primary">Create Artwork</button>
+                                    <button type="button" id="btnCreateArtwork" class="btn btn-block btn-cta btn-cta-primary" ng-disabled="artworkForm.$invalid">Create Artwork</button>
                                     <button type="button" id="btnResetForm" class="btn btn-block btn-cta btn-cta-primary">Reset Form</button>
                                 </div>
                             </div><!--//row-->
