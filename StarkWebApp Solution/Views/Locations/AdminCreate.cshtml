@@ -174,7 +174,7 @@
               //LOAD EDIT MODE (GET BY ID)
                 function _loadEditMode() {
                     //Grabs userService by Get By Id, this isnt userservice so this might not be needed
-                    vm.userService.getById(appConfig.item, vm.onGetByIdSuccess, vm.onGetByIdError);
+                    vm.artworkService.getById(appConfig.item, vm.onGetByIdSuccess, vm.onGetByIdError);
                     // ?? shows the reset button? 
                     vm.showReset = true;
                     //grabs submit button and displays Update Artwork info on button
