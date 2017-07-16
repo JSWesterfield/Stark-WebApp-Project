@@ -99,7 +99,7 @@
 
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                                     <button type="button" id="btnCreateArtwork" class="btn btn-block btn-cta btn-cta-primary" ng-click="main.submitArtworkForm(main.submitArtworkForm.$valid)" ng-disabled="artworkForm.$invalid">{{main.submitBtn}}</button>
-                                    <button type="button" id="btnResetForm" class="btn btn-block btn-cta btn-cta-primary">Reset</button>
+                                    <button ng-show="main.showReset" ng-click="main.resetForm()" type="button" id="btnResetForm" class="btn btn-block btn-cta btn-cta-primary">Reset</button>
                                 </div>
                             </div><!--//row-->
                         </div>
@@ -137,6 +137,7 @@
                 vm.$scope = $scope;
                 vm.myMessage = "Angular is rendering on the page";
                 vm.changeMessage = _changeMessage;
+                vm.resetForm = _resetForm;
                 vm.artworkService = artworkService;
                 //vm.onGetByIdSuccess = _onGetByIdSuccess;
                 //vm.onGetByIdError = _onGetByIdError;
@@ -169,6 +170,22 @@
                 //Is this necessary?
                 function _changeMessage() {
                     vm.myMessage = "Changed my message with a click";
+                }
+
+                //FORM RESET
+                function _resetForm() {
+                    if (appConfig.isLoggedIn == true) {
+                        vm.artworkInfo = angular.extend({}, lastSavedArtworkInfo);
+                        $scope.$broadcast('fileUpload.urlLoad', { url: vm.artworkInfo.imageUrl, defaultPreviewUrl: defaultImageUrl });
+                    }
+                    else {
+                        vm.artworkInfo = null;
+                        vm.artworkTitle = null;
+                        vm.artworkInstructions = null;
+                        vm.artworkPointValue = null;
+                        vm.artworkClue = null;
+                        vm.artworkArtistId = null;
+                    }
                 }
 
               //LOAD EDIT MODE (GET BY ID)
