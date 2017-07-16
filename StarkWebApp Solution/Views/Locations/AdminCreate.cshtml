@@ -71,7 +71,6 @@
                                     <label for="artworkFunFact">Artwork Fun Fact</label>
                                     <input type="text" name="artworkFunFact" class="form-control" ng-model="main.artworkFunFact" placeholder="Artwork Fun Fact" ng-minlength="3" ng-maxlength="200" required>
                                     <div ng-show="main.artworkForm.$submitted">
-                                        <p ng-show="artworkForm.artWorkFunFact.">Fun Fact is too short</p>
                                         <!--p ng-show="main.artworkForm.artworkFunFact.$invalid" class="help-block">artwork artist id is required.<p>-->
                                         <!--<p ng-show="main.artworkForm.artworkFunFact.$error.maxlength" class="help-block">artisit artwork id is too long.</p>-->
                                     </div>
@@ -98,10 +97,9 @@
                                 </div>
                                 <!-- END OF FILE UPLOAD SECTION -->
 
-
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group">
-                                    <button type="button" id="btnCreateArtwork" class="btn btn-block btn-cta btn-cta-primary" ng-disabled="artworkForm.$invalid">Create Artwork</button>
-                                    <button type="button" id="btnResetForm" class="btn btn-block btn-cta btn-cta-primary">Reset Form</button>
+                                    <button type="button" id="btnCreateArtwork" class="btn btn-block btn-cta btn-cta-primary" ng-click="main.submitArtworkForm(main.submitArtworkForm.$valid)" ng-disabled="artworkForm.$invalid">{{main.submitBtn}}</button>
+                                    <button type="button" id="btnResetForm" class="btn btn-block btn-cta btn-cta-primary">Reset</button>
                                 </div>
                             </div><!--//row-->
                         </div>
@@ -140,15 +138,17 @@
                 vm.myMessage = "Angular is rendering on the page";
                 vm.changeMessage = _changeMessage;
                 vm.artworkService = artworkService;
+                //vm.onGetByIdSuccess = _onGetByIdSuccess;
+                //vm.onGetByIdError = _onGetByIdError;
                 //added for setting the default image to a root-relative URL. 
                 var defaultImageUrl = '/Content/default.svg';
-
+                
 
                 $baseController.merge(vm, $baseController);
 
  
                 $scope.$on('$includeContentLoaded', _render);
-                $scope.$on('fileUpload.urlAvailable', _userCreateOrUpdate);
+                $scope.$on('fileUpload.urlAvailable', _artworkCreateOrUpdate);
 
                 function _render() {
                     //$broadcast method sends an event downwards from parent to child controllers. opposite of emit(), send upwards from parent to child controllers 
@@ -172,8 +172,8 @@
                 }
 
               //LOAD EDIT MODE (GET BY ID)
-                function _loadEditMode() {
-                    //Grabs userService by Get By Id, this isnt userservice so this might not be needed
+                function _loadEditMode() {        //edit mode for grabbing artworkInfo and repopulating on the page.
+                    //Grabs artworkService by Get By Id, this isnt artworkService so this might not be needed
                     vm.artworkService.getById(appConfig.item, vm.onGetByIdSuccess, vm.onGetByIdError);
                     // ?? shows the reset button? 
                     vm.showReset = true;
@@ -184,10 +184,10 @@
                 //GET BY ID SUCCESS & ERROR
                 function _onGetByIdSuccess(response) {
                     $scope.apply(function () {
-                        vm.userInfo = response.item;
+                        vm.artworkInfo = response.item;
 
                         //CAPTURE LAST SAVED USER INFO
-                        lastSavedUserInfo = angular.extend({}, vm.userInfo);
+                        lastSavedartworkInfo = angular.extend({}, vm.artworkInfo);
                     })
                 }
             }
