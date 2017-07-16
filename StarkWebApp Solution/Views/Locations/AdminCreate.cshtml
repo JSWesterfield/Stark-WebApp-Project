@@ -185,7 +185,13 @@
                         vm.artworkPointValue = null;
                         vm.artworkClue = null;
                         vm.artworkArtistId = null;
+                        vm.artworkFunFact = null;
+                        userId = null;
+                        $scope.$broadcast('fileUpload.urlLoad', { url: null, defaultPreviewUrl: defaultImageUrl });
                     }
+                    //sets the form to a pristine state, this method can be used to remove the ng-dirty class and set the form to its pristine state(ng-pristine class),
+                    // this method will also propogate all the controls contained in this form.
+                    vm.artworkForm.$setPristine();
                 }
 
               //LOAD EDIT MODE (GET BY ID)
@@ -205,7 +211,13 @@
 
                         //CAPTURE LAST SAVED USER INFO
                         lastSavedartworkInfo = angular.extend({}, vm.artworkInfo);
-                    })
+
+                        $scope.$broadcast('fileUpload.urlLoad', {url: artworkInfo.imageUrl, defaultPreviewUrl: defaultImageUrl });
+                    });
+                }
+
+                function _onGetByIdError() {
+                    notificationsService.error('Error loading artwork info');
                 }
             }
 
