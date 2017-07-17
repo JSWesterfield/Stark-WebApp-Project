@@ -20,7 +20,7 @@
                                 <!-- Title Input -->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkTitle.$invalid && main.artworkForm.$submitted}">
                                     <label class="" for="artworkTitle">Artwork Title</label>
-                                    <input type="text" name="artworkTitle" class="form-control" ng-model="main.artworkTitle" placeholder="Artwork Title" ng-maxlength="100" autofocus required>
+                                    <input required ng-model="main.artworkInfo.artworkTitle" type="text" name="artworkTitle" class="form-control" placeholder="Artwork Title" ng-maxlength="100" autofocus>
                                     <div ng-show="main.artworkForm.$submitted">
                                         <!--<p ng-show="main.artworkForm.artworkTitle.$invalid" class="help-block">artwork name is required.</p>-->
                                         <!--<p ng-show="main.artworkForm.artworkTitle.$error.maxlength" class="help-block">Location Name is too long.</p>-->
@@ -30,7 +30,7 @@
                                 <!-- Artwork Instructions-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkInstructions.$invalid && main.artworkForm.$submitted}">
                                     <label class="" for="artworkInstructions">Artwork Instructions</label>
-                                    <input type="text" name="artWorkInstructions" class="form-control" ng-model="main.artworkInstructions" placeholder="Artwork Instructions" ng-maxlength="50" required>
+                                    <input required ng-model="main.artworkInfo.artworkInstructions" type="text" name="artWorkInstructions" class="form-control" placeholder="Artwork Instructions" ng-maxlength="50" >
                                     <div ng-show="main.artworkForm.$submitted">
                                         <!--<p ng-show="main.artworkForm.artworkInstructions.$invalid" class="help-block">artwork instructions is required.</p>-->
                                         <!--<p ng-show="main.artworkForm.artworkInstructions.$error.maxlength" class="help-block">Artwork Instructions is too long.</p>-->
@@ -40,7 +40,7 @@
                                 <!-- Artwork Point Value-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkPointValue.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkPointValue">Artwork Point Value</label>
-                                    <input type="text" name="artworkPointValue" class="form-control" ng-model="main.artworkPointValue" placeholder="Artwork Point Value" required>
+                                    <input required ng-model="main.artworkInfo.artworkPointValue" type="text" name="artworkPointValue" class="form-control" placeholder="Artwork Point Value">
                                     <div ng-show="main.artworkForm.$submitted">
                                         <!--<p ng-show="main.artworkForm.artworkPointValue.$invalid" class="help-block">artwork point value is required.</p>-->
                                         <!--<p ng-show="main.artworkForm.artworkPointValue.$error.maxlength" class="help-block">artwork point value is too long.</p>-->
@@ -50,7 +50,7 @@
                                 <!--Artwork Clue-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkClue.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkClue">Artwork Clue</label>
-                                    <input type="text" name="artworkClue" class="form-control" ng-model="main.artworkClue" placeholder="Artwork Clue" ng-maxlength="100" required>
+                                    <input required ng-model="main.artworkInfo.artworkClue" type="text" name="artworkClue" class="form-control" placeholder="Artwork Clue" ng-maxlength="100">
                                     <div ng-show="main.artworkForm.$submitted">
                                         <!--<p ng-show="main.artworkForm.artworkClue.$error.required" class="help-block">artwork clue is required.</p>-->
                                         <!--<p ng-show="main.artworkForm.artworkClue.$error.maxlength" class="help-block">artwork clue is too long.</p>-->
@@ -60,7 +60,7 @@
                                 <!-- Artist Artist Id dropdown-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkArtistId.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkArtistId">Artwork Artist Id</label>
-                                    <input type="text" name="artworkArtistId" class="form-control" ng-model="main.artworkArtistId" placeholder="Artwork Artist Id" required>
+                                    <input required ng-model="main.artworkInfo.artworkArtistId" type="text" name="artworkArtistId" class="form-control" placeholder="Artwork Artist Id">
                                     <div ng-show="main.artworkForm.$submitted">
                                         <!--<p ng-show="main.artworkForm.artworkArtistId.$invalid" class="help-block">artwork artist id is required.</p>-->
                                     </div>
@@ -69,7 +69,7 @@
                                 <!--Artwork Fun Fact-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkFunFact.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkFunFact">Artwork Fun Fact</label>
-                                    <input type="text" name="artworkFunFact" class="form-control" ng-model="main.artworkFunFact" placeholder="Artwork Fun Fact" ng-minlength="3" ng-maxlength="200" required>
+                                    <input  required ng-model="main.artworkInfo.artworkFunFact" type="text" name="artworkFunFact" class="form-control" placeholder="Artwork Fun Fact" ng-minlength="3" ng-maxlength="200">
                                     <div ng-show="main.artworkForm.$submitted">
                                         <!--<p ng-show="main.artworkForm.artworkFunFact.$invalid" class="help-block">artwork artist id is required.<p>-->
                                         <!--<p ng-show="main.artworkForm.artworkFunFact.$error.maxlength" class="help-block">artisit artwork id is too long.</p>-->
@@ -79,17 +79,18 @@
                                 <!-- Artwork ReadMore NOT VALIDATED-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkReadMore.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkReadMore">Artwork Read More</label>
-                                    <input type="text" name="artworkReadMore" class="form-control" ng-model="main.artworkReadMore" placeholder="Artwork Read More">
+                                    <input ng-model="main.artworkInfo.artworkReadMore" type="text" name="artworkReadMore" class="form-control" placeholder="Artwork Read More">
                                 </div>
 
                                 <!-- Artwork Location Id NOT VALIDATED-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group">
-                                    <p>Artwork Location Id</p>
+                                    <!--Does artworkLocationId need a ng-model?-->
+                                    <p ng-model="main.artworkInfo.artworkLocationId">Artwork Location Id</p>
                                 </div>
 
                                 <!-- FILE UPLOAD SECTION -->
                                 <div class="form-group col-md-10">
-                                    <input type="file" accept="image/*" id="artworkImageUrl" name="artworkImageUrl">
+                                    <input ng-model="main.artworkInfo.artworkImageUrl" type="file" accept="image/*" name="artworkImageUrl">
                                 </div>
                                 <br />
                                 <div class="form-group col-md-2">
@@ -98,8 +99,8 @@
                                 <!-- END OF FILE UPLOAD SECTION -->
 
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <!--Submit button will only work when artworkForm's validation is satisfied, or when all inputs that have required condition inside them is met, ng-disabled directive disables the submit button until artworkForm is valid as an added precaution-->
                                     <button type="button" id="btnCreateArtwork" class="btn btn-block btn-cta btn-cta-primary" ng-click="main.submitArtworkForm(main.submitArtworkForm.$valid)" ng-disabled="artworkForm.$invalid">Submit</button>
-                                    <button ng-show="main.showReset" ng-click="main.resetForm()" type="button" id="btnResetForm" class="btn btn-block btn-cta btn-cta-primary">Reset</button>
                                 </div>
                             </div><!--//row-->
                         </div>
@@ -112,7 +113,8 @@
 
 @section scripts{
 
-<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/app_fileUpload/FileUploadController.js"></script>
+<script src="~/Scripts/app/directives/files-model.js"></script>
 <script src="~/Scripts/stark/services/stark.services.artists.js"></script>
 <script src="~/Scripts/stark/Services/stark.services.artworks.js"></script>
 <script src="~/Scripts/stark/services/stark.services.uploads.js"></script>
@@ -125,35 +127,40 @@
             angular.module(APPNAME)
                 .controller('mainController', MainController);
 
-            MainController.$inject = ['$scope', '$baseController', 'artworkService', 'uploadsService'];
+            MainController.$inject = ['$scope', '$baseController', 'artworksService', 'uploadsService'];
 
             function MainController(
                 $scope
                 , $baseController
-                , artworkService
+                , artworksService
                 , uploadsService) {
 
+                //VM OBJECT DECLARATION(w/ initialization done within function)
                 var vm = this;
-                vm.resetForm = _resetForm;
-                vm.artworkService = artworkService;
-                vm.submitBtn = 'Create Artwork';              //set up for later updating, after submission _onCreateArtworkSuccess will this message into 'Update Artwork Info';
-                vm.onGetByIdSuccess = _onGetByIdSuccess;      //set up for later updating, after submission _onCreateArtworkSuccess will this message into 'Update Artwork Info';
-                vm.onGetByIdError = _onGetByIdError;          //set up for later updating, after submission _onCreateArtworkSuccess will this message into 'Update Artwork Info';
-                //added for setting the default image to a root-relative URL. 
-                vm._onCreateArtworkSuccess = _onCreateArtworkSuccess;
-                vm.createArtwork = _createArtwork;  //instantionation of the artwork controller
+                vm.artworksService = artworksService;
+                vm.submitBtn = 'Create Artwork';              //set up for later updating, after submission _onCreateArtworkSuccess will this message into 'Update Artwork Info'; 
                 var defaultImageUrl = '/Content/default.svg';
+                var userId = null;
+                vm.artworkCreateOrUpdate = null;
 
+
+                //VM OBJECT's w/ INSTANTIATON
                 vm.$scope = $scope;
                 vm.render = _render;
+                //added for setting the default image to a root-relative URL. 
+                vm._onCreateArtworkSuccess = _onCreateArtworkSuccess;
+                vm.createArtwork = _createArtwork;              //instantiation of the artwork controller
+                vm.onGetByIdSuccess = _onGetByIdSuccess;      //set up for later updating, after submission _onCreateArtworkSuccess will this message into 'Update Artwork Info';
+                vm.onGetByIdError = _onGetByIdError;          
+                vm.artworkCreateOrUpdate = _urlReceived;
 
                 $baseController.merge(vm, $baseController);
 
-
                 $scope.$on('$includeContentLoaded', _render);
-                $scope.$on('fileUpload.urlAvailable', _artworkCreateOrUpdate);
+                $scope.$on('fileUpload.urlAvailable', _urlReceived);
 
                 function _render() {
+                    vm.$log.log("Page startUp Firing");
                     //$broadcast method sends an event downwards from parent to child controllers. opposite of emit(), send upwards from parent to child controllers 
                     $scope.$broadcast('fileUpload.urlLoad', { url: null, defaultPreviewUrl: defaultImageUrl });
                     //check to see if user is logged on
@@ -164,34 +171,34 @@
                             vm.loadEditMode();
                         }
                         else {
-                            $window.location.href = '/home';
+                            $location.url('/home');
                         }
                     }
                 };
 
-                //FORM RESET
-                function _resetForm() {
-                    if (appConfig.isLoggedIn == true) {
-                        vm.artworkInfo = angular.extend({}, lastSavedArtworkInfo);
-                        $scope.$broadcast('fileUpload.urlLoad', { url: vm.artworkInfo.imageUrl, defaultPreviewUrl: defaultImageUrl });
-                    }
-                    else {
-                        vm.artworkInfo = null;
-                        vm.artworkTitle = null;
-                        vm.artworkInstructions = null;
-                        vm.artworkPointValue = null;
-                        vm.artworkClue = null;
-                        vm.artworkArtistId = null;
-                        vm.artworkFunFact = null;
-                        userId = null;
-                        vm.resetForm = true; 
+                ////FORM RESET, needed?
+                //function _resetForm() {
+                //    if (appConfig.isLoggedIn == true) {
+                //        vm.artworkInfo = angular.extend({}, lastSavedArtworkInfo);
+                //        $scope.$broadcast('fileUpload.urlLoad', { url: vm.artworkInfo.imageUrl, defaultPreviewUrl: defaultImageUrl });
+                //    }
+                //    else {
+                //        vm.artworkInfo = null;
+                //        vm.artworkTitle = null;
+                //        vm.artworkInstructions = null;
+                //        vm.artworkPointValue = null;
+                //        vm.artworkClue = null;
+                //        vm.artworkArtistId = null;
+                //        vm.artworkFunFact = null;
+                //        userId = null;
+                //        vm.resetForm = true; 
                         
-                        $scope.$broadcast('fileUpload.urlLoad', { url: null, defaultPreviewUrl: defaultImageUrl });
-                    }
-                    //sets the form to a pristine state, this method can be used to remove the ng-dirty class and set the form to its pristine state(ng-pristine class),
-                    // this method will also propogate all the controls contained in this form.
-                    vm.artworkForm.$setPristine();
-                }
+                //        $scope.$broadcast('fileUpload.urlLoad', { url: null, defaultPreviewUrl: defaultImageUrl });
+                //    }
+                //    //sets the form to a pristine state, this method can be used to remove the ng-dirty class and set the form to its pristine state(ng-pristine class),
+                //    // this method will also propogate all the controls contained in this form.
+                //    vm.artworkForm.$setPristine();
+                //}
 
                 //SUBMIT ARTWORK FORM
                 function _submitArtworkForm(isValid) {
@@ -207,41 +214,116 @@
                 //CREATE ARTWORK
                 function _createArtwork() {
                     // if previous Artwork exists, load the vm.artworkInfo. , 
-                    if(vm.)
-                }
+                    if (vm.artworkId)
+                    {
+                        $scope.$broadcast("fileUpload.urlNeeded");
+                    }
+                    else {
+                        vm.$log.log("No image file was selected");
+                        $scope.$broadcast("fileUpload.urlNeeded");
+                    }
 
                 //LOAD EDIT MODE (GET BY ID)
                 function _loadEditMode() {        //edit mode for grabbing artworkInfo and repopulating on the page.
                     //Grabs artworkService by Get By Id, this isnt artworkService so this might not be needed
                     vm.artworkService.getById(appConfig.item, vm.onGetByIdSuccess, vm.onGetByIdError);
-                    // ?? shows the reset button? 
-                    vm.showReset = true;
                     //grabs submit button and displays Update Artwork info on button
                     vm.submitBtn = 'Update Artwork Info';
                 }
 
                 // CREATE OR UPDATE AJAX CALL
-                function _artworkCreateOrUpdate(event, imageUrl) {
-    
-                    vm.artworkInfo.imageUrl == imageUrl.url) {
-                        if(vm.submitBtn == 'Create Artwork') {
-                            vm.artworksService.create(vm.artworkInfo, vm.onCreateArtworkSuccess, vm.onCreateArtworkError);
-                        }
-                        else {
-                            vm.updateArtwork();
-                        }
+                function _urlReceived(event, imageUrl) {
+                    
+                    if (imageUrl.url == null) {
+                        notificationsService.error("Image is required.")
+
+                    } 
+                    else {
+                        if (vm.artworkId == null)
+                            vm.myData = {
+                                imageUrl: imageUrl.url,
+                                artworkId: null; //This will create an artwork Id...so this is slightly wrong.
+                            }
                     }
+                    //if (imageUrl.url == null) {
+                    //    notificationsService.error("Image is required.")
+                    //} else {
+
+                    //    if (vm.postForm.$valid) {
+                    //        if (vm.artworkId == null) {
+                    //            vm.myData = {
+                    //                caption: vm.caption,
+                    //                imageUrl: imageUrl.url,
+                    //                gameId: null,
+                    //                artworkId: null
+                    //            }
+
+                    //        }
+                    //        else {
+                    //            vm.myData = {
+                    //                caption: vm.caption,
+                    //                imageUrl: imageUrl.url,
+                    //                gameId: vm.gameId,
+                    //                artworkId: vm.artworkId
+                    //            }
+                    //        }
+                    //    }
+                    //    if (vm.postId) {
+                    //        vm.myData.id = vm.postId;
+                    //        function _onUpdateSuccess() {
+                    //            vm.notificationsService.success("Post Updated!");
+                    //            vm.savedValues = {
+                    //                caption: vm.caption,
+                    //                imageUrl: vm.imageUrl,
+                    //                gameId: vm.gameId,
+                    //                artworkId: vm.artworkId
+                    //            };
+                    //            vm.$log.log("Update Successful");
+
+                    //            $window.location.href = '/users/' + vm.userId + '/posts';
+
+
+                    //        }
+                    //        vm.postsService.update(vm.myData, _onUpdateSuccess, _onError);
+                    //        vm.$log.log('Update firing');
+
+                    //    }
+                    //    else {
+                    //        function _onCreateSuccess(response) {
+                    //            vm.notificationsService.success("Post Created");
+                    //            vm.$log.log("Created a New Post!");
+                    //            vm.postId = response.item;
+                    //            vm.displayPostBtn = "Edit Post";
+                    //            vm.savedValues = vm.pendingValues;
+                    //            if (vm.artworkId == null) {
+                    //                $window.location.href = '/games/' + vm.gameId;
+                    //            }
+                    //            else {
+                    //                $window.location.href = '/games/got-it?gameId=' + vm.myData.gameId + '&artworkId=' + vm.artworkId;
+                    //            }
+                    //        }
+                    //        vm.postsService.create(vm.myData, _onCreateSuccess, _onError);
+                    //        vm.$log.log('Create firing');
+                    //    }
+
+                    //    vm.pendingValues = vm.myData;
+                    //}
+
                 }
 
                 //CREATE ARTWORK SUCCESS & ERROR
                 function _onCreateArtworkSuccess(response) {
                     $scope.$apply(function () {
-                        vm.showReset = true;
                         vm.submitBtn = 'Update Artwork Info';
+
                         notificationsService.redirectDialog("/", "You have created an Artwork");
                         userId = response.item;
                     });
                 }
+
+                function  _onCreateArtworkError() {
+                    notificationsService.error(response.responseJSON.message);
+                }    
 
                 //GET BY ID SUCCESS & ERROR
                 function _onGetByIdSuccess(response) {
