@@ -1,8 +1,7 @@
-
 @{
-    ViewBag.Title = "AdminCreate";
     Layout = "~/Views/Shared/_LayoutThemed.cshtml";
 }
+
 
 <article class="article gradient-2">
     <h2 class="title container text-center">Welcome to Art Find</h2>
@@ -111,14 +110,15 @@
     </section><!--//promo-section-->
 </article>
 
-@section scripts{
+@section scripts
+{
 
 <script src="~/Scripts/app_fileUpload/FileUploadController.js"></script>
 <script src="~/Scripts/app/directives/files-model.js"></script>
-<script src="~/Scripts/stark/services/stark.services.artists.js"></script>
-<script src="~/Scripts/stark/Services/stark.services.artworks.js"></script>
-<script src="~/Scripts/stark/services/stark.services.uploads.js"></script>
-<script src="~/Scripts/stark/services/stark.services.locations.js"></script>
+<script src="~/Scripts/sabio/services/sabio.services.artists.js"></script>
+<script src="~/Scripts/sabio/Services/sabio.services.artworks.js"></script>
+<script src="~/Scripts/sabio/services/sabio.services.uploads.js"></script>
+<script src="~/Scripts/sabio/services/sabio.services.locations.js"></script>
 
     <script type="text/javascript">
         (function () {
@@ -137,211 +137,24 @@
 
                 //VM OBJECT DECLARATION(w/ initialization done within function)
                 var vm = this;
-                vm.artworksService = artworksService;
-                vm.submitBtn = 'Create Artwork';              //set up for later updating, after submission _onCreateArtworkSuccess will this message into 'Update Artwork Info'; 
-                var defaultImageUrl = '/Content/default.svg';
-                var userId = null;
-                vm.artworkCreateOrUpdate = null;
-
-
-                //VM OBJECT's w/ INSTANTIATON
-                vm.$scope = $scope;
-                vm.render = _render;
-                //added for setting the default image to a root-relative URL. 
-                vm._onCreateArtworkSuccess = _onCreateArtworkSuccess;
-                vm.createArtwork = _createArtwork;              //instantiation of the artwork controller
-                vm.onGetByIdSuccess = _onGetByIdSuccess;      //set up for later updating, after submission _onCreateArtworkSuccess will this message into 'Update Artwork Info';
-                vm.onGetByIdError = _onGetByIdError;          
-                vm.artworkCreateOrUpdate = _urlReceived;
-
+				vm.submitArtworkForm = _submitArtworkForm;
+				
                 $baseController.merge(vm, $baseController);
 
+                vm.$scope = $scope;
+				
+				
                 $scope.$on('$includeContentLoaded', _render);
                 $scope.$on('fileUpload.urlAvailable', _urlReceived);
-
-                function _render() {
-                    vm.$log.log("Page startUp Firing");
-                    //$broadcast method sends an event downwards from parent to child controllers. opposite of emit(), send upwards from parent to child controllers 
-                    $scope.$broadcast('fileUpload.urlLoad', { url: null, defaultPreviewUrl: defaultImageUrl });
-                    //check to see if user is logged on
-                    if (appConfig.isLoggedIn == true) {
-                        //if logged in we then check if the appConfig object contains an item property. 
-                        if (appConfig.item) {
-                            //if it does we go into editmode
-                            vm.loadEditMode();
-                        }
-                        else {
-                            $location.url('/home');
-                        }
-                    }
-                };
-
-                ////FORM RESET, needed?
-                //function _resetForm() {
-                //    if (appConfig.isLoggedIn == true) {
-                //        vm.artworkInfo = angular.extend({}, lastSavedArtworkInfo);
-                //        $scope.$broadcast('fileUpload.urlLoad', { url: vm.artworkInfo.imageUrl, defaultPreviewUrl: defaultImageUrl });
-                //    }
-                //    else {
-                //        vm.artworkInfo = null;
-                //        vm.artworkTitle = null;
-                //        vm.artworkInstructions = null;
-                //        vm.artworkPointValue = null;
-                //        vm.artworkClue = null;
-                //        vm.artworkArtistId = null;
-                //        vm.artworkFunFact = null;
-                //        userId = null;
-                //        vm.resetForm = true; 
-                        
-                //        $scope.$broadcast('fileUpload.urlLoad', { url: null, defaultPreviewUrl: defaultImageUrl });
-                //    }
-                //    //sets the form to a pristine state, this method can be used to remove the ng-dirty class and set the form to its pristine state(ng-pristine class),
-                //    // this method will also propogate all the controls contained in this form.
-                //    vm.artworkForm.$setPristine();
-                //}
-
-                //SUBMIT ARTWORK FORM
-                function _submitArtworkForm(isValid) {
-                    if(isValid) {
-                        vm.createArtwork();
-                    }
-                    else {
-                        vm.$log.log("invalid artwork data");
-                        vm.notificationsService.error("invalid artwork data");
-                    }
-                }
-
-                //CREATE ARTWORK
-                function _createArtwork() {
-                    // if previous Artwork exists, load the vm.artworkInfo. , 
-                    if (vm.artworkId)
-                    {
-                        $scope.$broadcast("fileUpload.urlNeeded");
-                    }
-                    else {
-                        vm.$log.log("No image file was selected");
-                        $scope.$broadcast("fileUpload.urlNeeded");
-                    }
-
-                //LOAD EDIT MODE (GET BY ID)
-                function _loadEditMode() {        //edit mode for grabbing artworkInfo and repopulating on the page.
-                    //Grabs artworkService by Get By Id, this isnt artworkService so this might not be needed
-                    vm.artworkService.getById(appConfig.item, vm.onGetByIdSuccess, vm.onGetByIdError);
-                    //grabs submit button and displays Update Artwork info on button
-                    vm.submitBtn = 'Update Artwork Info';
-                }
-
-                // CREATE OR UPDATE AJAX CALL
-                function _urlReceived(event, imageUrl) {
-                    
-                    if (imageUrl.url == null) {
-                        notificationsService.error("Image is required.")
-
-                    } 
-                    else {
-                        if (vm.artworkId == null)
-                            vm.myData = {
-                                imageUrl: imageUrl.url,
-                                artworkId: null; //This will create an artwork Id...so this is slightly wrong.
-                            }
-                    }
-                    //if (imageUrl.url == null) {
-                    //    notificationsService.error("Image is required.")
-                    //} else {
-
-                    //    if (vm.postForm.$valid) {
-                    //        if (vm.artworkId == null) {
-                    //            vm.myData = {
-                    //                caption: vm.caption,
-                    //                imageUrl: imageUrl.url,
-                    //                gameId: null,
-                    //                artworkId: null
-                    //            }
-
-                    //        }
-                    //        else {
-                    //            vm.myData = {
-                    //                caption: vm.caption,
-                    //                imageUrl: imageUrl.url,
-                    //                gameId: vm.gameId,
-                    //                artworkId: vm.artworkId
-                    //            }
-                    //        }
-                    //    }
-                    //    if (vm.postId) {
-                    //        vm.myData.id = vm.postId;
-                    //        function _onUpdateSuccess() {
-                    //            vm.notificationsService.success("Post Updated!");
-                    //            vm.savedValues = {
-                    //                caption: vm.caption,
-                    //                imageUrl: vm.imageUrl,
-                    //                gameId: vm.gameId,
-                    //                artworkId: vm.artworkId
-                    //            };
-                    //            vm.$log.log("Update Successful");
-
-                    //            $window.location.href = '/users/' + vm.userId + '/posts';
-
-
-                    //        }
-                    //        vm.postsService.update(vm.myData, _onUpdateSuccess, _onError);
-                    //        vm.$log.log('Update firing');
-
-                    //    }
-                    //    else {
-                    //        function _onCreateSuccess(response) {
-                    //            vm.notificationsService.success("Post Created");
-                    //            vm.$log.log("Created a New Post!");
-                    //            vm.postId = response.item;
-                    //            vm.displayPostBtn = "Edit Post";
-                    //            vm.savedValues = vm.pendingValues;
-                    //            if (vm.artworkId == null) {
-                    //                $window.location.href = '/games/' + vm.gameId;
-                    //            }
-                    //            else {
-                    //                $window.location.href = '/games/got-it?gameId=' + vm.myData.gameId + '&artworkId=' + vm.artworkId;
-                    //            }
-                    //        }
-                    //        vm.postsService.create(vm.myData, _onCreateSuccess, _onError);
-                    //        vm.$log.log('Create firing');
-                    //    }
-
-                    //    vm.pendingValues = vm.myData;
-                    //}
-
-                }
-
-                //CREATE ARTWORK SUCCESS & ERROR
-                function _onCreateArtworkSuccess(response) {
-                    $scope.$apply(function () {
-                        vm.submitBtn = 'Update Artwork Info';
-
-                        notificationsService.redirectDialog("/", "You have created an Artwork");
-                        userId = response.item;
-                    });
-                }
-
-                function  _onCreateArtworkError() {
-                    notificationsService.error(response.responseJSON.message);
-                }    
-
-                //GET BY ID SUCCESS & ERROR
-                function _onGetByIdSuccess(response) {
-                    $scope.apply(function () {
-                        vm.artworkInfo = response.item;
-
-                        //CAPTURE LAST SAVED USER INFO
-                        lastSavedartworkInfo = angular.extend({}, vm.artworkInfo);
-
-                        $scope.$broadcast('fileUpload.urlLoad', {url: artworkInfo.imageUrl, defaultPreviewUrl: defaultImageUrl });
-                    });
-                }
-
-                function _onGetByIdError() {
-                    notificationsService.error('Error loading artwork info');
-                }
+				
+				function _submitArtworkForm() {
+					if(main.submitArtworkForm.$invalid){
+						vm.notificationsService.error("Error");
+						vm.$log.log("We are sorry, an error has occured.");
+					}
+				}
             }
-
+			
         })();
     </script>
 }
