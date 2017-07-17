@@ -144,13 +144,16 @@
                 vm.$scope = $scope;
 				
 				
-                $scope.$on('$includeContentLoaded', _render);
-                $scope.$on('fileUpload.urlAvailable', _urlReceived);
+                //$scope.$on('$includeContentLoaded', _render);
+                //$scope.$on('fileUpload.urlAvailable', _urlReceived);
 				
 				function _submitArtworkForm() {
 					if(main.submitArtworkForm.$invalid){
 						vm.notificationsService.error("Error");
 						vm.$log.log("We are sorry, an error has occured.");
+					}
+					else{
+						
 					}
 				}
             }
