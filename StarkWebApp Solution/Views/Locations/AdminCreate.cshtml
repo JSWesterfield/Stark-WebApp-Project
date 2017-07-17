@@ -134,16 +134,18 @@
                 , uploadsService) {
 
                 var vm = this;
-                vm.$scope = $scope;
-                vm.changeMessage = _changeMessage;
                 vm.resetForm = _resetForm;
                 vm.artworkService = artworkService;
                 vm.submitBtn = 'Create Artwork';              //set up for later updating, after submission _onCreateArtworkSuccess will this message into 'Update Artwork Info';
                 vm.onGetByIdSuccess = _onGetByIdSuccess;      //set up for later updating, after submission _onCreateArtworkSuccess will this message into 'Update Artwork Info';
                 vm.onGetByIdError = _onGetByIdError;          //set up for later updating, after submission _onCreateArtworkSuccess will this message into 'Update Artwork Info';
                 //added for setting the default image to a root-relative URL. 
+                vm._onCreateArtworkSuccess = _onCreateArtworkSuccess;
+                vm.createArtwork = _createArtwork;  //instantionation of the artwork controller
                 var defaultImageUrl = '/Content/default.svg';
-                
+
+                vm.$scope = $scope;
+                vm.render = _render;
 
                 $baseController.merge(vm, $baseController);
 
@@ -183,7 +185,7 @@
                         vm.artworkFunFact = null;
                         userId = null;
                         vm.resetForm = true; 
-                        vm._onCreateArtworkSuccess = _onCreateArtworkSuccess;
+                        
                         $scope.$broadcast('fileUpload.urlLoad', { url: null, defaultPreviewUrl: defaultImageUrl });
                     }
                     //sets the form to a pristine state, this method can be used to remove the ng-dirty class and set the form to its pristine state(ng-pristine class),
@@ -200,6 +202,11 @@
                         vm.$log.log("invalid artwork data");
                         vm.notificationsService.error("invalid artwork data");
                     }
+                }
+
+                //CREATE ARTWORK
+                function _createArtwork() {
+                    if(vm.)
                 }
 
                 //LOAD EDIT MODE (GET BY ID)
