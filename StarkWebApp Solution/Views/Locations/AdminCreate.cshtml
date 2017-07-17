@@ -71,12 +71,12 @@
                                     <label for="artworkFunFact">Artwork Fun Fact</label>
                                     <input type="text" name="artworkFunFact" class="form-control" ng-model="main.artworkFunFact" placeholder="Artwork Fun Fact" ng-minlength="3" ng-maxlength="200" required>
                                     <div ng-show="main.artworkForm.$submitted">
-                                        <!--p ng-show="main.artworkForm.artworkFunFact.$invalid" class="help-block">artwork artist id is required.<p>-->
+                                        <!--<p ng-show="main.artworkForm.artworkFunFact.$invalid" class="help-block">artwork artist id is required.<p>-->
                                         <!--<p ng-show="main.artworkForm.artworkFunFact.$error.maxlength" class="help-block">artisit artwork id is too long.</p>-->
                                     </div>
                                 </div>
 
-                                <!-- Artwork Readmore NOT VALIDATED-->
+                                <!-- Artwork ReadMore NOT VALIDATED-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkReadMore.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkReadMore">Artwork Read More</label>
                                     <input type="text" name="artworkReadMore" class="form-control" ng-model="main.artworkReadMore" placeholder="Artwork Read More">
@@ -98,7 +98,7 @@
                                 <!-- END OF FILE UPLOAD SECTION -->
 
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group">
-                                    <button type="button" id="btnCreateArtwork" class="btn btn-block btn-cta btn-cta-primary" ng-click="main.submitArtworkForm(main.submitArtworkForm.$valid)" ng-disabled="artworkForm.$invalid">{{main.submitBtn}}</button>
+                                    <button type="button" id="btnCreateArtwork" class="btn btn-block btn-cta btn-cta-primary" ng-click="main.submitArtworkForm(main.submitArtworkForm.$valid)" ng-disabled="artworkForm.$invalid">Submit</button>
                                     <button ng-show="main.showReset" ng-click="main.resetForm()" type="button" id="btnResetForm" class="btn btn-block btn-cta btn-cta-primary">Reset</button>
                                 </div>
                             </div><!--//row-->
@@ -135,19 +135,19 @@
 
                 var vm = this;
                 vm.$scope = $scope;
-                vm.myMessage = "Angular is rendering on the page";
                 vm.changeMessage = _changeMessage;
                 vm.resetForm = _resetForm;
                 vm.artworkService = artworkService;
-                //vm.onGetByIdSuccess = _onGetByIdSuccess;
-                //vm.onGetByIdError = _onGetByIdError;
+                vm.submitBtn = 'Create Artwork';              //set up for later updating, after submission _onCreateArtworkSuccess will this message into 'Update Artwork Info';
+                vm.onGetByIdSuccess = _onGetByIdSuccess;      //set up for later updating, after submission _onCreateArtworkSuccess will this message into 'Update Artwork Info';
+                vm.onGetByIdError = _onGetByIdError;          //set up for later updating, after submission _onCreateArtworkSuccess will this message into 'Update Artwork Info';
                 //added for setting the default image to a root-relative URL. 
                 var defaultImageUrl = '/Content/default.svg';
                 
 
                 $baseController.merge(vm, $baseController);
 
- 
+
                 $scope.$on('$includeContentLoaded', _render);
                 $scope.$on('fileUpload.urlAvailable', _artworkCreateOrUpdate);
 
@@ -167,11 +167,6 @@
                     }
                 };
 
-                //Is this necessary?
-                function _changeMessage() {
-                    vm.myMessage = "Changed my message with a click";
-                }
-
                 //FORM RESET
                 function _resetForm() {
                     if (appConfig.isLoggedIn == true) {
@@ -187,6 +182,8 @@
                         vm.artworkArtistId = null;
                         vm.artworkFunFact = null;
                         userId = null;
+                        vm.resetForm = true; 
+                        vm._onCreateArtworkSuccess = _onCreateArtworkSuccess;
                         $scope.$broadcast('fileUpload.urlLoad', { url: null, defaultPreviewUrl: defaultImageUrl });
                     }
                     //sets the form to a pristine state, this method can be used to remove the ng-dirty class and set the form to its pristine state(ng-pristine class),
@@ -194,7 +191,18 @@
                     vm.artworkForm.$setPristine();
                 }
 
-              //LOAD EDIT MODE (GET BY ID)
+                //SUBMIT ARTWORK FORM
+                function _submitArtworkForm(isValid) {
+                    if(isValid) {
+                        vm.createArtwork();
+                    }
+                    else {
+                        vm.$log.log("invalid artwork data");
+                        vm.notificationsService.error("invalid artwork data");
+                    }
+                }
+
+                //LOAD EDIT MODE (GET BY ID)
                 function _loadEditMode() {        //edit mode for grabbing artworkInfo and repopulating on the page.
                     //Grabs artworkService by Get By Id, this isnt artworkService so this might not be needed
                     vm.artworkService.getById(appConfig.item, vm.onGetByIdSuccess, vm.onGetByIdError);
@@ -202,6 +210,29 @@
                     vm.showReset = true;
                     //grabs submit button and displays Update Artwork info on button
                     vm.submitBtn = 'Update Artwork Info';
+                }
+
+                // CREATE OR UPDATE AJAX CALL
+                function _artworkCreateOrUpdate(event, imageUrl) {
+    
+                    vm.artworkInfo.imageUrl == imageUrl.url) {
+                        if(vm.submitBtn == 'Create Artwork') {
+                            vm.artworksService.create(vm.artworkInfo, vm.onCreateArtworkSuccess, vm.onCreateArtworkError);
+                        }
+                        else {
+                            vm.updateArtwork();
+                        }
+                    }
+                }
+
+                //CREATE ARTWORK SUCCESS & ERROR
+                function _onCreateArtworkSuccess(response) {
+                    $scope.$apply(function () {
+                        vm.showReset = true;
+                        vm.submitBtn = 'Update Artwork Info';
+                        notificationsService.redirectDialog("/", "You have created an Artwork");
+                        userId = response.item;
+                    });
                 }
 
                 //GET BY ID SUCCESS & ERROR
