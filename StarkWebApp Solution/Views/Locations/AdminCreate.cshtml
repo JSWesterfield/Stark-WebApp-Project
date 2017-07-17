@@ -20,7 +20,7 @@
                                 <!-- Title Input -->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkTitle.$invalid && main.artworkForm.$submitted}">
                                     <label class="" for="artworkTitle">Artwork Title</label>
-                                    <input type="text" name="artworkTitle" class="form-control" ng-model="main.artworkTitle" placeholder="Artwork Title" ng-maxlength="100" required>
+                                    <input type="text" name="artworkTitle" class="form-control" ng-model="main.artworkTitle" placeholder="Artwork Title" ng-maxlength="100" autofocus required>
                                     <div ng-show="main.artworkForm.$submitted">
                                         <!--<p ng-show="main.artworkForm.artworkTitle.$invalid" class="help-block">artwork name is required.</p>-->
                                         <!--<p ng-show="main.artworkForm.artworkTitle.$error.maxlength" class="help-block">Location Name is too long.</p>-->
@@ -206,6 +206,7 @@
 
                 //CREATE ARTWORK
                 function _createArtwork() {
+                    // if previous Artwork exists, load the vm.artworkInfo. , 
                     if(vm.)
                 }
 
