@@ -136,7 +136,7 @@
 
                 vm.locationId = null;
                 vm.imageUrlUpload = null;
-
+                vm.fileUpload = null;
 
 				vm.notificationsService = notificationsService;
 				vm.$scope = $scope;
@@ -168,7 +168,18 @@
                     if(vm.artworkImageUrl == null) {
                         vm.notificationsService.error('No image file was selected');
                     }
-                }
+                    else {
+                        //if the artworkForm is valid and the artworkImageUrl is not undefined
+                        if(vm.artworkForm.$valid && vm.artworkImageUrl) {
+                            vm.fileUpload = vm.artworkImageUrl[i];
+
+                            stark.services.uploads.create(vm.fileUpload, _onFileUploadCreateSuccess, _onFileUploadCreateError);
+                        }
+                        else {
+                            vm.$log.log('invalid form data');
+                        }
+                    }
+                };
 
                 //2. onFileUploadCreateSuccess function to create an artwork after the success of the file upload
                function _onFileUploadCreateSuccess(response) {
