@@ -1,3 +1,4 @@
+
 @{
     Layout = "~/Views/Shared/_LayoutThemed.cshtml";
 }
@@ -8,7 +9,7 @@
     <section class="form-section text-center">
         <div class="section-inner container">
             <div class="row">
-                
+
                 <!-- Artwork Form -->
                 <div class="form-container col-md-10 col-sm-12 col-xs-12 col-md-push-1 col-sm-push-0 col-xs-push-0" ng-controller="mainController as main">
                     <form id="artworkForm" name="main.artworkForm" ng-submit="main.submitForm(main.artworkForm.$valid)" novalidate>
@@ -25,17 +26,17 @@
                                         <!--<p ng-show="main.artworkForm.artworkTitle.$error.maxlength" class="help-block">Location Name is too long.</p>-->
                                     </div>
                                 </div>
-                               
+
                                 <!-- Artwork Instructions-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkInstructions.$invalid && main.artworkForm.$submitted}">
                                     <label class="" for="artworkInstructions">Artwork Instructions</label>
-                                    <input required ng-model="main.artworkInfo.artworkInstructions" type="text" name="artWorkInstructions" class="form-control" placeholder="Artwork Instructions" ng-maxlength="50" >
+                                    <input required ng-model="main.artworkInfo.artworkInstructions" type="text" name="artWorkInstructions" class="form-control" placeholder="Artwork Instructions" ng-maxlength="50">
                                     <div ng-show="main.artworkForm.$submitted">
                                         <!--<p ng-show="main.artworkForm.artworkInstructions.$invalid" class="help-block">artwork instructions is required.</p>-->
                                         <!--<p ng-show="main.artworkForm.artworkInstructions.$error.maxlength" class="help-block">Artwork Instructions is too long.</p>-->
                                     </div>
                                 </div>
-                                
+
                                 <!-- Artwork Point Value-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkPointValue.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkPointValue">Artwork Point Value</label>
@@ -68,7 +69,7 @@
                                 <!--Artwork Fun Fact-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkFunFact.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkFunFact">Artwork Fun Fact</label>
-                                    <input  required ng-model="main.artworkInfo.artworkFunFact" type="text" name="artworkFunFact" class="form-control" placeholder="Artwork Fun Fact" ng-minlength="3" ng-maxlength="200">
+                                    <input required ng-model="main.artworkInfo.artworkFunFact" type="text" name="artworkFunFact" class="form-control" placeholder="Artwork Fun Fact" ng-minlength="3" ng-maxlength="200">
                                     <div ng-show="main.artworkForm.$submitted">
                                         <!--<p ng-show="main.artworkForm.artworkFunFact.$invalid" class="help-block">artwork artist id is required.<p>-->
                                         <!--<p ng-show="main.artworkForm.artworkFunFact.$error.maxlength" class="help-block">artisit artwork id is too long.</p>-->
@@ -113,12 +114,12 @@
 @section scripts
 {
 
-<script src="~/Scripts/app_fileUpload/FileUploadController.js"></script>
-<script src="~/Scripts/app/directives/files-model.js"></script>
-<script src="~/Scripts/sabio/services/sabio.services.artists.js"></script>
-<script src="~/Scripts/sabio/Services/sabio.services.artworks.js"></script>
-<script src="~/Scripts/sabio/services/sabio.services.uploads.js"></script>
-<script src="~/Scripts/sabio/services/sabio.services.locations.js"></script>
+    <script src="~/Scripts/app_fileUpload/FileUploadController.js"></script>
+    <script src="~/Scripts/app/directives/files-model.js"></script>
+    <script src="~/Scripts/sabio/services/sabio.services.artists.js"></script>
+    <script src="~/Scripts/sabio/Services/sabio.services.artworks.js"></script>
+    <script src="~/Scripts/sabio/services/sabio.services.uploads.js"></script>
+    <script src="~/Scripts/sabio/services/sabio.services.locations.js"></script>
 
     <script type="text/javascript">
         (function () {
@@ -127,37 +128,58 @@
             angular.module(APPNAME)
                 .controller('mainController', MainController);
 
-            MainController.$inject = ['$scope', '$baseController', 'artworksService', 'uploadsService'];
+            MainController.$inject = ['$scope', '$baseController', 'artworksService', 'notificationsService', 'appConfig','uploadsService',];
 
-            function MainController(
-                $scope
-                , $baseController
-                , artworksService
-                , uploadsService) {
+            function MainController($scope, $baseController, artworksService, notificationsService, appConfig, uploadsService) {
 
-                //VM OBJECT DECLARATION(w/ initialization done within function)
                 var vm = this;
 				vm.submitArtworkForm = _submitArtworkForm;
-				
+				vm.notificationsService = notificationsService;
+				vm.$scope = $scope;
+				vm.onCreateArtworkError = _onCreateArtworkError;
+				vm.onCreateArtworkSuccess = _onCreateArtworkSuccess;
+				vm.onSubmitArtworkForm = _onSubmitArtworkForm;
+
+                //$scope.$on('$includeContentLoaded', _render);
+                //$scope.$on('fileUpload.usrlAvailable', _urlReceived);
+                vm.$log.log("Page started Up");
+                vm.createArtwork = _createArtwork;
+
                 $baseController.merge(vm, $baseController);
 
-                vm.$scope = $scope;
-				
-				
-                //$scope.$on('$includeContentLoaded', _render);
-                //$scope.$on('fileUpload.urlAvailable', _urlReceived);
-				
-				function _submitArtworkForm() {
+                render();
+
+                function render() {
+                    _createArtwork();
+                }
+
+                function _createArtwork() {
+                    vm.artworksService.create(appConfig.item, _onCreateArtworkSuccess, _onCreateArtworkError);
+                }
+
+                function _submitArtworkForm() {
+                    //checks for validity. If submitArtworkForm is $invalid send a notification error & console.log
 					if(main.submitArtworkForm.$invalid){
 						vm.notificationsService.error("Error");
 						vm.$log.log("We are sorry, an error has occured.");
 					}
-					else{
-						
+                    //else make a call to the create function of artworksService
+					else {
+
 					}
-				}
+                }
+
+                //on success...
+                function _onCreateArtworkSuccess() {
+                    vm.$log.log("Success!");
+                }
+
+                //on error...
+                function _onCreateArtworkError() {
+                    vm.$log.log("Error");
+                }
             }
-			
+
         })();
     </script>
 }
