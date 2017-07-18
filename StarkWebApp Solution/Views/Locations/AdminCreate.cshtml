@@ -138,17 +138,22 @@
                 vm.imageUrlUpload = null;
 
 
-				vm.submitArtworkForm = _submitArtworkForm;
 				vm.notificationsService = notificationsService;
 				vm.$scope = $scope;
+				vm.createArtwork = _createArtwork;
+				vm.onFileUploadCreateSuccess = _onFileUploadCreateSuccess;
+   				//vm.submitArtworkForm = _submitArtworkForm;
+				vm.onSubmitArtworkForm = _onSubmitArtworkForm;
 				vm.onCreateArtworkError = _onCreateArtworkError;
 				vm.onCreateArtworkSuccess = _onCreateArtworkSuccess;
-				vm.onSubmitArtworkForm = _onSubmitArtworkForm;
+				
+				
 
                 //$scope.$on('$includeContentLoaded', _render);
-                //$scope.$on('fileUpload.usrlAvailable', _urlReceived);
-                vm.$log.log("Page started Up");
-                vm.createArtwork = _createArtwork;
+                //$scope.$on('fileUpload.urlAvailable', _urlReceived);
+
+                vm.$log.log('Page started Up');
+                
 
                 $baseController.merge(vm, $baseController);
 
@@ -159,10 +164,14 @@
                 }
 
                 //1.createArtwork function
-
+                function _createArtwork() {
+                    if(vm.artworkImageUrl == null) {
+                        vm.notificationsService.error('No image file was selected');
+                    }
+                }
 
                 //2. onFileUploadCreateSuccess function to create an artwork after the success of the file upload
-               function _createArtwork(response) {
+               function _onFileUploadCreateSuccess(response) {
                     vm.imageUrlUpload = response.item;
 
                     vm.data = 
