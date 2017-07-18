@@ -12,7 +12,7 @@
 
                 <!-- Artwork Form -->
                 <div class="form-container col-md-10 col-sm-12 col-xs-12 col-md-push-1 col-sm-push-0 col-xs-push-0" ng-controller="mainController as main">
-                    <form id="artworkForm" name="main.artworkForm" ng-submit="main.submitForm(main.artworkForm.$valid)" novalidate>
+                    <form id="artworkForm" name="artworkForm" ng-submit="main.onSubmitArtworkForm(artworkForm.$valid)" novalidate>
                         <div class="contact-form-inner">
                             <h3 class="subtitle"> Create a New Artwork</h3>
                             <div class="row">
@@ -142,25 +142,24 @@
 				vm.$scope = $scope;
 				vm.createArtwork = _createArtwork;
 				vm.onFileUploadCreateSuccess = _onFileUploadCreateSuccess;
-   				//vm.submitArtworkForm = _submitArtworkForm;
 				vm.onSubmitArtworkForm = _onSubmitArtworkForm;
 				vm.onCreateArtworkError = _onCreateArtworkError;
 				vm.onCreateArtworkSuccess = _onCreateArtworkSuccess;
-				
-				
 
-                //$scope.$on('$includeContentLoaded', _render);
+                $scope.$on('$includeContentLoaded', _render);
                 //$scope.$on('fileUpload.urlAvailable', _urlReceived);
 
-                vm.$log.log('Page started Up');
-                
 
                 $baseController.merge(vm, $baseController);
 
-                render();
+                vm.render = _render;
 
-                function render() {
+                function _render() {
+                    vm.$log.log('Page started Up');
+                    vm.$log.log(appConfig);
+                    vm.$log.log(appConfig.item);
                     _createArtwork();
+
                 }
 
                 //1.createArtwork function
@@ -185,12 +184,12 @@
                function _onFileUploadCreateSuccess(response) {
                     vm.imageUrlUpload = response.item;
 
-                    vm.data = 
+                    //vm.data = vm.readArtworkForm();
                     vm.artworksService.create(appConfig.item, _onCreateArtworkSuccess, _onCreateArtworkError);
                 }
 
                 //3. submitArtworkForm function
-                function _submitArtworkForm() {
+                function _onSubmitArtworkForm() {
                     //checks for validity. If submitArtworkForm is $invalid send a notification error & console.log
 					if(main.submitArtworkForm.$invalid){
 						vm.notificationsService.error("Error");
@@ -207,7 +206,7 @@
                     vm.$log.log("Success!");
                     vm.locationId = response.locationId;
                     if (vm.locationId != null) {
-                        locationId = 
+                        vm.locationId = appConfig.locationId;
                     }
                 }
 
