@@ -130,17 +130,17 @@
                 vm.artworkImageUrlUpload = null;
                 vm.fileUpload = null;
 
-				vm.notificationsService = notificationsService;
-				vm.$scope = $scope;
-				vm.createArtwork = _createArtwork;
-				vm.onFileUploadCreateSuccess = _onFileUploadCreateSuccess;
+                vm.notificationsService = notificationsService;
+                vm.$scope = $scope;
+                vm.createArtwork = _createArtwork;
+                vm.onFileUploadCreateSuccess = _onFileUploadCreateSuccess;
                 // when you press the submit button this should execute
-				vm.onSubmitArtworkForm = _onSubmitArtworkForm;
-				vm.onCreateArtworkError = _onCreateArtworkError;
-				vm.onCreateArtworkSuccess = _onCreateArtworkSuccess;
-				vm.locationId = appConfig.locationId;
+                vm.onSubmitArtworkForm = _onSubmitArtworkForm;
+                vm.onCreateArtworkError = _onCreateArtworkError;
+                vm.onCreateArtworkSuccess = _onCreateArtworkSuccess;
+                vm.locationId = appConfig.locationId;
                 //set the default image displayed to the default mona lisa image
-				var defaultImageUrl = '/Content/default.svg'
+                var defaultImageUrl = '/Content/default.svg'
 
 
 
@@ -157,42 +157,41 @@
                 function _render() {
                     //show page started up
                     vm.$log.log('Page started Up');
-
                     //show the the default fileupload prior to the user uploading
                     $scope.$broadcast('fileUpload.urlLoad', { url: null, defaultPreviewUrl: defaultImageUrl });
 
                     //display the appConfig Object to see props inside
                     vm.$log.log(appConfig);
 
-                    //display the user Id
-                    vm.$log.log(appConfig.item);
+                    //display the user Id, not really necessary
+                    vm.$log.log("ArtworkId: " + appConfig.artworkId + " & " + "UserId: " + appConfig.userId);
 
                     _createArtwork();
                 }
 
                 //// READ FORM
                 ////create variable that contains the data from from form(artworkForm), CREATE vm.artworkData
-                //if (vm.artworkForm.$valid) {
-                //    if (vm.artworkId == null) {
-                //        vm.artworkData = {
-                //            artworkTitle: vm.artworkTitle
-                //            , artworkInstructions: vm.artworkInstructions
-                //            , artworkPointValue: vm.artworkPointValue
-                //            , artworkClue: vm.artworkClue
-                //            , artworkArtistId: vm.artworkArtistId
-                //            , artworkFunFact: vm.artworkFunFact
-                //            , artworkReadMore: vm.artworkReadMore
-                //            , artworkLocationId: appConfig.locationId
-                //            , artworkImageUrl: artworkImageUrl.url
-                //        }
-
-                //    }
-                //    else {
-                //        //pre-populate form
-                //    }
-                //    return artworkData;
-                //}
-
+                function readArtworkForm() {
+                    if (vm.artworkForm.$valid) {
+                        if (vm.artworkId == null) {
+                            vm.artworkData = {
+                                artworkTitle: vm.artworkTitle
+                                , artworkInstructions: vm.artworkInstructions
+                                , artworkPointValue: vm.artworkPointValue
+                                , artworkClue: vm.artworkClue
+                                , artworkArtistId: vm.artworkArtistId
+                                , artworkFunFact: vm.artworkFunFact
+                                , artworkReadMore: vm.artworkReadMore
+                                , artworkLocationId: appConfig.locationId
+                                , artworkImageUrl: artworkImageUrl.url
+                            }
+                        }
+                        else {
+                            //pre-populate form
+                        }
+                        return artworkData;
+                    }
+                }
 
                 //3. createArtwork function
                 function _createArtwork() {
@@ -230,7 +229,7 @@
                     vm.notificationsService.error("Error with uploading your artwork.");
                 }
 
-//Is this needed//6. submitArtworkForm function
+                //6. submitArtworkForm function
                 function _onSubmitArtworkForm() {
                     //checks for validity. If submitArtworkForm is $invalid send a notification error & console.log
 					if(main.submitArtworkForm.$invalid){
@@ -239,7 +238,7 @@
 					}
                     //else make a call to the create function of artworksService
 					else {
-
+ //HELP                     //is this needed??
 					}
                 }
 
