@@ -3,20 +3,17 @@
     Layout = "~/Views/Shared/_LayoutThemed.cshtml";
 }
 
-
 <article class="article gradient-2">
     <h2 class="title container text-center">Welcome to Art Find</h2>
     <section class="form-section text-center">
         <div class="section-inner container">
             <div class="row">
-
                 <!-- Artwork Form -->
                 <div class="form-container col-md-10 col-sm-12 col-xs-12 col-md-push-1 col-sm-push-0 col-xs-push-0" ng-controller="mainController as main">
                     <form id="artworkForm" name="artworkForm" ng-submit="main.onSubmitArtworkForm(artworkForm.$valid)" novalidate>
                         <div class="contact-form-inner">
                             <h3 class="subtitle"> Create a New Artwork</h3>
                             <div class="row">
-
                                 <!-- Title Input -->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkTitle.$invalid && main.artworkForm.$submitted}">
                                     <label class="" for="artworkTitle">Artwork Title</label>
@@ -26,7 +23,6 @@
                                         <p ng-show="main.artworkForm.artworkTitle.$error.maxlength" class="help-block">Location Name is too long.</p>
                                     </div>
                                 </div>
-
                                 <!-- Artwork Instructions-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkInstructions.$invalid && main.artworkForm.$submitted}">
                                     <label class="" for="artworkInstructions">Artwork Instructions</label>
@@ -36,7 +32,6 @@
                                         <p ng-show="main.artworkForm.artworkInstructions.$error.maxlength" class="help-block">Artwork Instructions is too long.</p>
                                     </div>
                                 </div>
-
                                 <!-- Artwork Point Value-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkPointValue.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkPointValue">Artwork Point Value</label>
@@ -46,7 +41,6 @@
                                         <p ng-show="main.artworkForm.artworkPointValue.$error.maxlength" class="help-block">artwork point value is too long.</p>
                                     </div>
                                 </div>
-
                                 <!--Artwork Clue-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkClue.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkClue">Artwork Clue</label>
@@ -56,7 +50,6 @@
                                         <p ng-show="main.artworkForm.artworkClue.$error.maxlength" class="help-block">artwork clue is too long.</p>
                                     </div>
                                 </div>
-
                                 <!-- Artist Artist Id dropdown-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkArtistId.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkArtistId">Artwork Artist Id</label>
@@ -65,7 +58,6 @@
                                         <p ng-show="main.artworkForm.artworkArtistId.$invalid" class="help-block">artwork artist id is required.</p>
                                     </div>
                                 </div>
-
                                 <!--Artwork Fun Fact-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkFunFact.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkFunFact">Artwork Fun Fact</label>
@@ -75,28 +67,25 @@
                                         <p ng-show="main.artworkForm.artworkFunFact.$error.maxlength" class="help-block">artisit artwork id is too long.</p>
                                     </div>
                                 </div>
-
                                 <!-- Artwork ReadMore NOT VALIDATED-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkReadMore.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkReadMore">Artwork Read More</label>
                                     <input ng-model="main.artworkInfo.artworkReadMore" type="text" name="artworkReadMore" class="form-control" placeholder="Artwork Read More">
                                 </div>
-
                                 <!-- Artwork Location Id NOT VALIDATED-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                                     <!--Does artworkLocationId need a ng-model?-->
                                     <!--<p ng-model="main.artworkInfo.artworkLocationId" >Artwork Location Id</p>-->
                                     <p>Location Id: {{main.locationId}}</p>
                                 </div>
-
                                 <!-- FILE UPLOAD SECTION -->
                                 @*<div class="form-group col-md-10">
-                                    <input ng-model="main.artworkInfo.artworkImageUrl" type="file" accept="image/*" name="artworkImageUrl">
-                                </div>
-                                <br />
-                                <div class="form-group col-md-2">
-                                    <img src="#" id="imageSrc" alt="Artwork Image" style="display:none" width="70" />
-                                </div>*@
+                                        <input ng-model="main.artworkInfo.artworkImageUrl" type="file" accept="image/*" name="artworkImageUrl">
+                                    </div>
+                                    <br />
+                                    <div class="form-group col-md-2">
+                                        <img src="#" id="imageSrc" alt="Artwork Image" style="display:none" width="70" />
+                                    </div>*@
                                 <div class="row">
                                     <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                                         <label class="input-file" for="artworkImageUrl">Profile Picture</label>
@@ -118,17 +107,14 @@
         </div><!--//section-inner-->
     </section><!--//promo-section-->
 </article>
-
 @section scripts
 {
-
     <script src="~/Scripts/app_fileUpload/FileUploadController.js"></script>
     <script src="~/Scripts/app/directives/files-model.js"></script>
     <script src="~/Scripts/stark/services/stark.services.artists.js"></script>
     <script src="~/Scripts/stark/Services/stark.services.artworks.js"></script>
     <script src="~/Scripts/stark/services/stark.services.uploads.js"></script>
     <script src="~/Scripts/stark/services/stark.services.locations.js"></script>
-
     <script type="text/javascript">
         (function () {
             "use strict";
@@ -180,33 +166,32 @@
 
                     //display the user Id
                     vm.$log.log(appConfig.item);
-                    
+
                     _createArtwork();
                 }
 
+                //// READ FORM
+                ////create variable that contains the data from from form(artworkForm), CREATE vm.artworkData
+                //if (vm.artworkForm.$valid) {
+                //    if (vm.artworkId == null) {
+                //        vm.artworkData = {
+                //            artworkTitle: vm.artworkTitle
+                //            , artworkInstructions: vm.artworkInstructions
+                //            , artworkPointValue: vm.artworkPointValue
+                //            , artworkClue: vm.artworkClue
+                //            , artworkArtistId: vm.artworkArtistId
+                //            , artworkFunFact: vm.artworkFunFact
+                //            , artworkReadMore: vm.artworkReadMore
+                //            , artworkLocationId: appConfig.locationId
+                //            , artworkImageUrl: artworkImageUrl.url
+                //        }
 
-                // READ FORM
-                //create variable that contains the data from from form(artworkForm), CREATE vm.artworkData
-                if (vm.artworkForm.$valid) {
-                    if (vm.artworkId == null) {
-                        vm.artworkData = {
-                            artworkTitle: vm.artworkTitle
-                            , artworkInstructions: vm.artworkInstructions
-                            , artworkPointValue: vm.artworkPointValue
-                            , artworkClue: vm.artworkClue
-                            , artworkArtistId: vm.artworkArtistId
-                            , artworkFunFact: vm.artworkFunFact
-                            , artworkReadMore: vm.artworkReadMore
-                            , artworkLocationId: appConfig.locationId
-                            , artworkImageUrl: artworkImageUrl.url
-                        }
-
-                    }
-                    else {
-                        //pre-populate form
-                    }
-                    return artworkData;
-                }
+                //    }
+                //    else {
+                //        //pre-populate form
+                //    }
+                //    return artworkData;
+                //}
 
 
                 //3. createArtwork function
@@ -230,7 +215,7 @@
 
                 //4. onFileUploadCreateSuccess function to create an artwork after the success of the file upload
                 function _onFileUploadCreateSuccess(response) {
-                    // create var called imageUrlUpload set to response.item. 
+                    // create var called imageUrlUpload set to response.item.
                     vm.imageUrlUpload = response.item;
 
                     //vm.data = vm.readArtworkForm();
