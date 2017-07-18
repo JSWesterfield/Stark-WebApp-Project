@@ -86,7 +86,7 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                                     <!--Does artworkLocationId need a ng-model?-->
                                     <!--<p ng-model="main.artworkInfo.artworkLocationId" >Artwork Location Id</p>-->
-                                    <p>{{main.locationId}}</p>
+                                    <p>Location Id: {{main.locationId}}</p>
                                 </div>
 
                                 <!-- FILE UPLOAD SECTION -->
@@ -141,8 +141,6 @@
             function MainController($scope, $baseController, artworksService, notificationsService, appConfig, uploadsService) {
 
                 var vm = this;
-
-                vm.locationId = null;
                 vm.artworkImageUrlUpload = null;
                 vm.fileUpload = null;
 
@@ -169,7 +167,7 @@
 
                 vm.render = _render;
 
-                //1. Render form
+                //1. RENDER FORM
                 function _render() {
                     //show page started up
                     vm.$log.log('Page started Up');
@@ -186,6 +184,31 @@
                     _createArtwork();
                 }
 
+
+                // READ FORM
+                //create variable that contains the data from from form(artworkForm), CREATE vm.artworkData
+                if (vm.artworkForm.$valid) {
+                    if (vm.artworkId == null) {
+                        vm.artworkData = {
+                            artworkTitle: vm.artworkTitle
+                            , artworkInstructions: vm.artworkInstructions
+                            , artworkPointValue: vm.artworkPointValue
+                            , artworkClue: vm.artworkClue
+                            , artworkArtistId: vm.artworkArtistId
+                            , artworkFunFact: vm.artworkFunFact
+                            , artworkReadMore: vm.artworkReadMore
+                            , artworkLocationId: appConfig.locationId
+                            , artworkImageUrl: artworkImageUrl.url
+                        }
+
+                    }
+                    else {
+                        //pre-populate form
+                    }
+                    return artworkData;
+                }
+
+
                 //3. createArtwork function
                 function _createArtwork() {
                     //immediate validation for picture upload, change to on submission check for if(vm.artworkImageUrl == null)
@@ -194,33 +217,12 @@
                     } else {
                         //if the artworkForm is valid and the artworkImageUrl is not undefined
                         if(vm.artworkForm.$valid && vm.artworkImageUrl) {
-                            vm.fileUpload = vm.artworkImageUrl[0]; 
-
-                            //create variable that contains the data from from form(artworkForm), CREATE vm.myData
-                            if (vm.artworkForm.$valid) {
-                                if (vm.artworkId == null) {
-                                    vm.myData = {
-                                        artworkTitle: vm.artworkTitle
-                                        , artworkInstructions: vm.artworkInstructions
-                                        , artworkPointValue: vm.artworkPointValue
-                                        , artworkClue: vm.artworkClue
-                                        , artworkArtistId: vm.artworkArtistId
-                                        , artworkFunFact: vm.artworkFunFact
-                                        , artworkReadMore: vm.artworkReadMore
-                                        , artworkLocationId: appConfig.locationId
-                                        , artworkImageUrl: artworkImageUrl.url
-                                    }
-
-                                }
-                                else {
-                                    //pre-populate form
-                                }
-                            }
+                            vm.fileUpload = vm.artworkImageUrl[0];
 
                             //create the artwork
-                            vm.artworksService.create(vm.fileUpload, vm.myData, _onFileUploadCreateSuccess, _onFileUploadCreateError);
-                        }
-                        else {
+                            vm.artworksService.create(vm.fileUpload, vm.artworkData, _onFileUploadCreateSuccess, _onFileUploadCreateError);
+
+                        } else {
                             vm.$log.log('invalid form data');
                         }
                     }
@@ -243,7 +245,7 @@
                     vm.notificationsService.error("Error with uploading your artwork.");
                 }
 
-                //6. submitArtworkForm function
+//Is this needed//6. submitArtworkForm function
                 function _onSubmitArtworkForm() {
                     //checks for validity. If submitArtworkForm is $invalid send a notification error & console.log
 					if(main.submitArtworkForm.$invalid){
