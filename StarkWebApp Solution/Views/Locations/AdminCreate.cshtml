@@ -116,10 +116,10 @@
 
     <script src="~/Scripts/app_fileUpload/FileUploadController.js"></script>
     <script src="~/Scripts/app/directives/files-model.js"></script>
-    <script src="~/Scripts/sabio/services/sabio.services.artists.js"></script>
-    <script src="~/Scripts/sabio/Services/sabio.services.artworks.js"></script>
-    <script src="~/Scripts/sabio/services/sabio.services.uploads.js"></script>
-    <script src="~/Scripts/sabio/services/sabio.services.locations.js"></script>
+    <script src="~/Scripts/stark/services/stark.services.artists.js"></script>
+    <script src="~/Scripts/stark/Services/stark.services.artworks.js"></script>
+    <script src="~/Scripts/stark/services/stark.services.uploads.js"></script>
+    <script src="~/Scripts/stark/services/stark.services.locations.js"></script>
 
     <script type="text/javascript">
         (function () {
@@ -133,6 +133,11 @@
             function MainController($scope, $baseController, artworksService, notificationsService, appConfig, uploadsService) {
 
                 var vm = this;
+
+                vm.locationId = null;
+                vm.imageUrlUpload = null;
+
+
 				vm.submitArtworkForm = _submitArtworkForm;
 				vm.notificationsService = notificationsService;
 				vm.$scope = $scope;
@@ -153,10 +158,18 @@
                     _createArtwork();
                 }
 
-                function _createArtwork() {
+                //1.createArtwork function
+
+
+                //2. onFileUploadCreateSuccess function to create an artwork after the success of the file upload
+               function _createArtwork(response) {
+                    vm.imageUrlUpload = response.item;
+
+                    vm.data = 
                     vm.artworksService.create(appConfig.item, _onCreateArtworkSuccess, _onCreateArtworkError);
                 }
 
+                //3. submitArtworkForm function
                 function _submitArtworkForm() {
                     //checks for validity. If submitArtworkForm is $invalid send a notification error & console.log
 					if(main.submitArtworkForm.$invalid){
@@ -170,8 +183,12 @@
                 }
 
                 //on success...
-                function _onCreateArtworkSuccess() {
+                function _onCreateArtworkSuccess(response) {
                     vm.$log.log("Success!");
+                    vm.locationId = response.locationId;
+                    if (vm.locationId != null) {
+                        locationId = 
+                    }
                 }
 
                 //on error...
