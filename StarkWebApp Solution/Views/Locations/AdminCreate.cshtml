@@ -85,7 +85,8 @@
                                 <!-- Artwork Location Id NOT VALIDATED-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                                     <!--Does artworkLocationId need a ng-model?-->
-                                    <p ng-model="main.artworkInfo.artworkLocationId" >Artwork Location Id</p>
+                                    <!--<p ng-model="main.artworkInfo.artworkLocationId" >Artwork Location Id</p>-->
+                                    <p>{{main.locationId}}</p>
                                 </div>
 
                                 <!-- FILE UPLOAD SECTION -->
@@ -98,7 +99,7 @@
                                 </div>*@
                                 <div class="row">
                                     <div class="col-md-12 col-sm-12 col-xs-12 form-group">
-                                        <label class="input-file" for="imageUrl">Profile Picture</label>
+                                        <label class="input-file" for="artworkImageUrl">Profile Picture</label>
                                     </div>
                                     <div ng-include="'/Scripts/app_fileUpload/FileUploadTemplate.html'"></div>
                                 </div>
@@ -142,7 +143,7 @@
                 var vm = this;
 
                 vm.locationId = null;
-                vm.imageUrlUpload = null;
+                vm.artworkImageUrlUpload = null;
                 vm.fileUpload = null;
 
 				vm.notificationsService = notificationsService;
@@ -153,8 +154,11 @@
 				vm.onSubmitArtworkForm = _onSubmitArtworkForm;
 				vm.onCreateArtworkError = _onCreateArtworkError;
 				vm.onCreateArtworkSuccess = _onCreateArtworkSuccess;
+				vm.locationId = appConfig.locationId;
                 //set the default image displayed to the default mona lisa image
 				var defaultImageUrl = '/Content/default.svg'
+
+
 
                 //watches for the on click, execute the _render function
                 $scope.$on('$includeContentLoaded', _render);
@@ -178,8 +182,8 @@
 
                     //display the user Id
                     vm.$log.log(appConfig.item);
+                    
                     _createArtwork();
-         
                 }
 
                 //3. createArtwork function
@@ -195,7 +199,7 @@
                             //create variable that contains the data from from form(artworkForm), CREATE vm.myData
                             if (vm.artworkForm.$valid) {
                                 if (vm.artworkId == null) {
-                                    vm.MyData = {
+                                    vm.myData = {
                                         artworkTitle: vm.artworkTitle
                                         , artworkInstructions: vm.artworkInstructions
                                         , artworkPointValue: vm.artworkPointValue
@@ -204,12 +208,12 @@
                                         , artworkFunFact: vm.artworkFunFact
                                         , artworkReadMore: vm.artworkReadMore
                                         , artworkLocationId: appConfig.locationId
-                                        , imageUrl: imageUrl.url
+                                        , artworkImageUrl: artworkImageUrl.url
                                     }
 
                                 }
                                 else {
-                                    //prepopulate form
+                                    //pre-populate form
                                 }
                             }
 
