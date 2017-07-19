@@ -52,7 +52,7 @@
                                 </div>
                                 <!-- Artist Artist Id dropdown-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkArtistId.$invalid && main.artworkForm.$submitted}">
-                                    <label for="artworkArtistId">Artwork Artist Id</label>
+                                    <label for="artworkArtistId">Please select an artist</label>
                                     <input required ng-model="main.artworkInfo.artworkArtistId" type="text" name="artworkArtistId" class="form-control" placeholder="Artwork Artist Id">
                                     <div ng-show="main.artworkForm.$submitted">
                                         <p ng-show="main.artworkForm.artworkArtistId.$invalid" class="help-block">artwork artist id is required.</p>
@@ -70,13 +70,13 @@
                                 <!-- Artwork ReadMore NOT VALIDATED-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkReadMore.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkReadMore">Artwork Read More</label>
-                                    <input ng-model="main.artworkInfo.artworkReadMore" type="text" name="artworkReadMore" class="form-control" placeholder="Artwork Read More">
+                                    <input ng-model="main.artworkInfo.artworkReadMore" type="text" name="artworkReadMore" class="form-control" placeholder="Artwork Read More URL">
                                 </div>
                                 <!-- Artwork Location Id NOT VALIDATED-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group">
-                                    <!--Does artworkLocationId need a ng-model?-->
-                                    <!--<p ng-model="main.artworkInfo.artworkLocationId" >Artwork Location Id</p>-->
-                                    <p>Location Id: {{main.locationId}}</p>
+                                    <!--Does locationId need a ng-model?-->
+                                    <p ng-model="main.artworkInfo.locationId" >Artwork Location Id</p>
+                                    @*<p>Location Id: {{main.locationId}}</p>*@
                                 </div>
                                 <!-- FILE UPLOAD SECTION -->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkImageUrl.$invalid && main.artworkForm.$submitted}">
@@ -136,10 +136,11 @@
                 //on submission this function should execute
                 vm.createArtwork = _createArtwork;
                 vm.onFileUploadCreateSuccess = _onFileUploadCreateSuccess;
-               
+                vm.uploadsService = uploadsService;
                 vm.onCreateArtworkError = _onCreateArtworkError;
                 vm.onCreateArtworkSuccess = _onCreateArtworkSuccess;
                 vm.locationId = appConfig.locationId;
+                vm.readArtworkForm = readArtworkForm
                 vm.data = null;
                 //set the default image displayed to the default mona lisa image
                 var defaultImageUrl = '/Content/default.svg'
@@ -164,11 +165,10 @@
 
                     //display the appConfig Object to see props inside
                     vm.$log.log(appConfig);
-
                 }
 
-                ////2. READ FORM
-                ////create variable that contains the data from from form(artworkForm), CREATE vm.artworkData
+                //2. READ FORM
+                //create variable that contains the data from from form(artworkForm), CREATE vm.artworkData
                 function readArtworkForm() {
                     if (vm.artworkForm.$valid) {
                         if (vm.artworkId == null) {
@@ -180,7 +180,7 @@
                                 , artworkArtistId: vm.artworkArtistId
                                 , artworkFunFact: vm.artworkFunFact
                                 , artworkReadMore: vm.artworkReadMore
-                                , artworkLocationId: appConfig.locationId
+                                , locationId: vm.locationId
                                 , artworkImageUrl: vm.artworkImageUrl
                                 //, artworkImageUrl: artworkImageUrl.url
                                 //link for txt image URL: "https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&ved=0ahUKEwivqq3FnpTVAhUkjlQKHY6JBbcQjBwIBA&url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fen%2Fthumb%2Fb%2Fbc%2FOld_guitarist_chicago.jpg%2F1200px-Old_guitarist_chicago.jpg&psig=AFQjCNHLJ2Dvx6wZCZzWa1qLjUJLgzWtFA&ust=1500515651290256"
@@ -203,12 +203,12 @@
                         //if the artworkForm is valid and the artworkImageUrl is not undefined
                         if(vm.artworkForm.$valid && vm.artworkImageUrl) {
                             vm.fileUpload = vm.artworkImageUrl;
-                            if (vm.fileUpload) {
-                                vm.notificationsService.success("You uploaded an image!");
-                            }     
+                            //if (vm.fileUpload != null) {
+                            //    vm.notificationsService.success("You uploaded an image!");
+                            //}     
 
                             //create the artwork
-                            vm.artworksService.create(vm.fileUpload, _onFileUploadCreateSuccess, _onFileUploadCreateError);
+                            //vm.uploadsService.create(vm.fileUpload, _onFileUploadCreateSuccess, _onFileUploadCreateError);
 
                         } else {
                             vm.$log.log('invalid form data');
@@ -217,14 +217,15 @@
                 };
 
                 //4. onFileUploadCreateSuccess function to create an artwork after the success of the file upload
-                function _onFileUploadCreateSuccess(response) {
+                //function _onFileUploadCreateSuccess(response) {
+                function _onFileUploadCreateSuccess() {
                     // create var called imageUrlUpload set to response.item.
-                    vm.imageUrlUpload = response.item;
-
+                    //vm.artworkImageUrlUpload = response.item;
+                    
                     vm.data = vm.readArtworkForm();
                     vm.data.locationId = appConfig.locationId;
-                    //vm.data.artworkImageUrl = response.item;
-                    vm.artworksService.create(appConfig.item, _onCreateArtworkSuccess, _onCreateArtworkError);
+                    vm.data.artworkImageUrl = response.item;
+                    vm.artworksService.create(vm.data, _onCreateArtworkSuccess, _onCreateArtworkError);
                 }
 
                 //5. onFileUploadCreateError error callback function
@@ -233,17 +234,17 @@
                     vm.notificationsService.error("Error with uploading your artwork.");
                 }
 
-                //7. on create artwork success...
+                //6. on create artwork success...
                 function _onCreateArtworkSuccess(response) {
                     vm.$log.log("Success!");
-                    vm.locationId = response.locationId;
+                    vm.locationId = appConfig.locationId;
                     if (vm.locationId != null) {
                         vm.locationId = appConfig.locationId;
                     }
-                    vm.notificationsService.redirectDialog('/admin/artwoks?locationId' + locationId, 'You have created a new artwork.');
+                    vm.notificationsService.redirectDialog('/admin/artwoks?locationId' + vm.locationId, 'You have created a new artwork.');
                 };
 
-                //8. on create artwork error...
+                //7. on create artwork error...
                 function _onCreateArtworkError() {
                     vm.$log.log("Error");
                     vm.notificationsService.error('There was an error creating the artwork.');
