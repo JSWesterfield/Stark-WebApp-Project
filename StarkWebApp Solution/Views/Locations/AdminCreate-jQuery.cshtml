@@ -1,0 +1,409 @@
+
+@{
+    ViewBag.Title = "Page Title";
+    Layout = "~/Views/Shared/_LayoutThemed.cshtml";
+}
+
+@section styles
+{
+    <style>
+        #imageSrc {
+            display: none;
+            width: 70px;
+        }
+
+
+        .content {
+            padding-top: 50px;
+        }
+    </style>
+}
+
+<article class="article gradient-8 ">
+    <h2 class="title container text-center"></h2>
+    <section class="artworkSection form-section">
+        <div class="contact-form-inner section-inner container text-center">
+            <div class="row">
+                <div class="col-md-10 col-sm-12 col-xs-12 col-md-push-1 col-sm-push-0 col-xs-push-0">
+                    <h3 class="subtitle" id="pageSubtitle">Create New Artwork</h3>
+                    <div class="pull-right" style="padding-bottom: 10px; padding-right:15px">
+                        <a href="" id="btnIndexLink" class="btn btn-cta btn-cta-primary">Artwork Index</a>
+                    </div>
+                    <div class="content">
+                        <form id="artworkForm">
+                            <div class="form-group col-md-12">
+                                <input type="text" class="form-control" id="artworkTitle" name="artworkTitle" placeholder="Title">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" id="artworkInstructions" name="artworkInstructions" placeholder="Instructions">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" id="artworkPointValue" name="artworkPointValue" placeholder="Point Value">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" id="artworkClue" name="artworkClue" placeholder="Clue">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <select class="form-control" id="artworkArtistId" name="artworkArtistId">
+                                    <option value="" selected="selected" disabled="disabled">Please select an artist</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <input type="text" class="form-control" id="artworkFunFact" name="artworkFunFact" placeholder="Fun Fact">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <input type="text" class="form-control" id="artworkReadMore" name="artworkReadMore" placeholder="Read More URL">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <p class="form-control-static" id="artworkLocationId"></p>
+                            </div>
+                            <!-- file upload section -->
+                            <div class="form-group col-md-10">
+                                <input type="file" accept="image/*" id="artworkImageUrl" name="artworkImageUrl">
+                            </div>
+                            <br />
+                            <div class="form-group col-md-2">
+                                <img src="#" id="imageSrc" alt="Artwork Image" style="display:none" width="70" />
+                            </div>
+                            <!-- end of file upload section-->
+                            <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                <button type="button" id="btnCreateArtwork" class="btn btn-block btn-cta btn-cta-primary">Create Artwork</button>
+                                <button type="button" id="btnResetForm" class="btn btn-block btn-cta btn-cta-primary">Reset Form</button>
+                            </div>
+                        </form>
+                    </div><!--//content-->
+                </div>
+            </div><!--//row-->
+        </div>
+    </section>
+</article>
+
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/stark/services/stark.services.artists.js"></script>
+    <script src="~/Scripts/stark/Services/stark.services.artworks.js"></script>
+    <script src="~/Scripts/stark/services/stark.services.uploads.js"></script>
+    <script src="~/Scripts/stark/services/stark.services.locations.js"></script>
+
+    <script type="text/javascript">
+        stark.page.startUp = function () {
+            stark.services.artists.getAllArtists(stark.page.handlers.ajaxGetAllArtistsSuccess)
+            console.log('starting up');
+            $('#artworkImageUrl').on("change", stark.page.handlers.previewFileUpload);
+        };
+
+        stark.page.handlers.previewFileUpload = function () {
+
+            if (this.files && this.files[0]) {
+
+                var reader = new FileReader();
+
+                reader.onload = stark.page.handlers.onLoad;
+
+                reader.readAsDataURL(this.files[0]);
+                $('#imageSrc').show();
+            };
+        };
+
+        stark.page.handlers.onLoad = function (e) {
+            $('#imageSrc').attr('src', e.target.result);
+        }
+
+        //READ FORM
+
+        stark.page.readArtworkForm = function () {
+            var title = $('#artworkTitle').val();
+            var artistId = $('#artworkArtistId').val();
+            var instructions = $('#artworkInstructions').val();
+            var clue = $('#artworkClue').val();
+            var pointValue = $('#artworkPointValue').val();
+            var funFact = $('#artworkFunFact').val();
+            var artworkReadMoreUrl = $('#artworkReadMore').val();
+            var imageUrl = $('#artworkImageUrl').val();
+            var locationId = stark.page.locationId;
+            if (stark.page.config.locationId != null) {
+                locationId = stark.page.config.locationId
+            }
+
+            var artworkData = {
+                title: title,
+                artistId: artistId,
+                instructions: instructions,
+                clue: clue,
+                pointValue: pointValue,
+                funFact: funFact,
+                readMoreUrl: artworkReadMoreUrl,
+                imageUrl: imageUrl,
+                locationId: locationId
+            }
+            return artworkData;
+        };
+
+
+
+        //RESET FORM HANDLER
+
+        stark.page.handlers.resetForm = function () {
+            $('#artworkForm')[0].reset();
+            $('.artworkSection').find('#btnUpdateArtwork').attr('id', 'btnCreateArtwork').text('Create Artwork');
+            if (stark.page.imageUrlUpload) {
+                $('#imageSrc').attr('src', stark.page.imageUrlUpload);
+            }
+            else {
+                $('#imageSrc').hide();
+            }
+        };
+
+        //VALIDATION RULES
+
+        stark.page.createValidation = function () {
+
+            $('#artworkForm').validate({
+                rules: {
+                    artworkTitle: {
+                        required: true,
+                        maxlength: 100
+                    },
+                    artworkArtistId: {
+                        required: true,
+                    },
+                    artworkInstructions: {
+                        required: true,
+                        maxlength: 50
+                    },
+                    artworkClue: {
+                        required: true,
+                        maxlength: 100
+                    },
+                    artworkPointValue: {
+                        required: true,
+                        number: true
+                    },
+                    artworkFunFact: {
+                        required: true,
+                        maxlength: 200
+                    }
+                }
+            });
+        };
+
+        //CREATE ARTWORK HANDLER
+
+        stark.page.handlers.createArtwork = function () {
+
+            if ($("#artworkImageUrl").val() == 0) {
+                stark.services.notifications.error('No image file was selected');
+            }
+            else {
+                if ($('#artworkForm').valid() && $("#artworkImageUrl").val()) {
+                    var fileUpload = $("#artworkImageUrl")[0].files[0];
+
+                    stark.services.uploads.create(fileUpload, stark.page.handlers.onFileUploadCreateSuccess, stark.page.handlers.onFileUploadError);
+                }
+                else {
+                    console.log('invalid form data');
+                }
+            }
+        };
+
+        //onFileUploadCreateSuccess function to create an artwork after the success of the file upload
+        stark.page.handlers.onFileUploadCreateSuccess = function (response) {
+            stark.page.imageUrlUpload = response.item;
+
+            var data = stark.page.readArtworkForm();
+            data.locationId = stark.page.config.locationId;
+            data.imageUrl = response.item;
+            //data.imageUrl = "https://" + response.item;
+            stark.services.artworks.create(data, stark.page.handlers.onCreateSuccess, stark.page.handlers.onCreateError);
+        };
+
+        //CREATE SUCCESS & ERROR
+
+        stark.page.handlers.onCreateSuccess = function (response) {
+            var locationId = stark.page.locationId;
+            if (stark.page.config.locationId != null) {
+                locationId = stark.page.config.locationId
+            }
+            stark.services.notifications.redirectDialog('/admin/artworks?locationId=' + locationId, 'You have created a new artwork.');
+        };
+
+        stark.page.handlers.onCreateError = function (response) {
+
+            stark.services.notifications.error('There was an error creating the artwork.')
+        };
+
+        //onFileUploadUpdateSuccess function to update an artwork after the success of the file upload
+        stark.page.handlers.onFileUploadUpdateSuccess = function (response) {
+
+            var artworkId = stark.page.config.artworkId;
+            var artworkData = stark.page.readArtworkForm();
+            artworkData.imageUrl = response.item;
+            //artworkData.imageUrl = "https://" + response.item;
+            artworkData.Id = artworkId;
+            stark.page.lastSavedData = artworkData;
+
+            stark.services.artworks.update(artworkId, artworkData, stark.page.handlers.onUpdateSuccess, stark.page.handlers.onUpdateError);
+        };
+
+        stark.page.handlers.onFileUploadError = function () {
+            stark.services.notifications.error('There was an error uploading the artwork file.');
+        };
+
+        //UPDATE ARTWORK HANDLERS
+
+        stark.page.handlers.updateArtwork = function () {
+
+            if ($('#artworkForm').valid()) {
+                // if we have a new file to upload, start the upload now
+                // { ... }
+                // else, no new file to upload, go ahead and start the update ajax call using the saved image URL
+                var newImageUrl = $("#artworkImageUrl").val();
+
+                if (newImageUrl) {
+
+                    var fileUpload = $("#artworkImageUrl")[0].files[0];
+
+                    stark.services.uploads.create(fileUpload, stark.page.handlers.onFileUploadUpdateSuccess, stark.page.handlers.onFileUploadError);
+
+                } else {
+                    var artworkId = stark.page.config.artworkId;
+                    var oldImageUrl = stark.page.imageUrlUpload;
+                    var artworkData = stark.page.readArtworkForm();
+                    artworkData.Id = artworkId;
+                    artworkData.imageUrl = oldImageUrl;
+
+                    stark.services.artworks.update(artworkId, artworkData, stark.page.handlers.onUpdateSuccess, stark.page.handlers.onUpdateError);
+                }
+            }
+        };
+
+        //UPDATE SUCCESS & ERROR
+
+        stark.page.handlers.onUpdateSuccess = function (response) {
+            var locationId = stark.page.locationId;
+            if (stark.page.config.locationId != null) {
+                locationId = stark.page.config.locationId
+            }
+            stark.services.notifications.redirectDialog('/admin/artworks?locationId=' + locationId, 'Artwork successfully updated');
+        
+
+        };
+
+        stark.page.handlers.onUpdateError = function (response) {
+            stark.services.notifications.error('There was an error updating your artwork.')
+        };
+
+
+        //GET BY ID AJAX CALL
+
+        stark.page.getById = function () {
+            stark.services.artworks.getById(stark.page.config.artworkId, stark.page.handlers.getByIdSuccess, stark.page.handlers.getByIdError)
+        };
+
+        //GET BY ID SUCCESS & ERROR
+
+        stark.page.handlers.getByIdSuccess = function (response) {
+            if (response.item == null) {
+                stark.services.notifications.error("I'm sorry, artwork " + stark.page.config.artworkId + " no longer exists.");
+            }
+            //POPULATE FORM
+            $('#artworkTitle').val(response.item.title);
+            $('#artworkArtistId').val(response.item.artistId);
+            $('#artworkInstructions').val(response.item.instructions);
+            $('#artworkClue').val(response.item.clue);
+            $('#artworkPointValue').val(response.item.pointValue);
+            $('#artworkFunFact').val(response.item.funFact);
+            $('#artworkReadMore').val(response.item.readMoreUrl);
+            $('#artworkImageUrl').val('');
+            $('#artworkLocationId').text(response.item.locationId);
+            $('#imageSrc').attr('src', response.item.imageUrl);
+            $('#imageSrc').show();
+
+            //SET SABIO.PAGE.LOCATIONID
+            stark.page.locationId = response.item.locationId;
+
+            stark.services.locations.getByIdAdmin(stark.page.locationId, stark.page.handlers.getLocationSuccess, stark.page.handlers.getLocationError)
+
+            //CHANGE BUTTONS AND TITLE TO EDIT VIEW
+            $('#btnCreateArtwork').attr('id', 'btnUpdateArtwork').text("Update Artwork");
+            $('#btnResetForm').attr('id', 'btnUndo').text("Undo");
+            $('#pageSubtitle').text('Edit Artwork');
+
+            //set stark.page.imageUrlUpload
+            stark.page.imageUrlUpload = response.item.imageUrl;
+
+            //SAVE CURRENT FORM DATA
+            stark.page.lastSavedData = stark.page.readArtworkForm();
+
+            //ADD HREF TO ARTWORK INDEX LINK
+            $('#btnIndexLink').attr('href', '/admin/artworks?locationId=' + response.item.locationId);
+        };
+
+        stark.page.handlers.getByIdError = function () {
+            stark.services.notifications.error('There was an error loading the information for this artwork.');
+        };
+
+        //UNDO BUTTON HANDLER
+
+        stark.page.handlers.undoFormChanges = function () {
+            var artwork = stark.page.lastSavedData;
+            //POPULATE FORM WITH LAST SAVED DATA
+            $('#artworkTitle').val(artwork.title);
+            $('#artworkArtistId').val(artwork.artistId);
+            $('#artworkInstructions').val(artwork.instructions);
+            $('#artworkClue').val(artwork.clue);
+            $('#artworkPointValue').val(artwork.pointValue);
+            $('#artworkFunFact').val(artwork.funFact);
+            $('#artworkReadMore').val(artwork.readMoreUrl);
+            $('#artworkImageUrl').val('');
+            if (stark.page.imageUrlUpload) {
+                $('#imageSrc').attr('src', stark.page.imageUrlUpload);
+            }
+            else {
+                $('#imageSrc').hide();
+            }
+        };
+
+        stark.page.handlers.ajaxGetAllArtistsSuccess = function (response) {
+            var allArtists = response.items;
+            for (var i = 0; i < allArtists.length; i++) {
+                $("#artworkArtistId").append($("<option>").attr("value", allArtists[i].id).text(allArtists[i].name));
+            }
+
+            stark.page.createValidation();
+            $('.artworkSection').on('click', '#btnCreateArtwork', stark.page.handlers.createArtwork);
+            $('.artworkSection').on('click', '#btnUpdateArtwork', stark.page.handlers.updateArtwork);
+            $('.artworkSection').on('click', '#btnResetForm', stark.page.handlers.resetForm);
+
+            var locationId = stark.page.config.locationId;
+            $('#btnIndexLink').attr('href', '/admin/artworks?locationId=' + locationId);
+
+            if (stark.page.config.locationId != null) {
+                stark.services.locations.getByIdAdmin(locationId, stark.page.handlers.getLocationSuccess, stark.page.handlers.getLocationError);
+            };
+
+            if (stark.page.config.artworkId != null) {
+                stark.page.getById();
+            };
+            $('.artworkSection').on('click', '#btnUndo', stark.page.handlers.undoFormChanges);
+        };
+
+        stark.page.handlers.getLocationSuccess = function (response) {
+            if (stark.page.config.artworkId) {
+                $('#pageSubtitle').text("Update Artwork for " + response.item.name);
+            } else {
+                $('#pageSubtitle').text("Create New Artwork for " + response.item.name);
+            }
+        };
+
+        stark.page.handlers.getLocationError = function () {
+            console.log("get location ajax error");
+        };
+
+
+
+    </script>
+
+}
