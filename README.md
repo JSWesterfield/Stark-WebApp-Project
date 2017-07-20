@@ -1,4 +1,4 @@
-# Stark-WebApp-Project ![alt text]( https://cdn4.iconfinder.com/data/icons/SUPERVISTA/graphics/png/400/palette.png)
+# Stark-WebApp-Project ![alt text](https://cdn4.iconfinder.com/data/icons/SUPERVISTA/graphics/png/400/palette.png ==100x20)
 Web Application for 'stark' client.
 
 
