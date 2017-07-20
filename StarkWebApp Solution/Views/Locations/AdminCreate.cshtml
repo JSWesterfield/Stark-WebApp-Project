@@ -155,8 +155,9 @@
                 vm.onCreateArtworkError = _onCreateArtworkError;
                 vm.onCreateArtworkSuccess = _onCreateArtworkSuccess;
                 vm.locationId = appConfig.locationId;
-                vm.readArtworkForm = readArtworkForm
+                vm.readArtworkForm = readArtworkForm;
                 vm.data = null;
+                vm.artworkData = null;
                 vm.artworkImageUrl = null;
                 //set the default image displayed to the default mona lisa image
                 //var defaultImageUrl = '/Content/default.svg'
@@ -168,7 +169,7 @@
 
                 $baseController.merge(vm, $baseController);
 
-                vm.render = _render;
+                _render();
 
                 //1. RENDER FORM
                 function _render() {
@@ -214,7 +215,7 @@
                             //pre-populate form if artworkId exists.
                             //if(vm.artworkId != null)
                         }
-                        return artworkData;
+                        return vm.artworkData;
                     }
                 }
 
@@ -222,23 +223,25 @@
                 function _createArtwork() {
                     //immediate validation for picture upload, change to on submission check for if(vm.artworkImageUrl == null)
                     if (vm.artworkImageUrl == null) {
-                        vm.notificationsService.success("We made it to the createArtwork function");
                         vm.notificationsService.error('No image file was selected');
                         vm.$log.log("error, artworkImageUrl is null");
                     } else {
                         //if the artworkForm is valid and the artworkImageUrl is not undefined
                         if (vm.artworkForm.$valid && vm.artworkImageUrl) {
-                            vm.notificationsService.Error('Error. Either invalid artform or artworkImageUrl')
+                            vm.notificationsService.success('turning artworkImageUrl to vm.fileUpload');
+                            vm.$log.log('success, turning artworkImageUrl to vm.fileUpload');
                             vm.fileUpload = vm.artworkImageUrl;
+                            
                             if (vm.fileUpload != null) {
                                 vm.notificationsService.success('You uploaded an image!');
+                                vm.$log.log('success,fileUpload value exists');
                             }     
-                            //create the artwork
+                            //read & create the artwork
+                            _onFileUploadCreateSuccess()
                             //vm.uploadsService.create(vm.fileUpload, _onFileUploadCreateSuccess, _onFileUploadCreateError);
 
                         } else {
                             vm.$log.log('invalid form data');
-                            vm.notificationsService.success("We made it to the createArtwork function"); //verification, delete after
                         }
                     }
                 };
@@ -251,16 +254,10 @@
                     
                     vm.data = vm.readArtworkForm();
                     vm.data.locationId = appConfig.locationId;
-                    vm.data.artworkImageUrl = response.item;
+                    //vm.data.artworkImageUrl = response.item;
                     vm.artworksService.create(vm.data, _onCreateArtworkSuccess, _onCreateArtworkError);
                 }
-
-                //5. onFileUploadCreateError error callback function
-                function _onFileUploadCreateError() {
-                    vm.$log.log("We Are sorry, an error has occured");
-                    vm.notificationsService.error("Error with uploading your artwork.");
-                }
-
+         
                 //6. on create artwork success...
                 function _onCreateArtworkSuccess(response) {
                     vm.$log.log("Success!");
