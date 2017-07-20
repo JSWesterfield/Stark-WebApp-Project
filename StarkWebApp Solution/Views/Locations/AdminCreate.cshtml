@@ -147,6 +147,7 @@
                 vm.fileUpload = null;
 
                 vm.notificationsService = notificationsService;
+                vm.artworksService = artworksService;
                 vm.$scope = $scope;
                 //on submission this function should execute
                 vm.createArtwork = _createArtwork;
@@ -157,7 +158,7 @@
                 vm.locationId = appConfig.locationId;
                 vm.readArtworkForm = readArtworkForm;
                 vm.data = null;
-                vm.artworkData = null;
+                //vm.artworkData = artworkData;
                 vm.artworkImageUrl = null;
                 //set the default image displayed to the default mona lisa image
                 //var defaultImageUrl = '/Content/default.svg'
@@ -199,15 +200,15 @@
                     if (vm.artworkForm.$valid) {
                         if (vm.artworkId == null) {
                             vm.artworkData = {
-                                artworkTitle: vm.artworkTitle
-                                , artworkArtistId: vm.artworkArtistId
-                                , artworkInstructions: vm.artworkInstructions
-                                , artworkClue: vm.artworkClue
-                                , artworkPointValue: vm.artworkPointValue
-                                , artworkFunFact: vm.artworkFunFact
-                                , artworkReadMore: vm.artworkReadMore
+                                Title: vm.artworkTitle
+                                , ArtistId: vm.artworkArtistId
+                                , Instructions: vm.artWorkInstructions
+                                , Clue: vm.artworkClue
+                                , PointValue: vm.artworkPointValue
+                                , FunFact: vm.artworkFunFact
+                                , ReadMore: vm.artworkReadMore
                                 , locationId: appConfig.locationId
-                                , artworkImageUrl: vm.artworkImageUrl
+                                , ImageUrl: vm.artworkImageUrl
                                 //, artworkImageUrl: artworkImageUrl.url
                             }
                         }
