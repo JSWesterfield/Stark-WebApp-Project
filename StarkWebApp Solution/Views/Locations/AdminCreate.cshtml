@@ -10,94 +10,93 @@
             <div class="row">
                 <!-- Artwork Form -->
                 <div class="form-container col-md-10 col-sm-12 col-xs-12 col-md-push-1 col-sm-push-0 col-xs-push-0" ng-controller="mainController as main">
-                    <form id="artworkForm" name="artworkForm" ng-submit="main.onSubmitArtworkForm(artworkForm.$valid)" novalidate>
+                    <form id="artworkForm" name="artworkForm" novalidate>
                         <div class="contact-form-inner">
                             <h3 class="subtitle"> Create a New Artwork</h3>
                             <div class="row">
                                 <!-- Title Input -->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkTitle.$invalid && main.artworkForm.$submitted}">
                                     <label class="" for="artworkTitle">Artwork Title</label>
-                                    <input required ng-model="main.artworkInfo.artworkTitle" type="text" name="artworkTitle" class="form-control" placeholder="Artwork Title" ng-maxlength="100" autofocus>
-                                    <div ng-show="main.artworkForm.$submitted">
-                                        <p ng-show="main.artworkForm.artworkTitle.$invalid" class="help-block">artwork name is required.</p>
-                                        <p ng-show="main.artworkForm.artworkTitle.$error.maxlength" class="help-block">Location Name is too long.</p>
-                                    </div>
+                                    <input required ng-model="main.artworkTitle" type="text" name="artworkTitle" class="form-control" placeholder="Artwork Title" ng-maxlength="100" autofocus>
+                                        <p ng-show="main.artworkForm.artworkTitle.$invalid && main.artworkForm.$submitted" class="help-block">artwork name is required.</p>
+                                        <p ng-show="main.artworkForm.artworkTitle.$error.maxlength  && main.artworkForm.$submitted" class="help-block">Location Name is too long.</p>
                                 </div>
+
                                 <!-- Artwork Instructions-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkInstructions.$invalid && main.artworkForm.$submitted}">
                                     <label class="" for="artworkInstructions">Artwork Instructions</label>
-                                    <input required ng-model="main.artworkInfo.artworkInstructions" type="text" name="artWorkInstructions" class="form-control" placeholder="Artwork Instructions" ng-maxlength="50">
-                                    <div ng-show="main.artworkForm.$submitted">
-                                        <p ng-show="main.artworkForm.artworkInstructions.$invalid" class="help-block">artwork instructions is required.</p>
-                                        <p ng-show="main.artworkForm.artworkInstructions.$error.maxlength" class="help-block">Artwork Instructions is too long.</p>
-                                    </div>
+                                    <input required ng-model="main.artworkInstructions" type="text" name="artWorkInstructions" class="form-control" placeholder="Artwork Instructions" ng-maxlength="50">
+                                        <p ng-show="main.artworkForm.artworkInstructions.$invalid  && main.artworkForm.$submitted" class="help-block">artwork instructions is required.</p>
+                                        <p ng-show="main.artworkForm.artworkInstructions.$error.maxlength  && main.artworkForm.$submitted" class="help-block">Artwork Instructions is too long.</p>
                                 </div>
+
                                 <!-- Artwork Point Value-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkPointValue.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkPointValue">Artwork Point Value</label>
-                                    <input required ng-model="main.artworkInfo.artworkPointValue" type="text" name="artworkPointValue" class="form-control" placeholder="Artwork Point Value">
-                                    <div ng-show="main.artworkForm.$submitted">
-                                        <p ng-show="main.artworkForm.artworkPointValue.$invalid" class="help-block">artwork point value is required.</p>
-                                        <p ng-show="main.artworkForm.artworkPointValue.$error.maxlength" class="help-block">artwork point value is too long.</p>
-                                    </div>
+                                    <input required ng-model="main.artworkPointValue" type="text" name="artworkPointValue" class="form-control" placeholder="Artwork Point Value">
+                                        <p ng-show="main.artworkForm.artworkPointValue.$invalid  && main.artworkForm.$submitted" class="help-block">artwork point value is required.</p>
+                                        <p ng-show="main.artworkForm.artworkPointValue.$error.maxlength  && main.artworkForm.$submitted" class="help-block">artwork point value is too long.</p>
                                 </div>
+
                                 <!--Artwork Clue-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkClue.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkClue">Artwork Clue</label>
-                                    <input required ng-model="main.artworkInfo.artworkClue" type="text" name="artworkClue" class="form-control" placeholder="Artwork Clue" ng-maxlength="100">
-                                    <div ng-show="main.artworkForm.$submitted">
+                                    <input required ng-model="main.artworkClue" type="text" name="artworkClue" class="form-control" placeholder="Artwork Clue" ng-maxlength="100">
                                         <p ng-show="main.artworkForm.artworkClue.$error.required" class="help-block">artwork clue is required.</p>
                                         <p ng-show="main.artworkForm.artworkClue.$error.maxlength" class="help-block">artwork clue is too long.</p>
-                                    </div>
                                 </div>
+
                                 <!-- Artist Artist Id dropdown-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkArtistId.$invalid && main.artworkForm.$submitted}">
-                                    <label for="artworkArtistId">Please select an artist</label>
-                                    <input required ng-model="main.artworkInfo.artworkArtistId" type="text" name="artworkArtistId" class="form-control" placeholder="Artwork Artist Id">
-                                    <div ng-show="main.artworkForm.$submitted">
-                                        <p ng-show="main.artworkForm.artworkArtistId.$invalid" class="help-block">artwork artist id is required.</p>
-                                    </div>
+                                    <label for="artworkArtistId">Please select an artist id</label>
+                                    <input required ng-model="main.artworkArtistId" type="text" name="artworkArtistId" class="form-control" placeholder="Artwork Artist Id">
+                                        <p ng-show="main.artworkForm.artworkArtistId.$invalid && main.artworkForm.$submitted" class="help-block">artwork artist id is required.</p>
                                 </div>
+
                                 <!--Artwork Fun Fact-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkFunFact.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkFunFact">Artwork Fun Fact</label>
-                                    <input required ng-model="main.artworkInfo.artworkFunFact" type="text" name="artworkFunFact" class="form-control" placeholder="Artwork Fun Fact" ng-maxlength="200">
-                                    <div ng-show="main.artworkForm.$submitted">
+                                    <input required ng-model="main.artworkFunFact" type="text" name="artworkFunFact" class="form-control" placeholder="Artwork Fun Fact" ng-maxlength="200">
                                         <p ng-show="main.artworkForm.artworkFunFact.$invalid" class="help-block">artwork artist id is required.<p>
-                                        <p ng-show="main.artworkForm.artworkFunFact.$error.maxlength" class="help-block">artist artwork id is too long.</p>
-                                    </div>
+                                        <p ng-show="main.artworkForm.artworkFunFact.$error.maxlength  && main.artworkForm.$submitted" class="help-block">artist artwork id is too long.</p>
                                 </div>
+
                                 <!-- Artwork ReadMore NOT VALIDATED-->
-                                <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkReadMore.$invalid && main.artworkForm.$submitted}">
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.$submitted}">
                                     <label for="artworkReadMore">Artwork Read More</label>
-                                    <input ng-model="main.artworkInfo.artworkReadMore" type="text" name="artworkReadMore" class="form-control" placeholder="Artwork Read More URL">
+                                    <input ng-model="main.artworkReadMore" type="text" name="artworkReadMore" class="form-control" placeholder="Artwork Read More URL">
+                                    <>
                                 </div>
+
                                 <!-- Artwork Location Id NOT VALIDATED-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                                     <!--Does locationId need a ng-model?-->
-                                    <p ng-model="main.artworkInfo.locationId" >Artwork Location Id</p>
-                                    @*<p>Location Id: {{main.locationId}}</p>*@
+                                    @*<p ng-model="main.locationId" >Artwork Location Id</p>*@
+                                    <p>Location Id: {{main.locationId}}</p>
                                 </div>
+
                                 <!-- FILE UPLOAD SECTION -->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkImageUrl.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkFunFact">Artwork Image Url</label>
-                                    <input required ng-model="main.artworkInfo.artworkImageUrl" type="text" name="artworkImageUrl" class="form-control" placeholder="Artwork Image Url" ng-maxlength="200">
-                                    <div ng-show="main.artworkForm.$submitted">
+                                    <input required ng-model="main.artworkImageUrl" type="text" name="artworkImageUrl" class="form-control" placeholder="Artwork Image Url" ng-maxlength="200">
                                         <p ng-show="main.artworkForm.artworkImageUrl.$invalid" class="help-block">artwork Image Url is required.<p>
                                         <p ng-show="main.artworkForm.artworkImageUrl.$error.maxlength" class="help-block">artwork Image Url artwork id is too long.</p>
-                                    </div>
                                 </div>
+
                                 @*<div class="row">
                                     <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                                         <label class="input-file" for="artworkImageUrl">Artwork Picture</label>
                                     </div>
                                     <div ng-include="'/Scripts/app_fileUpload/FileUploadTemplate.html"></div>
                                 </div>*@
+
                                 <!-- END OF FILE UPLOAD SECTION -->
+
+                                <!-- SUBMIT BUTTON -->
                                 <div class="row">
-                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-show="main.ArtworkForm.$valid">
                                         <!--Submit button will only work when artworkForm's validation is satisfied, or when all inputs that have required condition inside them is met, ng-disabled directive disables the submit button until artworkForm is valid as an added precaution-->
-                                        <button type="button" id="btnCreateArtwork" class="btn btn-block btn-cta btn-cta-primary" ng-click="main.createArtwork(main.submitArtworkForm.$valid)" ng-disabled="artworkForm.$invalid">Submit</button>
+                                        <button type="button" id="btnCreateArtwork" class="btn btn-block btn-cta btn-cta-primarys" ng-submit="main.createArtwork(main.submitArtworkForm.$valid)" >Submit</button>
                                     </div>
                                 </div>
                             </div><!--//row-->
@@ -128,7 +127,7 @@
             function MainController($scope, $baseController, artworksService, notificationsService, appConfig, uploadsService) {
 
                 var vm = this;
-                vm.artworkImageUrlUpload = null;
+                //vm.artworkImageUrlUpload = null;
                 vm.fileUpload = null;
 
                 vm.notificationsService = notificationsService;
@@ -143,7 +142,7 @@
                 vm.readArtworkForm = readArtworkForm
                 vm.data = null;
                 //set the default image displayed to the default mona lisa image
-                var defaultImageUrl = '/Content/default.svg'
+                //var defaultImageUrl = '/Content/default.svg'
 
 
 
@@ -174,13 +173,13 @@
                         if (vm.artworkId == null) {
                             vm.artworkData = {
                                 artworkTitle: vm.artworkTitle
-                                , artworkInstructions: vm.artworkInstructions
-                                , artworkPointValue: vm.artworkPointValue
-                                , artworkClue: vm.artworkClue
                                 , artworkArtistId: vm.artworkArtistId
+                                , artworkInstructions: vm.artworkInstructions
+                                , artworkClue: vm.artworkClue
+                                , artworkPointValue: vm.artworkPointValue
                                 , artworkFunFact: vm.artworkFunFact
                                 , artworkReadMore: vm.artworkReadMore
-                                , locationId: vm.locationId
+                                , locationId: appConfig.locationId
                                 , artworkImageUrl: vm.artworkImageUrl
                                 //, artworkImageUrl: artworkImageUrl.url
                                 //link for txt image URL: "https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&ved=0ahUKEwivqq3FnpTVAhUkjlQKHY6JBbcQjBwIBA&url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fen%2Fthumb%2Fb%2Fbc%2FOld_guitarist_chicago.jpg%2F1200px-Old_guitarist_chicago.jpg&psig=AFQjCNHLJ2Dvx6wZCZzWa1qLjUJLgzWtFA&ust=1500515651290256"
@@ -203,9 +202,9 @@
                         //if the artworkForm is valid and the artworkImageUrl is not undefined
                         if(vm.artworkForm.$valid && vm.artworkImageUrl) {
                             vm.fileUpload = vm.artworkImageUrl;
-                            //if (vm.fileUpload != null) {
-                            //    vm.notificationsService.success("You uploaded an image!");
-                            //}     
+                            if (vm.fileUpload != null) {
+                                vm.notificationsService.success("You uploaded an image!");
+                            }     
 
                             //create the artwork
                             //vm.uploadsService.create(vm.fileUpload, _onFileUploadCreateSuccess, _onFileUploadCreateError);
@@ -241,11 +240,11 @@
                     if (vm.locationId != null) {
                         vm.locationId = appConfig.locationId;
                     }
-                    vm.notificationsService.redirectDialog('/admin/artwoks?locationId' + vm.locationId, 'You have created a new artwork.');
+                    vm.notificationsService.redirectDialog('/admin/artworks/create?locationId=' + vm.locationId, 'You have created a new artwork.');
                 };
 
                 //7. on create artwork error...
-                function _onCreateArtworkError() {
+                function _onCreateArtworkError(response) {
                     vm.$log.log("Error");
                     vm.notificationsService.error('There was an error creating the artwork.');
                 };
