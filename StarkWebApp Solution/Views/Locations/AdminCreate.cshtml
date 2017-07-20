@@ -57,7 +57,7 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkFunFact.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkFunFact">Artwork Fun Fact</label>
                                     <input required ng-model="main.artworkFunFact" type="text" name="artworkFunFact" class="form-control" placeholder="Artwork Fun Fact" ng-maxlength="200">
-                                        <p ng-show="main.artworkForm.artworkFunFact.$invalid" class="help-block">artwork artist id is required.<p>
+                                        <p ng-show="main.artworkForm.artworkFunFact.$invalid" class="help-block">artwork artist id is required.</p>
                                         <p ng-show="main.artworkForm.artworkFunFact.$error.maxlength  && main.artworkForm.$submitted" class="help-block">artist artwork id is too long.</p>
                                 </div>
 
@@ -65,7 +65,7 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.$submitted}">
                                     <label for="artworkReadMore">Artwork Read More</label>
                                     <input ng-model="main.artworkReadMore" type="text" name="artworkReadMore" class="form-control" placeholder="Artwork Read More URL">
-                                    <>
+                                    <p ng-show="main.artworkForm.artworkReadMore.$invalid" class="help-block">artwork read more URL is required.</p>
                                 </div>
 
                                 <!-- Artwork Location Id NOT VALIDATED-->
@@ -79,7 +79,7 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkImageUrl.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkFunFact">Artwork Image Url</label>
                                     <input required ng-model="main.artworkImageUrl" type="text" name="artworkImageUrl" class="form-control" placeholder="Artwork Image Url" ng-maxlength="200">
-                                        <p ng-show="main.artworkForm.artworkImageUrl.$invalid" class="help-block">artwork Image Url is required.<p>
+                                        <p ng-show="main.artworkForm.artworkImageUrl.$invalid" class="help-block">artwork Image Url is required.</p>
                                         <p ng-show="main.artworkForm.artworkImageUrl.$error.maxlength" class="help-block">artwork Image Url artwork id is too long.</p>
                                 </div>
 
@@ -93,12 +93,11 @@
                                 <!-- END OF FILE UPLOAD SECTION -->
 
                                 <!-- SUBMIT BUTTON -->
-                                <div class="row">
-                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-show="main.ArtworkForm.$valid">
-                                        <!--Submit button will only work when artworkForm's validation is satisfied, or when all inputs that have required condition inside them is met, ng-disabled directive disables the submit button until artworkForm is valid as an added precaution-->
-                                        <button type="button" id="btnCreateArtwork" class="btn btn-block btn-cta btn-cta-primarys" ng-submit="main.createArtwork(main.submitArtworkForm.$valid)" >Submit</button>
-                                    </div>
-                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <!--Submit button will only work when artworkForm's validation is satisfied, or when all inputs that have required condition inside them is met, ng-disabled directive disables the submit button until artworkForm is valid as an added precaution-->
+                                    <button type="button" id="btnCreateArtwork" class="btn btn-block btn-cta btn-cta-primary" ng-submit="main.createArtwork(main.submitArtworkForm.$valid)">Submit</button>
+]                                </div>
+
                             </div><!--//row-->
                         </div>
                     </form><!--//contact-form-->
@@ -111,10 +110,10 @@
 {
     <script src="~/Scripts/app_fileUpload/FileUploadController.js"></script>
     <script src="~/Scripts/app/directives/files-model.js"></script>
-    <script src="~/Scripts/stark/services/stark.services.artists.js"></script>
-    <script src="~/Scripts/stark/Services/stark.services.artworks.js"></script>
-    <script src="~/Scripts/stark/services/stark.services.uploads.js"></script>
-    <script src="~/Scripts/stark/services/stark.services.locations.js"></script>
+    <script src="~/Scripts/sabio/services/sabio.services.artists.js"></script>
+    <script src="~/Scripts/sabio/Services/sabio.services.artworks.js"></script>
+    <script src="~/Scripts/sabio/services/sabio.services.uploads.js"></script>
+    <script src="~/Scripts/sabio/services/sabio.services.locations.js"></script>
     <script type="text/javascript">
         (function () {
             "use strict";
