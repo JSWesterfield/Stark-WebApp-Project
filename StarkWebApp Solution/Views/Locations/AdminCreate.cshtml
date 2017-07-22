@@ -39,7 +39,7 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkPointValue.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkPointValue">Artwork Point Value</label>
   
-                                    <input required ng-model="main.artworkPointValue" type="text" name="artworkPointValue" class="form-control" placeholder="Artwork Point Value">
+                                    <input required ng-model="main.artworkPointValue" type="text" name="artworkPointValue" class="form-control" placeholder="Artwork Point Value" ng-pattern="/^[0-9]{1,7}$/">
                                         <p ng-show="main.artworkForm.artworkPointValue.$invalid && main.artworkForm.$submitted" class="help-block">artwork point value is required.</p>
                                         <p ng-show="main.artworkForm.artworkPointValue.$error.maxlength && main.artworkForm.$submitted" class="help-block">artwork point value is too long.</p>
 
@@ -58,7 +58,7 @@
                                 <!-- Artist Artist Id dropdown-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkArtistId.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkArtistId">Please select an artist id</label>
-                                    <input required ng-model="main.artworkArtistId" type="text" name="artworkArtistId" class="form-control" placeholder="Artwork Artist Id">
+                                    <input required ng-model="main.artworkArtistId" type="text" name="artworkArtistId" class="form-control" placeholder="Artwork Artist Id" ng-pattern="/^[0-9]{1,7}$/">
                                         <p ng-show="main.artworkForm.artworkArtistId.$invalid && main.artworkForm.$submitted" class="help-block">artwork artist id is required.</p>
                                 </div>
 
@@ -73,7 +73,7 @@
                                 </div>
 
                                 <!-- Artwork ReadMore NOT VALIDATED-->
-                                <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.$submitted}">
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' :  main.artworkForm.artworkFunFact.$invalid & main.artworkForm.$submitted}">
                                     <label for="artworkReadMore">Artwork Read More</label>
                                    
                                     <input ng-model="main.artworkReadMore" type="text" name="artworkReadMore" class="form-control" placeholder="Artwork Read More URL" ng-maxlength="1000">
@@ -82,10 +82,10 @@
                                 </div>
 
                                 <!-- Artwork Location Id NOT VALIDATED-->
-                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.$submitted}">
                                     <!--Does locationId need a ng-model?-->
-                                    @*<p ng-model="main.locationId" >Artwork Location Id</p>*@
-                                    <p>Location Id: {{main.locationId}}</p>
+                                    <p ng-model="main.locationId" ng-pattern="/^[0-9]{1,7}$/">Location Id: {{main.locationId}}</p> 
+                                        <p ng-show="main.artworkForm.locationId.$invalid && main.artworkForm.$submitted" class="help-block">locationId is required.</p>          
                                 </div>
 
                                 <!-- FILE UPLOAD SECTION -->
@@ -256,10 +256,11 @@
                     vm.data = vm.readArtworkForm();
                     vm.data.locationId = appConfig.locationId;
                     //vm.data.artworkImageUrl = response.item;
-                    vm.artworksService.create(vm.data, _onCreateArtworkSuccess, _onCreateArtworkError);
+                    vm.notificationsService.success("Your artwork was sent!");
+                    // vm.artworksService.create(vm.data, _onCreateArtworkSuccess, _onCreateArtworkError);
                 }
          
-                //6. on create artwork success..
+                //6. on create artwork success...
                 function _onCreateArtworkSuccess(response) {
                     vm.$log.log("Success!");
                     vm.locationId = appConfig.locationId;
