@@ -40,7 +40,7 @@
                                     <label for="artworkPointValue">Artwork Point Value</label>
   
                                     <input required ng-model="main.artworkPointValue" type="text" name="artworkPointValue" class="form-control" placeholder="Artwork Point Value" ng-pattern="/^[0-9]{1,7}$/">
-                                        <p ng-show="main.artworkForm.artworkPointValue.$invalid && main.artworkForm.$submitted" class="help-block">artwork point value is required.</p>
+                                        <p ng-show="main.artworkForm.artworkPointValue.$invalid && main.artworkForm.$submitted" class="help-block">artwork point value number is required.</p>
                                         <p ng-show="main.artworkForm.artworkPointValue.$error.maxlength && main.artworkForm.$submitted" class="help-block">artwork point value is too long.</p>
 
                                 </div>
@@ -79,6 +79,7 @@
                                     <input ng-model="main.artworkReadMore" type="text" name="artworkReadMore" class="form-control" placeholder="Artwork Read More URL" ng-maxlength="1000">
                                         <p ng-show="main.artworkForm.artworkReadMore.$invalid && main.artworkForm.$submitted" class="help-block">artwork read more URL is required.</p>
                                         <p ng-show="main.artworkForm.artworkReadMore.$error.maxlength && main.artworkForm.$submitted" class="help-block">artwork read more URL is too long.</p>
+                                        
                                 </div>
 
                                 <!-- Artwork Location Id NOT VALIDATED-->
@@ -94,7 +95,7 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkImageUrl.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkImageUrl">Artwork Image Url</label>
 
-                                    <input required ng-model="main.artworkImageUrl" type="text" name="artworkImageUrl" class="form-control" placeholder="Artwork Image Url" ng-maxlength="1000">
+                                    <input required ng-model="main.artworkImageUrl" type="URL" name="artworkImageUrl" class="form-control" placeholder="Artwork Image Url" ng-maxlength="1000">
                                         <p ng-show="main.artworkForm.artworkImageUrl.$invalid && main.artworkForm.$submitted" class="help-block">artwork image url is required.</p>
                                         <p ng-show="main.artworkForm.artworkImageUrl.$error.maxlength && main.artworkForm.$submitted" class="help-block">artwork image url artwork id is too long.</p>
 
