@@ -20,7 +20,7 @@
                                     <label for="artworkTitle">Artwork Title</label>
 
                                     <input required ng-model="main.artworkTitle" type="text" name="artworkTitle" class="form-control" placeholder="Artwork Title" ng-maxlength="100" autofocus>
-                                        <p ng-show="main.artworkForm.artworkTitle.$invalid && main.artworkForm.$submitted" class="help-block">artwork name is required.</p>
+                                        <p ng-show="main.artworkForm.artworkTitle.$error.required && main.artworkForm.$submitted" class="help-block">artwork name is required.</p>
                                         <p ng-show="main.artworkForm.artworkTitle.$error.maxlength  && main.artworkForm.$submitted" class="help-block">Location Name is too long.</p>
 
                                 </div>
@@ -30,7 +30,7 @@
                                     <label for="artWorkInstructions">Artwork Instructions</label>
 
                                     <input required ng-model="main.artWorkInstructions" type="text" name="artWorkInstructions" class="form-control" placeholder="Artwork Instructions" ng-maxlength="50">
-                                        <p ng-show="main.artworkForm.artWorkInstructions.$invalid && main.artworkForm.$submitted" class="help-block">artwork instructions is required.</p>
+                                        <p ng-show="main.artworkForm.artWorkInstructions.$error.required && main.artworkForm.$submitted" class="help-block">artwork instructions is required.</p>
                                         <p ng-show="main.artworkForm.artWorkInstructions.$error.maxlength && main.artworkForm.$submitted" class="help-block">Artwork Instructions is too long.</p>
 
                                 </div>
@@ -39,10 +39,10 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkPointValue.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkPointValue">Artwork Point Value</label>
   
-                                    <input required ng-model="main.artworkPointValue" type="text" name="artworkPointValue" class="form-control" placeholder="Artwork Point Value" ng-pattern="/^[0-9]{1,7}$/">
-                                        <p ng-show="main.artworkForm.artworkPointValue.$invalid && main.artworkForm.$submitted" class="help-block">artwork point value number is required.</p>
+                                    <input required ng-model="main.artworkPointValue" type="number" name="artworkPointValue" class="form-control" placeholder="Artwork Point Value" >
+                                        <p ng-show="main.artworkForm.artworkPointValue.$error.required && main.artworkForm.$submitted" class="help-block">artwork point value number is required.</p>
                                         <p ng-show="main.artworkForm.artworkPointValue.$error.maxlength && main.artworkForm.$submitted" class="help-block">artwork point value is too long.</p>
-
+                                        <p ng-show="main.artworkForm.artworkPointValue.$error.number && main.artworkForm.$submitted" class="help-block">artwork point value must be a number.</p>
                                 </div>
 
                                 <!--Artwork Clue-->
@@ -58,8 +58,9 @@
                                 <!-- Artist Artist Id dropdown-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkArtistId.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkArtistId">Please select an artist id</label>
-                                    <input required ng-model="main.artworkArtistId" type="text" name="artworkArtistId" class="form-control" placeholder="Artwork Artist Id" ng-pattern="/^[0-9]{1,7}$/">
-                                        <p ng-show="main.artworkForm.artworkArtistId.$invalid && main.artworkForm.$submitted" class="help-block">artwork artist id is required.</p>
+                                    <input required ng-model="main.artworkArtistId" type="number" name="artworkArtistId" class="form-control" placeholder="Artwork Artist Id">
+                                        <p ng-show="main.artworkForm.artworkArtistId.$error.required && main.artworkForm.$submitted" class="help-block">artwork artist id is required.</p>
+                                        <p ng-show="main.artworkForm.artworkArtistId.$error.number && main.artworkForm.$submitted" class="help-block">artwork artist id must be a number.</p>
                                 </div>
 
                                 <!--Artwork Fun Fact-->
@@ -67,26 +68,27 @@
                                     <label for="artworkFunFact">Artwork Fun Fact</label>
 
                                     <input required ng-model="main.artworkFunFact" type="text" name="artworkFunFact" class="form-control" placeholder="Artwork Fun Fact" ng-maxlength="200">
-                                        <p ng-show="main.artworkForm.artworkFunFact.$invalid && main.artworkForm.$submitted " class="help-block">artwork artist id is required.</p>
+                                        <p ng-show="main.artworkForm.artworkFunFact.$error.required && main.artworkForm.$submitted " class="help-block">artwork artist id is required.</p>
                                         <p ng-show="main.artworkForm.artworkFunFact.$error.maxlength && main.artworkForm.$submitted" class="help-block">artist artwork id is too long.</p>
                                     
                                 </div>
 
                                 <!-- Artwork ReadMore NOT VALIDATED-->
-                                <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' :  main.artworkForm.artworkFunFact.$invalid & main.artworkForm.$submitted}">
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.artworkReadMore.$invalid && main.artworkForm.$submitted}">
                                     <label for="artworkReadMore">Artwork Read More</label>
-                                   
-                                    <input ng-model="main.artworkReadMore" type="text" name="artworkReadMore" class="form-control" placeholder="Artwork Read More URL" ng-maxlength="1000">
-                                        <p ng-show="main.artworkForm.artworkReadMore.$invalid && main.artworkForm.$submitted" class="help-block">artwork read more URL is required.</p>
-                                        <p ng-show="main.artworkForm.artworkReadMore.$error.maxlength && main.artworkForm.$submitted" class="help-block">artwork read more URL is too long.</p>
+
+                                    <input required ng-model="main.artworkReadMore" type="url" name="artworkReadMore" class="form-control" placeholder="Artwork Read More URL" ng-maxlength="1000">
+                                    <p ng-show="main.artworkForm.artworkReadMore.$error.required && main.artworkForm.$submitted " class="help-block">artwork read more URL is required.</p>
+                                    <p ng-show="main.artworkForm.artworkReadMore.$error.maxlength && main.artworkForm.$submitted" class="help-block">artwork read more URL is too long.</p>
+                                    <p ng-show="main.artworkForm.artworkReadMore.$error.url && main.artworkForm.$submitted" class="help-block">artwork read more must be a URL.</p>
                                         
                                 </div>
 
                                 <!-- Artwork Location Id NOT VALIDATED-->
-                                <div class="col-md-12 col-sm-12 col-xs-12 form-group" ng-class="{'has-error' : main.artworkForm.$submitted}">
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                                     <!--Does locationId need a ng-model?-->
-                                    <p ng-model="main.locationId" ng-pattern="/^[0-9]{1,7}$/">Location Id: {{main.locationId}}</p> 
-                                        <p ng-show="main.artworkForm.locationId.$invalid && main.artworkForm.$submitted" class="help-block">locationId is required.</p>          
+                                    <p ng-model="main.locationId" type="number">Location Id: {{main.locationId}}</p> 
+                     
                                 </div>
 
                                 <!-- FILE UPLOAD SECTION -->
@@ -96,8 +98,9 @@
                                     <label for="artworkImageUrl">Artwork Image Url</label>
 
                                     <input required ng-model="main.artworkImageUrl" type="URL" name="artworkImageUrl" class="form-control" placeholder="Artwork Image Url" ng-maxlength="1000">
-                                        <p ng-show="main.artworkForm.artworkImageUrl.$invalid && main.artworkForm.$submitted" class="help-block">artwork image url is required.</p>
+                                        <p ng-show="main.artworkForm.artworkImageUrl.$error.required && main.artworkForm.$submitted" class="help-block">artwork image url is required.</p>
                                         <p ng-show="main.artworkForm.artworkImageUrl.$error.maxlength && main.artworkForm.$submitted" class="help-block">artwork image url artwork id is too long.</p>
+                                    <p ng-show="main.artworkForm.artworkImageUrl.$error.url && main.artworkForm.$submitted" class="help-block">artwork image url must be a URL.</p>
 
                                 </div>
 
@@ -113,7 +116,7 @@
                                 <!-- SUBMIT BUTTON -->
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                                     <!--Submit button will only work when artworkForm's validation is satisfied, or when all inputs that have required condition inside them is met, ng-disabled directive disables the submit button until artworkForm is valid as an added precaution-->
-                                    <button ng-click="main.submitArtworkForm(main.artworkForm.$valid)" type="submit" class="btn btn-block btn-cta btn-cta-primary">Submit</button>
+                                    <button ng-click="main.submitArtworkForm(main.artworkForm.$valid.required)" type="submit" class="btn btn-block btn-cta btn-cta-primary">Submit</button>
                                 </div>
 
                             </div><!--//row-->
