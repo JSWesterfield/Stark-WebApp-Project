@@ -261,7 +261,7 @@
                     vm.data.locationId = appConfig.locationId;
                     //vm.data.artworkImageUrl = response.item;
                     vm.notificationsService.success("Your artwork was sent!");
-                    // vm.artworksService.create(vm.data, _onCreateArtworkSuccess, _onCreateArtworkError);
+                    vm.artworksService.create(vm.data, _onCreateArtworkSuccess, _onCreateArtworkError);
                 }
          
                 //6. on create artwork success...
