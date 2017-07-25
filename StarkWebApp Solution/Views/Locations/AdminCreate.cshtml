@@ -100,7 +100,7 @@
                                     <input required ng-model="main.artworkImageUrl" type="URL" name="artworkImageUrl" class="form-control" placeholder="Artwork Image Url" ng-maxlength="1000">
                                         <p ng-show="main.artworkForm.artworkImageUrl.$error.required && main.artworkForm.$submitted" class="help-block">artwork image url is required.</p>
                                         <p ng-show="main.artworkForm.artworkImageUrl.$error.maxlength && main.artworkForm.$submitted" class="help-block">artwork image url artwork id is too long.</p>
-                                    <p ng-show="main.artworkForm.artworkImageUrl.$error.url && main.artworkForm.$submitted" class="help-block">artwork image url must be a URL.</p>
+                                        <p ng-show="main.artworkForm.artworkImageUrl.$error.url && main.artworkForm.$submitted" class="help-block">artwork image url must be a URL.</p>
 
                                 </div>
 
@@ -213,7 +213,7 @@
                                 , ReadMore: vm.artworkReadMore
                                 , locationId: appConfig.locationId
                                 , ImageUrl: vm.artworkImageUrl
-                                //, artworkImageUrl: artworkImageUrl.url
+                                , artworkImageUrl: artworkImageUrl.url
                             }
                         }
                         else {
