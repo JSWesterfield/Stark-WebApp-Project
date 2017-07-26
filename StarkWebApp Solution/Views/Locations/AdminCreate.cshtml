@@ -167,7 +167,18 @@
                 vm.artworkImageUrl = null;
                 //set the default image displayed to the default mona lisa image
                 //var defaultImageUrl = '/Content/default.svg'
-                vm.submitArtworkForm = _submitArtworkForm; 
+                vm.submitArtworkForm = _submitArtworkForm;
+
+                //FORM inputs
+                vm.artworkTitle = null
+                vm.artworkArtistId = null
+                vm.artWorkInstructions = null;
+                vm.artworkClue = null;
+                vm.artworkPointValue = null;
+                vm.artworkFunFact = null;
+                vm.artworkReadMore = null;
+                //vm.locationId = response.item.locationId; //locationId is already declare and intialized to appConfig on startup.
+                //vm.artworkImageUrl = null     //already declared and initialized to a null value above
 
                 //watches for the on click, execute the _render function
                 //$scope.$on('$includeContentLoaded', _render);
@@ -298,22 +309,22 @@
                 //8. onGetByIdSuccess...
                 function _onGetByIdSuccess(response) {
                     if (response.item == null) {
-                        vm.notificationsService.error("I'm sorry, artwork doesn't exist ");
+                        vm.notificationsService.error("I'm sorry, artwork doesn't exist, you'll have to create an artwork.");
                     } 
                     vm.$log.log("getById Success!");
                     vm.$log.log(response.item);
                     
                     //POPULATE FORM
-                    $scope.artworkForm.artworkTitle = response.item.Title
-                    $scope.artworkForm.artworkArtistId = response.item.ArtistId
-                    $scope.artworkForm.artWorkInstructions = response.item.Instructions
-                    $scope.artworkForm.artworkClue = response.item.Clue
-                    $scope.artworkForm.artworkPointValue = response.item.PointValue
-                    $scope.artworkForm.artworkFunFact = response.item.FunFact
-                    $scope.artworkForm.artworkReadMore = response.item.ReadMore
-                    $scope.artworkForm.locationId = response.item.locationId
-                    $scope.artworkForm.artworkImageUrl = response.item.ImageUrl
-                    
+                    vm.artworkTitle = response.item.Title;
+                    vm.artworkArtistId = response.item.ArtistId;
+                    vm.artWorkInstructions = response.item.Instructions;
+                    vm.artworkClue = response.item.Clue;
+                    vm.artworkPointValue = response.item.PointValue;
+                    vm.artworkFunFact = response.item.FunFact;
+                    vm.artworkReadMore = response.item.ReadMore;
+                    vm.locationId = response.item.locationId; //is this needed?
+                    vm.artworkImageUrl = response.item.ImageUrl;
+                    vm.$log.log("Got artwork info");
                 };
 
                 //9. on getById artwork error...
