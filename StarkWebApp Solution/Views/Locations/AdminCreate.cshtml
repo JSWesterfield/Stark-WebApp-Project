@@ -186,6 +186,20 @@
 
                     //display the appConfig Object to see props inside
                     vm.$log.log(appConfig);
+
+                    //in render add if check
+                    if (appConfig.item == null) {
+                        vm.$log.log("This is no value, send to what URL page?");
+
+                        //use the artworkService() to get that artwork using that id.
+                    }
+
+                    else {
+                        vm.$log.log("There is a value, we hit /admin/artworks/{id}/edit, now what?");
+
+                        //get by id function w/ success and error
+                        //vm.artworksService.getById(vm.data, _onGetByIdSuccess, _onGetByIdSuccess);
+                    }
                 }
 
                 // 1a. SUBMIT ARTWORK FORM - Verfies that form is valid
@@ -279,6 +293,32 @@
                 function _onCreateArtworkError(response) {
                     vm.$log.log("Error");
                     vm.notificationsService.error('There was an error creating the artwork.');
+                };
+
+                //8. onGetByIdSuccess...
+                function _onGetByIdSuccess(response) {
+                    if (response.item == null) {
+                        vm.notificationsService.error("I'm sorry, artwork doesn't exist ");
+                    } 
+                    vm.$log.log("getById Success!");
+                    vm.$log.log(response.item);
+                    
+                    //POPULATE FORM
+                    $scope.artworkForm.artworkTitle = response.item.Title
+                    $scope.artworkForm.artworkArtistId = response.item.ArtistId
+                    $scope.artworkForm.artWorkInstructions = response.item.Instructions
+                    $scope.artworkForm.artworkClue = response.item.Clue
+                    $scope.artworkForm.artworkPointValue = response.item.PointValue
+                    $scope.artworkForm.artworkFunFact = response.item.FunFact
+                    $scope.artworkForm.artworkReadMore = response.item.ReadMore
+                    $scope.artworkForm.locationId = response.item.locationId
+                    $scope.artworkForm.artworkImageUrl = response.item.ImageUrl
+                    
+                };
+
+                //9. on getById artwork error...
+                function _onGetArtworkError(response) {
+                    vm.$log.log("getById Error!");
                 };
             }
         })();
