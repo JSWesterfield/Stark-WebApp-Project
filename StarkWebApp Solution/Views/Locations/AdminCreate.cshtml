@@ -195,26 +195,24 @@
                     //show the the default fileupload prior to the user uploading
                     //$scope.$broadcast('fileUpload.urlLoad', { url: null, defaultPreviewUrl: defaultImageUrl });
 
-                    //display the appConfig Object to see props inside
                     vm.$log.log(appConfig);
 
                     //in render add if check
-                    if (appConfig.item == null) {
+                    if (appConfig.artworkId == null) {
                         vm.$log.log("This is no appConfig value, send to what URL page?");
 
-                        //use the artworkService() to get that artwork using that id.
-
+                        vm.artworkId = appConfig.item;
                     }
 
                     else {
                         vm.$log.log("There is a value, we hit /admin/artworks/{id}/edit, now what?");
 
                         //get by id function w/ success and error
-                        //vm.artworksService.getById(vm.data, _onGetByIdSuccess, _onGetByIdSuccess);
+                        vm.artworksService.getById(vm.data, _onGetByIdSuccess, _onGetByIdSuccess);
                     }
                 }
 
-                // 1a. SUBMIT ARTWORK FORM - Verfies that form is valid
+                // 1a. SUBMIT ARTWORK FORM - Verifies that form is valid
                 function _submitArtworkForm(isValid) {
                     if (isValid) {
                         vm.createArtwork();
@@ -315,7 +313,7 @@
                     vm.$log.log("getById Success!");
                     vm.$log.log(response.item);
                     
-                    //POPULATE FORM
+                    //POPULATE FORMm
                     vm.artworkTitle = response.item.Title;
                     vm.artworkArtistId = response.item.ArtistId;
                     vm.artWorkInstructions = response.item.Instructions;
@@ -323,10 +321,18 @@
                     vm.artworkPointValue = response.item.PointValue;
                     vm.artworkFunFact = response.item.FunFact;
                     vm.artworkReadMore = response.item.ReadMore;
-                    vm.locationId = response.item.locationId; //is this needed?
                     vm.artworkImageUrl = response.item.ImageUrl;
                     vm.$log.log("Got artwork info");
+
+                    //Set locationId
+                    //1. first initialize the locationID to response.item.locationId
+                    vm.locationId = response.item.locationId; 
+
+                    //2. Then invoke the getById method from locationsService object, passing in the int locationId and success and error callback functions
+                    //vm.locationsServices.getById(vm.locationId, _onGetLocationSucces, _onGetLocationError)
                 };
+
+                
 
                 //9. on getById artwork error...
                 function _onGetArtworkError(response) {
