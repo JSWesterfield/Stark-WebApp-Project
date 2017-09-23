@@ -4,7 +4,4 @@ Web Application for 'ArtFind' client.
 
 
 ## Developed an application using the four basic functions of persistent storage(CRUD). 
-Allows user to 'locate' entities within the application and use as a social tool for gaining 
-widespread interest in a topic that might other wise be considered to the mainstream boring. We've(me and other developers)used this app
-as a way to use social interaction to increase the interest within a certain topic/industry. Again a lot of this sounds rather cryptic 
-due to not being able to disclose details about the project prior to the deployment. 
+ArtFind is a social gaming web application that aims to transform musuem visits into compelling, interactive experiences. The application utilizes Agile/Scrum methodologies, HTML5/CSS3, Javascript, jQuery, AngularJS 1.x, Bootstrap 3, C#, Object Oriented Programming, SQL Server, Stored Procedures, Entity Framework(EF), ADO.NET, ASP.NET, Web API 2.0, Team Foundation Server(TFS), and AJAX for different features throughout the application. The application is implemented as an ASP.NET MVC 5 web application backed by Microsoft SQL Server database exposed via RESTful Web API. The web client employs AngularJS and responsive web design practices for desktop, tablet, and mobile devices.
